@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "materialm": {
+    "meanfd": {
       "projectType": "application",
       "root": "",
       "sourceRoot": "src",
@@ -13,11 +13,11 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "allowedCommonJsDependencies": [
-              "apexcharts",
+              "moment",
               "bezier-easing"
             ],
             "outputPath": {
-              "base": "dist/materialm"
+              "base": "dist/meanfd"
             },
             "index": "src/index.html",
             "polyfills": [
@@ -31,7 +31,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/zone.js/bundles/zone.umd.js"
+            ],
             "browser": "src/main.ts"
           },
           "configurations": {
@@ -69,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "materialm:build:production"
+              "buildTarget": "meanfd:build:production"
             },
             "development": {
-              "buildTarget": "materialm:build:development"
+              "buildTarget": "meanfd:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -80,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "materialm:build"
+            "buildTarget": "meanfd:build"
           }
         },
         "test": {
