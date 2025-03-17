@@ -5,8 +5,22 @@ import { inject } from '@angular/core'
 export const RoleGuard: CanActivateFn = (route, state) => {
   const userService = inject(UserService)
   const router = inject(Router)
+  userService.verifyCurrentUser().subscribe(val=>{
+    if ( val.error &&
+      val.error.ok !=true) {
+      router.navigateByUrl(`/login`)
+    }
+    if (localStorage.getItem('refreshToken') !== val.userId){
+      localStorage.setItem('userId', val.userId)
+    }
+  })
   userService.getCurrentUser().subscribe(val => {
     const current_route = state.url.replace("/","")
+
+    if (!val.role_id) {
+      router.navigateByUrl(`/login`)
+      return false
+    }
     if (val.role_id.role_name == current_route) {
       return true;
     }

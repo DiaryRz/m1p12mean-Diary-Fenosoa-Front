@@ -37,7 +37,10 @@ export class HeaderComponent {
   private router = inject(Router)
   logout(){
     this.authService.logout().subscribe( response =>{
-      this.router.navigate(['/']);
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('userId');
+      this.router.navigateByUrl('/login',);
     })
   }
 }
