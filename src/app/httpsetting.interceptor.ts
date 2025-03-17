@@ -6,11 +6,13 @@ import { Router } from '@angular/router';
 export const HttpSettingInterceptor: HttpInterceptorFn = (req, next) => {
   const cookieService = inject(CookieService);
   const cookie = cookieService.getAll()
-  const x_cookie = `accessToken=${cookie["accessToken"]}; refreshToken=${cookie["refreshToken"]}`;
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+  const x_cookie = `accessToken=${accessToken}; refreshToken=${refreshToken}`;
   const authReq = req.clone({
     withCredentials: true,
     headers: new HttpHeaders({
-      'Authorization': `bearer ${cookie["accessToken"]}`,
+      'Authorization': `bearer ${accessToken}`,
       'x-cookie': x_cookie,
     })
   });

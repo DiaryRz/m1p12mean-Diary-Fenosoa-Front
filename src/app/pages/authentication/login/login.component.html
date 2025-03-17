@@ -1,62 +1,73 @@
 <title>Authentification | Connexion</title>
 
 
-<div class="blank-layout-container justify-content-center align-items-center bg-light">
-  <div class="position-relative row w-100 h-100 bg-gredient justify-content-center">
-    <div class="col-lg d-flex align-items-center" style="border: solid 1px red;">
-      <mat-card class="boxed-auth" style="display: flex; height:fit-content ;flex-direction: row; ">
-        <mat-card-content class="p-10 h-100"
-          style=" width: 100%; display:flex; flex-direction: column;gap: 1rem; justify-content: space-evenly;">
-          <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+<div class="w-full h-screen flex bg-cover items-center bg-blue-50">
+  <div class="relative flex flex-wrap mx-4 justify-center w-full">
+    <div class="inline-flex justify-center w-full h-full bg-slate-50 rounded-xl overflow-hidden drop-shadow-2xl">
+      <mat-card class="w-full my-0 mx-auto flex flex-col">
+        <mat-card-content class="p-10 w-full min-h-[70dvh] flex flex-col gap-4 justify-evenly">
+          <div class="flex flex-row justify-between w-full items-center">
 
-            <img src="./assets/images/logos/ReviveAuto-1.svg" class="align-middle m-2"
-              style="aspect-ratio:1/1; width: 45px; height: 45px;" alt="logo" />
+            <img src="./assets/images/logos/ReviveAuto-1.svg" class="align-middle m-2 aspect-square w-16" alt="logo" />
 
-            <h1 style="margin:1rem 0  1rem 0;">Se connecter!</h1>
+            <h1 class="mx-4 text-3xl font-bold">Se connecter!</h1>
           </div>
-          <form class="" (ngSubmit)="submit()" [formGroup]="form"
-            style="gap: 2rem; display: flex; flex-direction: column;">
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <mat-label class="mat-subtitle-2 ">Mail</mat-label>
-              <input matInput formControlName="mail" email />
-              @if (form.get('mail')?.hasError('required')) {
-              <mat-error>Veuillez entrer votre email</mat-error>
+          <form class="flex flex-col gap-2 h-full justify-evenly" (ngSubmit)="submit()" [formGroup]="form">
+            <div>
+              <mat-label class="text-gray-900">Mail</mat-label>
+              <div class="rounded-xl w-full border border-slate-300 focus-within:outline focus-within:outline-blue-500">
+                <input matinput class="w-full h-10  px-2  focus:outline-0" formControlName="mail" email />
+              </div>
+              @if (form.get('mail')?.invalid && (form.get('mail')?.dirty || form.get('mail')?.touched)) {
+              <mat-error><span class="text-xs text-red-500">
+                  @if (form.get('mail')?.hasError('required'))
+                  { Veuillez entrer votre email }
+                  @if (form.get('mail')?.hasError('email'))
+                  {Veuillez entrer un email valide}
+                  @if (form.get('mail')?.hasError('incorrect'))
+                  { Cet email n'est pas encore inscrit}
+                </span></mat-error>
               }
-              @if (form.get('mail')?.hasError('email')) {
-              <mat-error>Veuillez entrer un email valide</mat-error>
-              }
-              @if (form.get('mail')?.hasError('incorrect')) {
-              <mat-error>Cet email n'est pas encore inscrit</mat-error>
-              }
-
-            </mat-form-field>
+            </div>
             <!-- <mat-form-field appearance="outline" class="w-100" color="primary">
               <mat-label class="mat-subtitle-2 ">Phone</mat-label>
-              <input matInput formControlName="phone" />
+              �kd<input matInput formControlName="phone" />
             </mat-form-field> -->
 
 
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <mat-label class="mat-subtitle-2 ">Mot de passe</mat-label>
-              <input matInput type="password" formControlName="password" />
-            </mat-form-field>
+            <div>
+              <label class="text-gray-900">Mot de passe</label>
+              <div class="rounded-xl w-full border border-slate-300 focus-within:outline
+                focus-within:outline-blue-500">
+                <input matinput class="w-full h-10  px-2 focus:outline-0" type="password" formControlName="password" />
+              </div>
+              @if (form.get('password_confirm')?.invalid && (form.get('password_confirm')?.dirty ||
+              form.get('password_confirm')?.touched)) {
+              <mat-error><span class="text-xs text-red-500">
+                  @if (form.get('password_confirm')?.hasError('required')) {Veuillez confirmer votre mot de passe}
+                  @if (form.get('password_confirm')?.hasError('incorrect')) {Le mot de passe est incorrect}
+                </span></mat-error>
+              }
 
-            <button type="submit" style="margin-top: 2rem;" [disabled]="form.invalid" mat-flat-button color="primary"
-              class="w-100">
+            </div>
+
+            <hr class="bg-stone-300 w-full h-[1px]" />
+            <button type="submit" [disabled]="form.invalid"
+              class="w-full bg-blue-500 disabled:bg-gray-500/50 text-white p-3 rounded-xl">
               Se connecter
             </button>
           </form>
-          <span class=" f-w-500 text-center m-t-24">
-            <a [routerLink]="['/register']" class="text-decoration-none text-primary f-w-500 f-s-14">
+          <span class="w-full items-center text-center">
+            <a [routerLink]="['/register']" class="text-blue-400">
               Créer votre compte?
             </a>
           </span>
         </mat-card-content>
-        <div class="p-10 container_display" style="width: 100%; border-radius: 16px;
-          ">
-        </div>
-
       </mat-card>
+      <div class="p-10 hidden lg:block w-full bg-blue-500 rounded-l-2xl">
+      </div>
+
+
     </div>
   </div>
 </div>

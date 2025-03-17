@@ -12,6 +12,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
+import { TablerIconsModule } from 'angular-tabler-icons';
 export const CUSTOM_DATE_FORMAT = {
     parse: {
       dateInput: 'DD/MM/YYYY',
@@ -29,7 +30,7 @@ import { AuthService } from '../../../../app/services/auth.service';
 
 @Component({
   selector: 'app-register',
-  imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule ],
+  imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule , TablerIconsModule],
   templateUrl: './register.component.html',
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },

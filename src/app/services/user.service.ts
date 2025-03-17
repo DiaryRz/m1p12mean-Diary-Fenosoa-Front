@@ -18,9 +18,16 @@ export class UserService {
   private httpOptions = {
       withCredentials : true,
   };
-
+  verifyCurrentUser():Observable<any> {
+    return this.http.get(`${environment.apiUrl}/auth/refresh`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of({error : error.error}); // This is your fallback value
+      })
+    );
+  }
   getCurrentUser():Observable<any> {
-    const user_id = this.cookieService.get('userId');
+    const user_id =      localStorage.getItem('userId');
+    // if no userID verify user,
     return this.http.get(`${this.apiUrl}/${user_id}`).pipe(
       catchError((error: HttpErrorResponse) => {
         return of({error : error.error.error}); // This is your fallback value
