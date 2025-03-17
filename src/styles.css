@@ -1,0 +1,13 @@
+@import "tailwindcss" important;
+
+.mat-datepicker-content {
+  @apply bg-white rounded-lg shadow-lg;
+}
+
+.mat-calendar {
+  @apply font-sans;
+}
+
+.mat-datepicker-toggle {
+  @apply text-blue-500;
+}
