@@ -11,3 +11,101 @@
 .mat-datepicker-toggle {
   @apply text-blue-500;
 }
+
+
+.sidebar-list {
+
+  &.mdc-list {
+    @apply px-0 py-5;
+
+    .sub-item-icon {
+      @apply w-4 h-4 opacity-80 me-3;
+    }
+
+    .mdc-list-group__subheader {
+      @apply m-0 font-semibold py-2 px-0 leading-6 text-slate-900;
+
+      .caption-icon {
+        @apply hidden;
+      }
+
+      .caption-text {
+        @apply inline;
+      }
+    }
+
+    .sidebar-divider {
+      @apply h-[1px] w-[calc(100%-4rem)] block mx-3 my-0 ml-2 bg-slate-400;
+
+      &.lg {
+
+        @apply w-[calc(100%-2rem)] ml-4;
+      }
+    }
+
+    .menu-list-item {
+
+      @apply hover:before:bg-transparent;
+
+      &:hover {
+        &.mdc-list-item__primary-text {
+          @apply text-blue-500;
+        }
+
+        &.mat-mdc-list-item-icon {
+          @apply text-blue-500;
+        }
+      }
+
+      @apply rounded-xl h-11 px-3 py-4 mb-1 w-full;
+
+      &.twoline {
+        @apply h-16 items-center;
+      }
+
+      @apply before:z-[-1] focus:z-[-1];
+
+      &.disabled {
+        @apply opacity-40;
+      }
+
+      .item-chip {
+        @apply h-4 flex items-center justify-center text-xs;
+      }
+
+      &.activeMenu {
+        @apply bg-blue-500/15;
+
+        .mdc-list-item__primary-text {
+          @apply text-blue-400;
+        }
+
+        .mat-mdc-list-item-icon {
+          @apply text-blue-400;
+        }
+      }
+
+      .mdc-list-item__start {
+        @apply mr-3 ml-0 w-5 leading-0 fill-transparent text-slate-900;
+      }
+
+      .mdc-list-item__primary-text {
+        @apply flex items-center justify-between;
+
+        .arrow-icon {
+          @apply flex;
+
+          .mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            @apply text-lg aspect-square w-5 flex items-center justify-center;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,14 +1,14 @@
-<div class="yellow_theme light-theme" dir="ltr">
-  <mat-sidenav-container class="mainWrapper" autosize autoFocus>
+<div class="" dir="ltr">
+  <mat-sidenav-container class="min-h-dvh min-w-dvw bg-blue-50 flex flex-[1]" autosize autoFocus>
     <!-- ============================================================== -->
     <!-- Vertical Sidebar -->
     <!-- ============================================================== -->
-    <mat-sidenav #leftsidenav [mode]="isOver ? 'over' : 'side'" [opened]="!isOver"
+    <mat-sidenav #leftsidenav [mode]="isOver ? 'over' : 'side'" [opened]="!isOver" class=""
       (openedChange)="onSidenavOpenedChange($event)" (closedStart)="onSidenavClosedStart()" class="sidebarNav">
-      <div class="flex-layout">
+      <div class="flex flex-col h-full bg-white">
         <app-sidebar (toggleMobileNav)="sidenav.toggle()" [showToggle]="isOver"></app-sidebar>
-        <ng-scrollbar class="position-relative" style="height: 100%">
-          <mat-nav-list class="sidebar-list">
+        <ng-scrollbar class="relative">
+          <mat-nav-list class="px-3 sidebar-list">
             @for(item of navItems; track item) {
             <app-nav-item [item]="item" (notify)="sidenav.toggle()">
             </app-nav-item>
@@ -21,15 +21,15 @@
     <!-- ============================================================== -->
     <!-- Main Content -->
     <!-- ============================================================== -->
-    <mat-sidenav-content class="contentWrapper" #content>
+    <mat-sidenav-content class="h-full w-full" #content>
       <!-- ============================================================== -->
       <!-- VerticalHeader -->
       <!-- ============================================================== -->
       <app-header [showToggle]="!isOver" (toggleCollapsed)="toggleCollapsed()"
         (toggleMobileNav)="sidenav.toggle()"></app-header>
 
-      <div class="body-wrapper">
-        <main class="pageWrapper maxWidth">
+      <div class="">
+        <main class="p-8 min-h-full">
           <!-- ============================================================== -->
           <!-- Outlet -->
           <!-- ============================================================== -->
