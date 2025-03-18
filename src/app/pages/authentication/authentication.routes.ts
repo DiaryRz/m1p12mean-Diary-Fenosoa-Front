@@ -23,13 +23,6 @@ export const AuthenticationRoutes: Routes = [
         component: AppSideLoginComponent,
         data :{ roles:["role_001", "role_003"]}
       },
-      {
-        path: 'employee/login',
-        // canActivate: [ManagerGuard],
-        component: AppSideLoginComponent,
-        data :{ roles:["role_001", "role_003"]}
-      },
-
     ],
   },
 ];

@@ -11,7 +11,7 @@ export const PagesRoutes: Routes = [
       {
         path: 'employee',
         loadChildren: () =>
-          import('./employee/employee.routes').then((m) => m.PagesRoutes),
+          import('./employee/employee.routes').then((m) => m.EmployeeRoutes),
       },
       {
         path: 'appointment',

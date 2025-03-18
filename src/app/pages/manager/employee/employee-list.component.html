@@ -1,1 +1,18 @@
-<p>employee-list works!</p>
+<div class="overflow-x-auto">
+  <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+    <thead class="ltr:text-left rtl:text-right">
+      <tr>
+        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Nom & Prénoms</th>
+        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Role</th>
+        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Date de naissance</th>
+        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">CIN</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      @for(employee of employees; track employee) {
+      <tr app-employee-list-item [employee]="employee"></tr>
+      }
+    </tbody>
+
+  </table>
+</div>

@@ -1,8 +1,8 @@
-import { CanActivateFn , Router} from '@angular/router';
+import { CanActivateChildFn , Router} from '@angular/router';
 import { UserService } from './services/user.service'
 import { inject } from '@angular/core'
 
-export const RoleGuard: CanActivateFn = (route, state) => {
+export const RoleGuard: CanActivateChildFn = (route, state) => {
   const userService = inject(UserService)
   const router = inject(Router)
   userService.verifyCurrentUser().subscribe(val=>{
@@ -16,8 +16,8 @@ export const RoleGuard: CanActivateFn = (route, state) => {
   })
   userService.getCurrentUser().subscribe(val => {
     const current_route = state.url.replace("/","")
-    console.log(current_route);
-
+    /* console.log(current_route);
+    console.log(val); */
     if (!val.role_id) {
       router.navigateByUrl(`/login`)
       return false
