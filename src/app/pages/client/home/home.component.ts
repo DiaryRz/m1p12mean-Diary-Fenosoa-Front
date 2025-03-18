@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   client_options: NavItem[] = [
       {navCap: 'Home', divider: true},
       {displayName: 'Acceuil'    , iconName: 'home'          , external: false , route: 'client'},
-      {displayName: 'Rendez-vous', iconName: 'calendar-clock', external: false , route: 'client/appointement'},
+      {displayName: 'Rendez-vous', iconName: 'calendar-clock', external: false , route: 'client/appointment'},
       {displayName: 'Historique' , iconName: 'history'       , external: false , route: 'client/history'},
       {displayName: 'Voitures'   , iconName: 'car'           , external: false , route: 'client/cars'},
     ];

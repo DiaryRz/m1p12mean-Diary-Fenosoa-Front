@@ -1,7 +1,7 @@
-import { Component ,inject } from '@angular/core';
+import { Component ,OnInit ,inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute , RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -14,12 +14,18 @@ import { AuthService } from '../../../../app/services/auth.service';
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
 })
-export class AppSideLoginComponent {
+export class AppSideLoginComponent implements OnInit{
   fb = inject(FormBuilder);
   authService = inject(AuthService);
   router = inject(Router);
   cookieService = inject(CookieService);
-
+  constructor(private activatedroute:ActivatedRoute) {}
+  data: any;
+  ngOnInit() {
+    this.activatedroute.data.subscribe(data => {
+      this.data=data;
+    })
+  }
   form = this.fb.nonNullable.group({
     mail: ['' , [ Validators.email , Validators.required ]],
     phone: [''],
@@ -28,8 +34,10 @@ export class AppSideLoginComponent {
 
   submit() {
     this.authService.login(
-      {mail:this.form.getRawValue().mail, phone: this.form.getRawValue().phone , password:this.form.getRawValue().password , role : 'role_002' }
+      {mail:this.form.getRawValue().mail, phone: this.form.getRawValue().phone , password:this.form.getRawValue().password , roles : this.data.roles }
       ).subscribe((response) => {
+        console.log(response);
+
         if (response.error !== undefined ) {
           if (response.error.password == true) {
             this.form.controls['password'].setErrors({'incorrect': true});
