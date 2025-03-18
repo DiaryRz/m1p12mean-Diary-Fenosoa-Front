@@ -1,11 +1,12 @@
 <div class="" dir="ltr">
-  <mat-sidenav-container class="min-h-dvh min-w-dvw bg-blue-50 flex flex-[1]" autosize autoFocus>
+  <mat-sidenav-container class="min-h-dvh min-w-dvw flex-auto" autosize autoFocus>
     <!-- ============================================================== -->
     <!-- Vertical Sidebar -->
     <!-- ============================================================== -->
-    <mat-sidenav #leftsidenav [mode]="isOver ? 'over' : 'side'" [opened]="!isOver" class=""
-      (openedChange)="onSidenavOpenedChange($event)" (closedStart)="onSidenavClosedStart()" class="sidebarNav">
-      <div class="flex flex-col h-full bg-white">
+    <mat-sidenav #leftsidenav [mode]="'over'" [opened]="false" (openedChange)="onSidenavOpenedChange($event)"
+      (closedStart)="onSidenavClosedStart()"
+      class="w-72 shrink-0 absolute overflow-x-hidden drop-shadow-sm bg-base-100 rounded-lg shadow-md">
+      <div class="flex flex-col h-full">
         <app-sidebar (toggleMobileNav)="sidenav.toggle()" [showToggle]="isOver"></app-sidebar>
         <ng-scrollbar class="relative">
           <mat-nav-list class="px-3 sidebar-list">
@@ -29,7 +30,7 @@
         (toggleMobileNav)="sidenav.toggle()"></app-header>
 
       <div class="">
-        <main class="p-8 min-h-full">
+        <main class="p-8 w-full">
           <!-- ============================================================== -->
           <!-- Outlet -->
           <!-- ============================================================== -->

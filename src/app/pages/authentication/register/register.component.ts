@@ -56,10 +56,10 @@ export class AppSideRegisterComponent {
     name : ['' , Validators.required],
     firstname : ['' , Validators.required],
     birth_date : ['' , Validators.required],
-    CIN : ['' , Validators.required],
+    CIN : ['' , [Validators.required , Validators.max(12) , Validators.min(12) ]],
     gender : ['masculin' , Validators.required],
-    mail: ['', Validators.email],
-    phone: [''],
+    mail: ['', [Validators.required, Validators.email ]],
+    phone: ['' ,Validators.required],
     password: ['', Validators.required],
     password_confirm: ['',[  Validators.required , this.validateSamePassword]],
   });

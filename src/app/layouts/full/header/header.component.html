@@ -1,4 +1,4 @@
-<mat-toolbar class="sticky top-0 z-10 h-16 bg-white gap-8 m-1 drop-shadow-md rounded-lg w-[calc(100%-8px)]">
+<div class="navbar bg-base-200 shadow-sm ">
   <!-- Mobile Menu -->
   <button mat-icon-button (click)="toggleMobileNav.emit()" class="d-flex justify-content-center">
     <i-tabler class="iconify icon-20 d-flex" name="menu-2" />
@@ -13,12 +13,11 @@
   <!-- --------------------------------------------------------------- -->
   <button mat-icon-button extended [matMenuTriggerFor]="profilemenu" aria-label="Notifications"
     class="flex items-center justify-center rounded-full">
-    <img src="/assets/images/profile/user-1.jpg" class="rounded-full aspect-square w-10 " width="40" />
+    <img src="/assets/images/profile/user-1.jpg" class="rounded-full aspect-square w-10" width="50" />
   </button>
-  <mat-menu #profilemenu="matMenu" class=" mt-4  rounded-lg min-w-52 drop-shadow-md bg-white">
+  <mat-menu #profilemenu="matMenu" class=" mt-4 rounded min-w-52 drop-shadow-md bg-base-200">
     <div class="px-3 mt-3">
-      <button (click)="logout()" mat-stroked-button
-        class="w-full bg-transparent outline-1 hover:text-blue-500 hover:drop-shadow-lg  outline-slate-900 text-slate-900 p-3 rounded-xl">Logout</button>
+      <button (click)="logout()" mat-stroked-button class="btn btn-soft w-full">Logout</button>
     </div>
   </mat-menu>
-</mat-toolbar>
+</div>

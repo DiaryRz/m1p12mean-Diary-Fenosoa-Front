@@ -1,72 +1,65 @@
 <title>Authentification | Connexion</title>
 
 
-<div class="w-full h-screen flex bg-cover items-center bg-blue-50">
+<div class="w-full h-screen flex bg-cover items-center">
   <div class="relative flex flex-wrap mx-4 justify-center w-full">
-    <div class="inline-flex justify-center w-full h-full bg-slate-50 rounded-xl overflow-hidden drop-shadow-2xl">
+    <div class="inline-flex justify-center w-full h-full rounded-xl overflow-hidden drop-shadow-2xl">
       <mat-card class="w-full my-0 mx-auto flex flex-col">
         <mat-card-content class="p-10 w-full min-h-[70dvh] flex flex-col gap-4 justify-evenly">
           <div class="flex flex-row justify-between w-full items-center">
 
             <img src="./assets/images/logos/ReviveAuto-1.svg" class="align-middle m-2 aspect-square w-16" alt="logo" />
 
-            <h1 class="mx-4 text-3xl font-bold">Se connecter!</h1>
+            <h1 class="mx-4 text-3xl font-bold text-primary">Se connecter!</h1>
           </div>
-          <form class="flex flex-col gap-2 h-full justify-evenly" (ngSubmit)="submit()" [formGroup]="form">
+          <form class="flex flex-col justify-evenly h-full " (ngSubmit)="submit()" [formGroup]="form">
             <div>
-              <mat-label class="text-gray-900">Mail</mat-label>
-              <div class="rounded-xl w-full border border-slate-300 focus-within:outline focus-within:outline-blue-500">
-                <input matinput class="w-full h-10  px-2  focus:outline-0" formControlName="mail" email />
+              <label class="label m-2">Mail</label>
+              <div
+                class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary">
+                <input class="w-full focus:outline-0 h-full px-2" formControlName="mail" email />
               </div>
               @if (form.get('mail')?.invalid && (form.get('mail')?.dirty || form.get('mail')?.touched)) {
-              <mat-error><span class="text-xs text-red-500">
-                  @if (form.get('mail')?.hasError('required'))
-                  { Veuillez entrer votre email }
-                  @if (form.get('mail')?.hasError('email'))
-                  {Veuillez entrer un email valide}
-                  @if (form.get('mail')?.hasError('incorrect'))
-                  { Cet email n'est pas encore inscrit}
-                </span></mat-error>
+              <span class="text-error text-xs">
+                @if (form.get('mail')?.hasError('required'))
+                { Veuillez entrer votre email }
+                @if (form.get('mail')?.hasError('email'))
+                {Veuillez entrer un email valide}
+                @if (form.get('mail')?.hasError('incorrect'))
+                { Cet email n'est pas encore inscrit}
+              </span>
               }
             </div>
-            <!-- <mat-form-field appearance="outline" class="w-100" color="primary">
-              <mat-label class="mat-subtitle-2 ">Phone</mat-label>
-              �kd<input matInput formControlName="phone" />
-            </mat-form-field> -->
-
 
             <div>
-              <label class="text-gray-900">Mot de passe</label>
-              <div class="rounded-xl w-full border border-slate-300 focus-within:outline
-                focus-within:outline-blue-500">
-                <input matinput class="w-full h-10  px-2 focus:outline-0" type="password" formControlName="password" />
+              <label class="label m-2">Mot de passe</label>
+              <div class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline
+                focus-within:outline-primary">
+                <input class="w-full focus:outline-0 h-full px-2" formControlName="password" type="password" />
               </div>
               @if (form.get('password')?.invalid && (form.get('password')?.dirty ||
               form.get('password')?.touched)) {
-              <mat-error><span class="text-xs text-red-500">
-                  @if (form.get('password')?.hasError('required')) {Veuillez inserer votre mot de passe}
-                  @if (form.get('password')?.hasError('incorrect')) {Le mot de passe est incorrect}
-                </span></mat-error>
+              <span class="text-error text-xs">
+                @if (form.get('password')?.hasError('required')) {Veuillez inserer votre mot de passe}
+                @if (form.get('password')?.hasError('incorrect')) {Le mot de passe est incorrect}
+              </span>
               }
 
             </div>
 
-            <hr class="bg-stone-300 w-full h-[1px]" />
-            <button type="submit" [disabled]="form.invalid"
-              class="w-full bg-blue-500 disabled:bg-gray-500/50 text-white p-3 rounded-xl">
+            <hr class="" />
+            <button type="submit" [disabled]="form.invalid" class="btn btn-primary">
               Se connecter
             </button>
           </form>
           @if (data.roles[0] == 'role_002'){
-          <span class="w-full items-center text-center">
-            <a [routerLink]="['/register']" class="text-blue-400">
-              Créer votre compte?
-            </a>
-          </span>
+          <a [routerLink]="['/register']" class="w-full link-secondary items-center align-middle text-center  ">
+            Créer votre compte?
+          </a>
           }
         </mat-card-content>
       </mat-card>
-      <div class="p-10 hidden lg:block w-full bg-blue-500 rounded-l-2xl">
+      <div class="p-10 hidden lg:block w-full bg-primary rounded-l-2xl">
       </div>
 
 
