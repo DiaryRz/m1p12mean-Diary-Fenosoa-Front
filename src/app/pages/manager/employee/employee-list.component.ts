@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EmployeeItem } from './items/employee.item'
 import { UserService } from 'src/app/services/user.service'
 import { EmployeeListItemComponent } from './items/employee-list-item/employee-list-item.component'
+import { CreateEmployeeComponent } from './items/create/create-employee.component'
 
 
 @Component({

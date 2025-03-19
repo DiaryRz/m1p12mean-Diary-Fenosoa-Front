@@ -43,4 +43,13 @@ export class UserService {
     );
   }
 
+  createEmployee():Observable<any> {
+    return this.http.get(`${this.apiUrl}/employee`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of({error : error.error.error}); // This is your fallback value
+      })
+    );
+  }
+
+
 }
