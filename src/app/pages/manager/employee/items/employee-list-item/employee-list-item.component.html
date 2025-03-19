@@ -1,5 +1,55 @@
+<td class="text-primary">{{employee.name}} {{employee.firstname}}</td>
 <td>{{employee.date_registration | date:" dd MMMM yyyy" }}</td>
-<td>{{employee.name}} {{employee.firstname}}</td>
 <td>{{employee.role_id.role_name}}</td>
-<td>{{employee.CIN}}</td>
 <td>{{employee.birth_date | date:" dd MMMM yyyy" }}</td>
+<td>{{employee.CIN}}</td>
+<!--
+Actions for details / history
+Actions to fire an employee
+-->
+<td class="sticky">
+  <button type="button" class="btn btn-outline btn-info" (click)="openModal(details_modal)"> Détails</button>
+  <dialog #details_modal class="modal">
+    <div class="modal-box">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+        (click)="closeModal(details_modal)"><i-tabler name="x" /></button>
+      <div class="flex flex-col gap-2.5">
+        <h3 class="text-lg font-bold text-primary">
+          {{employee.name}} {{employee.firstname}}
+          <span class="badge badge-info">
+            {{ employee.role_id.role_name }}
+          </span>
+        </h3>
+        <hr>
+        <span class="text-start w-full inline-flex items-center gap-2.5"> <i-tabler name="id" /> {{
+          employee.date_registration
+          | date:" dd
+          MMMM yyyy" }}</span>
+        <span class="text-start w-full inline-flex items-center gap-2.5"> <i-tabler name="mail" /> {{ employee.mail }}
+        </span>
+        <span class="text-start w-full inline-flex items-center gap-2.5"> <i-tabler name="phone" /> {{ employee.phone
+          }}</span>
+        <span class="text-start w-full inline-flex items-center gap-2.5"> <i-tabler name="cake" /> {{
+          employee.birth_date |
+          date:" dd MMMM
+          yyyy" }}</span>
+        <span class="text-start w-full inline-flex items-center gap-2.5"> <i-tabler name="id" /> {{ employee.CIN
+          }}</span>
+        <span class="text-start w-full inline-flex items-center gap-2.5"> <i-tabler name="circle" /> {{ employee.gender
+          }}</span>
+        @if(employee.status != 0){
+        <span class="text-start w-full inline-flex items-center gap-2.5 badge badge-warning"> <i-tabler name="trash" />
+          Licencié</span>
+        }
+      </div>
+    </div>
+    <button class="modal-backdrop" (click)="closeModal(details_modal)">Close</button>
+  </dialog>
+</td>
+<td class="sticky w-full">
+  @if(my_id !== employee._id)
+  { <button type="button" class="btn btn-dash btn-error"><i-tabler name="backspace" />Licencié</button>}
+  @else{
+  <span class="badge badge-md badge-success m-auto">Vous</span>
+  }
+</td>

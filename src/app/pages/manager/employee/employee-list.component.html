@@ -7,6 +7,23 @@ Button to create New employee
   <create-employee class="collapse-content text-sm bg-base-100" />
 </div>
 <div class=" overflow-x-auto rounded-box border border-base-content/5 bg-base-100 mt-2">
+  <div class="flex w-full gap-4 my-4 px-2">
+    <select [(ngModel)]="filterRole" (change)="applyFilters()"
+      class="select select-bordered w-fit focus:outline-0 focus:border-accent">
+      <option value="">Tous les rôles</option>
+      <option value="manager">Manager</option>
+      <option value="mechanics">Mécanicien</option>
+    </select>
+    <label class="input focus-within:outline-0 focus-within:border-accent w-full">
+      <i-tabler name="search" />
+      <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Rechercher..."
+        class="w-full focus:outline-0 focus:border-0 border-0" />
+    </label>
+    <button (click)="resetFilters()" class="btn btn-ghost">
+      <i-tabler name="restore" />
+    </button>
+  </div>
+  <hr class="mx-2" />
   <table class="table">
     <thead class="ltr:text-left rtl:text-right">
       <tr>
@@ -15,11 +32,13 @@ Button to create New employee
         <th>Role</th>
         <th>Date de naissance</th>
         <th>CIN</th>
+        <th class="sticky"></th>
+        <th class="sticky"></th>
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-200">
-      @for(employee of employees; track employee) {
-      <tr app-employee-list-item [employee]="employee"></tr>
+      @for(employee of filteredEmployees; track employee) {
+      <tr app-employee-list-item [my_id]="my_id" [employee]="employee"></tr>
       }
     </tbody>
 
