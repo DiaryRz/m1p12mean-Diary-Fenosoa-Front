@@ -20,8 +20,6 @@ export class HomeComponent implements OnInit {
       // {displayName: 'Statistique', iconName: 'chart-area'    , external: false , route: 'manager/'},
     ];
   ngOnInit(){
-    console.log("manager");
-
     this.loadComponent.emit(this.client_options);
   }
 }

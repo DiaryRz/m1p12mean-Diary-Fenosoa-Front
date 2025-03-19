@@ -2,41 +2,41 @@
 
 @plugin "daisyui";
 
+
 @plugin "daisyui/theme" {
-  name: "light";
+  name: "bumblebee";
   default: false;
   prefersdark: false;
   color-scheme: "light";
-  --color-base-100: oklch(97% 0.013 236.62);
-  --color-base-200: oklch(95% 0.026 236.824);
-  --color-base-300: oklch(90% 0.058 230.902);
-  --color-base-content: oklch(39% 0.09 240.876);
-  --color-primary: oklch(90% 0.182 98.111);
-  --color-primary-content: oklch(28% 0.066 53.813);
-  --color-secondary: oklch(81% 0.111 293.571);
-  --color-secondary-content: oklch(28% 0.141 291.089);
-  --color-accent: oklch(78% 0.115 274.713);
-  --color-accent-content: oklch(25% 0.09 281.288);
-  --color-neutral: oklch(29% 0.066 243.157);
-  --color-neutral-content: oklch(97% 0.013 236.62);
-  --color-info: oklch(68% 0.169 237.323);
-  --color-info-content: oklch(97% 0.013 236.62);
-  --color-success: oklch(76% 0.233 130.85);
-  --color-success-content: oklch(98% 0.031 120.757);
-  --color-warning: oklch(76% 0.188 70.08);
-  --color-warning-content: oklch(98% 0.022 95.277);
-  --color-error: oklch(64% 0.246 16.439);
-  --color-error-content: oklch(96% 0.015 12.422);
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(97% 0 0);
+  --color-base-300: oklch(92% 0 0);
+  --color-base-content: oklch(20% 0 0);
+  --color-primary: oklch(85% 0.199 91.936);
+  --color-primary-content: oklch(42% 0.095 57.708);
+  --color-secondary: oklch(75% 0.183 55.934);
+  --color-secondary-content: oklch(40% 0.123 38.172);
+  --color-accent: oklch(0% 0 0);
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: oklch(37% 0.01 67.558);
+  --color-neutral-content: oklch(92% 0.003 48.717);
+  --color-info: oklch(74% 0.16 232.661);
+  --color-info-content: oklch(39% 0.09 240.876);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(37% 0.077 168.94);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(70% 0.191 22.216);
+  --color-error-content: oklch(39% 0.141 25.723);
   --radius-selector: 1rem;
-  --radius-field: 1rem;
+  --radius-field: 0.5rem;
   --radius-box: 1rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
-  --border: 1.5px;
+  --border: 1px;
   --depth: 1;
-  --noise: 1;
+  --noise: 0;
 }
-
 
 @plugin "daisyui/theme" {
   name: "dark";
@@ -75,7 +75,7 @@
 
 
 .mat-datepicker-content {
-  @apply bg-white rounded-lg shadow-lg;
+  @apply rounded-lg shadow-lg bg-base-200;
 }
 
 .mat-calendar {

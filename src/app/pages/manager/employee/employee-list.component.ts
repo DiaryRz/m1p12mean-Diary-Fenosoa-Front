@@ -8,7 +8,7 @@ import { CreateEmployeeComponent } from './items/create/create-employee.componen
 
 @Component({
   selector: 'app-employee-list',
-  imports: [EmployeeListItemComponent , CommonModule ],
+  imports: [EmployeeListItemComponent , CreateEmployeeComponent , CommonModule ],
   templateUrl: './employee-list.component.html',
 })
 export class EmployeeListComponent implements OnInit {

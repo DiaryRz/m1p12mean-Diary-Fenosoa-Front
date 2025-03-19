@@ -48,8 +48,9 @@
                 <label class="label m-2">Date de Naissance</label>
                 <div class="w-full items-center flex flex-row rounded-xl border
                   border-slate-300 h-10 px-2 focus-within:outline focus-within:outline-primary">
-                  <input class="focus:outline-0 w-full h-full" [matDatepicker]="picker" formControlName="birth_date">
-                  <mat-datepicker class="border border-r-red-300 bg-white drop-shadow-md" color="primary"
+                  <input class="focus:outline-0 w-full h-full" [max]="maxDate" [matDatepicker]="picker"
+                    formControlName="birth_date">
+                  <mat-datepicker class="border border-r-red-300 bg-white drop-shadow-md hidden" color="primary"
                     #picker></mat-datepicker>
                   <button class="aspect-square" type="button" (click)="picker.open()"><i-tabler
                       class="aspect-squarew-5 text-black iconify" name="calendar" /></button>

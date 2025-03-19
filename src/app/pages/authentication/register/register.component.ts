@@ -44,25 +44,26 @@ export class AppSideRegisterComponent {
   authService = inject(AuthService);
   router = inject(Router);
 
-
-  private validateSamePassword(control: AbstractControl): ValidationErrors | null {
-    const password = control.parent?.get('password');
-    const confirmPassword = control.parent?.get('password_confirm');
-    return password?.value == confirmPassword?.value ? null : { 'notSame': true };
-  }
+  maxDate = new Date(new Date().getFullYear()-18 , new Date().getMonth() , new Date().getDate())
 
   form = this.fb.nonNullable.group({
     login_field : ['mail', Validators.required],
     name : ['' , Validators.required],
     firstname : ['' , Validators.required],
     birth_date : ['' , Validators.required],
-    CIN : ['' , [Validators.required , Validators.max(12) , Validators.min(12) ]],
+    CIN : ['' , [Validators.required , Validators.max(12) , Validators.min(12)]],
     gender : ['masculin' , Validators.required],
     mail: ['', [Validators.required, Validators.email ]],
     phone: ['' ,Validators.required],
     password: ['', Validators.required],
     password_confirm: ['',[  Validators.required , this.validateSamePassword]],
   });
+  private validateSamePassword(control: AbstractControl): ValidationErrors | null {
+    const password = control.parent?.get('password');
+    const confirmPassword = control.parent?.get('password_confirm');
+    return password?.value == confirmPassword?.value ? null : { 'notSame': true };
+  }
+
 
   constructor(private settings: CoreService) {
   }
