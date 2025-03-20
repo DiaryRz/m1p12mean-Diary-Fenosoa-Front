@@ -53,9 +53,9 @@ export class UserService {
     );
   }
 
-  fireEmployee(employee_id: String):Observable<any> {
+  fireEmployee(employee_id: String,data: any):Observable<any> {
 
-    return this.http.put(`${this.apiUrl}/fire/${employee_id}`,{}).pipe(
+    return this.http.put(`${this.apiUrl}/fire/${employee_id}`,data).pipe(
       catchError((error: HttpErrorResponse) => {
         console.log(error);
         return of({error : error.error}); // This is your fallback value

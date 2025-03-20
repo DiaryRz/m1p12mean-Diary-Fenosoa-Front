@@ -47,8 +47,44 @@ Actions to fire an employee
   </dialog>
 </td>
 <td class="sticky w-full">
-  @if(my_id !== employee._id)
-  { <button type="button" class="btn btn-dash btn-error"><i-tabler name="backspace" />Licencié</button>}
+
+  @if(employee.status == 1) {
+
+  }@else if(my_id !== employee._id) {
+  <button type="button" class="btn btn-dash btn-error" (click)="openModal(fire_modal)">
+    <i-tabler name="backspace" />
+    Licencié
+  </button>
+
+  <dialog #fire_modal class="modal">
+    <div class="modal-box">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="closeModal(fire_modal)"><i-tabler
+          name="x" /></button>
+      <div class="flex flex-col gap-2.5">
+        <h3 class="text-lg font-bold text-error">
+          Licencié {{employee.name}} {{employee.firstname}} ?
+        </h3>
+        <div>
+          <label class="label m-2">Mot de passe</label>
+          <div class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline
+              focus-within:outline-primary">
+            <input class="w-full focus:outline-0 h-full px-2" [(ngModel)]="password" type="password"
+              #passwordInput="ngModel" required />
+          </div>
+        </div>
+        @if( passwordInput.invalid && (passwordInput.dirty || passwordInput.touched) ){
+        <span class="text-error text-xs">
+          @if (passwordInput.errors?.['required' ]) {Veuillez inserer votre mot de passe}
+          @if (passwordInput.errors?.['incorrect']) {Le mot de passe est incorrect}
+        </span>
+        }
+        <button [disabled]="passwordInput.invalid" type="button" class="btn btn-outline btn-error"
+          (click)="fireEmployee()"> Licencié </button>
+      </div>
+    </div>
+    <button class="modal-backdrop" (click)="closeModal(fire_modal)">Close</button>
+  </dialog>
+  }
   @else{
   <span class="badge badge-md badge-success m-auto">Vous</span>
   }
