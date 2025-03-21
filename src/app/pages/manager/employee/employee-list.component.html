@@ -1,0 +1,46 @@
+<!--
+Button to create New employee
+-->
+<div class="collapse collapse-plus bg-base-100 border-base-300 border">
+  <input type="checkbox" />
+  <div class="collapse-title font-semibold">Ajouter un employé</div>
+  <create-employee class="collapse-content text-sm bg-base-100" />
+</div>
+<div class=" overflow-x-auto rounded-box border border-base-content/5 bg-base-100 mt-2 w-full">
+  <div class="flex w-full my-4 px-2 join">
+    <select [(ngModel)]="filterRole" (change)="applyFilters()"
+      class="select select-bordered w-fit focus:outline-0 focus:border-accent join-item">
+      <option value="">Tous les rôles</option>
+      <option value="manager">Manager</option>
+      <option value="mechanics">Mécanicien</option>
+    </select>
+    <label class="input focus-within:outline-0 focus-within:border-accent w-full">
+      <i-tabler name="search" />
+      <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Rechercher..."
+        class="w-full focus:outline-0 focus:border-0 border-0 join-item" />
+    </label>
+    <button (click)="resetFilters()" class="btn join-item">
+      <i-tabler name="restore" />
+    </button>
+  </div>
+  <hr class="mx-2 text-base-200" />
+  <table class="table w-full">
+    <thead class="ltr:text-left rtl:text-right w-full">
+      <tr>
+        <th>Date d'inscription</th>
+        <th>Nom & Prénoms</th>
+        <th>Role</th>
+        <th>Date de naissance</th>
+        <th>CIN</th>
+        <th class="sticky"></th>
+        <th class="sticky"></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      @for(employee of filteredEmployees; track employee) {
+      <tr app-employee-list-item [my_id]="my_id" [employee]="employee"></tr>
+      }
+    </tbody>
+
+  </table>
+</div>

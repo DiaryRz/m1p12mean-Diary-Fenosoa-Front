@@ -1,0 +1,68 @@
+<div class="card border-base-300 border rounded-box text-primary-content w-96">
+  <form class="card-body" [formGroup]="form" (submit)="submit()">
+    <h2 class="card-title">Ajouter nouveau service</h2>
+    <div class="w-full">
+      <label class="label m-2">Service</label>
+      <div class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary">
+        <input class="w-full focus:outline-0 h-full px-2" formControlName="service_name" placeholder="Vidange" />
+      </div>
+      @if (form.get('service_name')?.invalid && (form.get('service_name')?.dirty || form.get('service_name')?.touched))
+      {
+      <span class="text-xs text-error">
+        @if (form.get('service_name')?.hasError('required')) { Veuillez entrer le nom du service}
+        @if (form.get('service_name')?.hasError('exist')) { Veuillez entrer le nom du service}
+      </span>
+      }
+    </div>
+
+    <div class="w-full">
+      <label class="label m-2">Coût</label>
+      <label
+        class="input rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary bg-transparent">
+        <input type="number" min="1" step="1" class="w-full focus:outline-0 h-full px-2" formControlName="unit_price" />
+        <span class="label">Ar</span>
+      </label>
+      @if (form.get('price')?.invalid && (form.get('price')?.dirty || form.get('price')?.touched))
+      {
+      <span class="text-xs text-error">
+        @if (form.get('price')?.hasError('required')){ Veuillez entrer le coût du service}</span>
+      }
+    </div>
+
+    <div class="w-full">
+      <label class="label m-2">Temps d'execution (Approximation)</label>
+      <label
+        class="input rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary bg-transparent">
+        <input type="number" min="0.01" step="0.01" class="w-full focus:outline-0 h-full px-2"
+          formControlName="time_needed" />
+        <span class="label">Heure(s)</span>
+      </label>
+      @if (form.get('time_needed')?.invalid && (form.get('time_needed')?.dirty || form.get('time_needed')?.touched))
+      {
+      <span class="text-xs text-error">
+        @if (form.get('time_needed')?.hasError('required')){ Veuillez entrer le temps d'execution minimun pour le
+        service}</span>
+      }
+    </div>
+
+    <div class="w-full">
+      <label class="label m-2">Nombre de mécaniciens nécessaires</label>
+      <label
+        class="input rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary bg-transparent">
+        <input type="number" min="1" step="1" class="w-full focus:outline-0 h-full px-2" formControlName="ressources" />
+      </label>
+      @if (form.get('ressources')?.invalid && (form.get('ressources')?.dirty || form.get('ressources')?.touched))
+      {
+      <span class="text-xs text-error">
+        @if (form.get('ressources')?.hasError('required')){ Veuillez entrer le nombre mécaniciens nécessaires}</span>
+      }
+    </div>
+
+
+    <div class="card-actions w-full justify-center m-2">
+      <button type="submit" [disabled]="form.invalid" class="btn btn-primary">
+        Ajouter
+      </button>
+    </div>
+  </form>
+</div>

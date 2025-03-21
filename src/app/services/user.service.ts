@@ -34,4 +34,34 @@ export class UserService {
       })
     );
   }
+
+  getAllEmployee():Observable<any> {
+    return this.http.get(`${this.apiUrl}/employee`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of({error : error.error.error}); // This is your fallback value
+
+      })
+    );
+  }
+
+  createEmployee(employeeData: any):Observable<any> {
+    return this.http.post(`${this.apiUrl}/employee` , employeeData).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.log(error);
+        return of({error : error.error}); // This is your fallback value
+      })
+    );
+  }
+
+  fireEmployee(employee_id: String,data: any):Observable<any> {
+
+    return this.http.put(`${this.apiUrl}/fire/${employee_id}`,data).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.log(error);
+        return of({error : error.error}); // This is your fallback value
+      })
+    );
+  }
+
+
 }

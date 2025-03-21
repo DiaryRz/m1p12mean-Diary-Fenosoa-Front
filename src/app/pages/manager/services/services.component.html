@@ -1,0 +1,18 @@
+<div class="collapse collapse-plus bg-base-100 border-base-300 border">
+  <input type="checkbox" />
+  <div class="collapse-title font-semibold">Ajouter un employé</div>
+  <div class="w-full flex justify-center collapse-content ">
+    <create-service-item class="text-sm bg-base-100" />
+  </div>
+</div>
+
+
+<div class="m-1">
+  @for(service of services ; track service){
+  <div service-item></div>
+  }@empty{
+  <div class="w-full h-full content-center align-middle items-center">
+    <h1 class="text-5xl font-bold w-full  h-full text-center text-secondary">Pas encore de services</h1>
+  </div>
+  }
+</div>

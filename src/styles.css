@@ -1,7 +1,97 @@
 @import "tailwindcss" important;
 
+/* Chrome, Safari, Edge, Opera */
+/* Remove arrows/spinners from number inputs globally */
+input[type="number"] {
+  -moz-appearance: textfield !important;
+  /* Firefox */
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  /* WebKit browsers (Chrome, Safari) */
+  margin: 0 !important;
+  /* Optional: Remove extra spacing */
+}
+
+@plugin "daisyui" {
+  themes: bumblebee --default, dark --prefersdark, cupcake;
+}
+
+
+@plugin "daisyui/theme" {
+  name: "bumblebee";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(97% 0 0);
+  --color-base-300: oklch(92% 0 0);
+  --color-base-content: oklch(20% 0 0);
+  --color-primary: oklch(85% 0.199 91.936);
+  --color-primary-content: oklch(42% 0.095 57.708);
+  --color-secondary: oklch(75% 0.183 55.934);
+  --color-secondary-content: oklch(40% 0.123 38.172);
+  --color-accent: oklch(0% 0 0);
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: oklch(37% 0.01 67.558);
+  --color-neutral-content: oklch(92% 0.003 48.717);
+  --color-info: oklch(74% 0.16 232.661);
+  --color-info-content: oklch(39% 0.09 240.876);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(37% 0.077 168.94);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(70% 0.191 22.216);
+  --color-error-content: oklch(39% 0.141 25.723);
+  --radius-selector: 1rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: oklch(12% 0.042 264.695);
+  --color-base-200: oklch(20% 0.042 265.755);
+  --color-base-300: oklch(27% 0.041 260.031);
+  --color-base-content: oklch(96% 0.007 247.896);
+  --color-primary: oklch(79% 0.184 86.047);
+  --color-primary-content: oklch(98% 0.026 102.212);
+  --color-secondary: oklch(70% 0.213 47.604);
+  --color-secondary-content: oklch(98% 0.016 73.684);
+  --color-accent: oklch(65% 0.241 354.308);
+  --color-accent-content: oklch(97% 0.014 343.198);
+  --color-neutral: oklch(37% 0.044 257.287);
+  --color-neutral-content: oklch(98% 0.003 247.858);
+  --color-info: oklch(70% 0.165 254.624);
+  --color-info-content: oklch(28% 0.091 267.935);
+  --color-success: oklch(79% 0.209 151.711);
+  --color-success-content: oklch(26% 0.065 152.934);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(27% 0.077 45.635);
+  --color-error: oklch(70% 0.191 22.216);
+  --color-error-content: oklch(25% 0.092 26.042);
+  --radius-selector: 1rem;
+  --radius-field: 1rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+}
+
+
 .mat-datepicker-content {
-  @apply bg-white rounded-lg shadow-lg;
+  @apply rounded-lg shadow-lg bg-base-200;
 }
 
 .mat-calendar {
@@ -9,7 +99,7 @@
 }
 
 .mat-datepicker-toggle {
-  @apply text-blue-500;
+  @apply text-primary;
 }
 
 
@@ -23,7 +113,7 @@
     }
 
     .mdc-list-group__subheader {
-      @apply m-0 font-semibold py-2 px-0 leading-6 text-slate-900;
+      @apply m-0 font-semibold py-2 px-0 leading-6;
 
       .caption-icon {
         @apply hidden;
@@ -35,7 +125,7 @@
     }
 
     .sidebar-divider {
-      @apply h-[1px] w-[calc(100%-4rem)] block mx-3 my-0 ml-2 bg-slate-400;
+      @apply h-[1px] w-[calc(100%-4rem)] block mx-3 my-0 ml-2 border-secondary;
 
       &.lg {
 
@@ -49,11 +139,11 @@
 
       &:hover {
         &.mdc-list-item__primary-text {
-          @apply text-blue-500;
+          @apply text-primary;
         }
 
         &.mat-mdc-list-item-icon {
-          @apply text-blue-500;
+          @apply text-primary;
         }
       }
 
@@ -74,19 +164,19 @@
       }
 
       &.activeMenu {
-        @apply bg-blue-500/15;
+        @apply bg-primary/15;
 
         .mdc-list-item__primary-text {
-          @apply text-blue-400;
+          @apply text-primary;
         }
 
         .mat-mdc-list-item-icon {
-          @apply text-blue-400;
+          @apply text-primary;
         }
       }
 
       .mdc-list-item__start {
-        @apply mr-3 ml-0 w-5 leading-0 fill-transparent text-slate-900;
+        @apply mr-3 ml-0 w-5 leading-0 fill-transparent;
       }
 
       .mdc-list-item__primary-text {
@@ -96,12 +186,6 @@
           @apply flex;
 
           .mat-icon {
-            font-size: 18px;
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             @apply text-lg aspect-square w-5 flex items-center justify-center;
           }
         }
