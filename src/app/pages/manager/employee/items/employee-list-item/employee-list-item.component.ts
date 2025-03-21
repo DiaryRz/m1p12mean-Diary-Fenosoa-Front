@@ -8,7 +8,7 @@ import { EmployeeItem }                             from './../employee.item';
 import { UserService }                              from 'src/app/services/user.service'
 
 @Component({
- selector: '[app-employee-list-item]',
+  selector: '[app-employee-list-item]',
   imports: [DatePipe, MaterialModule , FormsModule],
   templateUrl: './employee-list-item.component.html',
 })

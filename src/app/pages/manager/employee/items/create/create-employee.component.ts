@@ -1,18 +1,15 @@
-import { CoreService } from 'src/app/services/core.service';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { Component ,inject ,OnInit} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators ,ValidatorFn ,AbstractControl,ValidationErrors } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Observable, of  } from 'rxjs';
  // Date Picker
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
-import { TablerIconsModule } from 'angular-tabler-icons';
 export const CUSTOM_DATE_FORMAT = {
     parse: {
       dateInput: 'DD/MM/YYYY',
@@ -31,25 +28,18 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'create-employee',
   templateUrl: './create-employee.component.html',
-  imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule , TablerIconsModule],
+  imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     {provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMAT },
   ],
 })
 export class CreateEmployeeComponent implements OnInit {
-  options = this.settings.getOptions();
 
   fb = inject(FormBuilder);
   employeeService = inject(UserService);
   router = inject(Router);
   maxDate = new Date(new Date().getFullYear()-18 , new Date().getMonth() , new Date().getDate())
-
-  private validateSamePassword(control: AbstractControl): ValidationErrors | null {
-    const password = control.parent?.get('password');
-    const confirmPassword = control.parent?.get('password_confirm');
-    return password?.value == confirmPassword?.value ? null : { 'notSame': true };
-  }
 
   form = this.fb.nonNullable.group({
     name : ['' , Validators.required],
@@ -64,7 +54,12 @@ export class CreateEmployeeComponent implements OnInit {
     password_confirm: ['',[  Validators.required , this.validateSamePassword]],
   });
 
-  constructor(private settings: CoreService) {}
+  private validateSamePassword(control: AbstractControl): ValidationErrors | null {
+    const password = control.parent?.get('password');
+    const confirmPassword = control.parent?.get('password_confirm');
+    return password?.value == confirmPassword?.value ? null : { 'notSame': true };
+  }
+
 
   ngOnInit(){
     const CINField = this.form.get('CIN');
