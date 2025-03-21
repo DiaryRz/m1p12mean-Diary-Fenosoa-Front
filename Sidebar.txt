@@ -1,0 +1,16 @@
+Client : 
+	-Rendez-vous
+	-Historique des rendez-vous
+	-Mes voitures
+
+Mécanicien : 
+	-Liste de rendez-vous 
+	-Liste de mes services 
+
+Manager
+	-Gestion d'employé
+	-Liste des services
+	-Ajout de service
+	-Statistique
+	-Liste des rendez-vous
+	-calendrier
