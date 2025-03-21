@@ -20,6 +20,8 @@ export class EmployeeListComponent implements OnInit {
   searchQuery: string = '';
   filterRole: string = '';
 
+  isFetching: boolean = true;
+
   my_id :String = localStorage.getItem('userId') || ""
 
   constructor(private userService: UserService ){}
@@ -44,9 +46,11 @@ export class EmployeeListComponent implements OnInit {
   }
 
   ngOnInit(){
+    this.isFetching = true;
     this.userService.getAllEmployee().subscribe((val) => {
       this.employees = val;
       this.filteredEmployees = val;
+      this.isFetching = false;
     });
   }
 }

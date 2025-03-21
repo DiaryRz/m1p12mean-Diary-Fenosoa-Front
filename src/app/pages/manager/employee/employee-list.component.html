@@ -24,6 +24,11 @@ Button to create New employee
     </button>
   </div>
   <hr class="mx-2 text-base-200" />
+
+  @if(isFetching){
+  <span class="loading loading-spinner loading-xl"></span>
+  }
+  @else{
   <table class="table w-full">
     <thead class="ltr:text-left rtl:text-right w-full">
       <tr>
@@ -43,4 +48,6 @@ Button to create New employee
     </tbody>
 
   </table>
+
+  }
 </div>

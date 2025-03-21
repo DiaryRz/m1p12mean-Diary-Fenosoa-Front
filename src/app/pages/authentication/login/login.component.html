@@ -48,8 +48,12 @@
             </div>
 
             <hr class="" />
-            <button type="submit" [disabled]="form.invalid" class="btn btn-primary">
+            <button type="submit" [disabled]="form.invalid || isSubmitting" class="btn btn-primary">
+              @if(isSubmitting){
+              <span class="loading loading-spinner loading-xl"></span>
+              }@else{
               Se connecter
+              }
             </button>
           </form>
           @if (data.roles[0] == 'role_002'){

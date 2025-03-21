@@ -21,6 +21,9 @@ export class AppSideLoginComponent implements OnInit{
   cookieService = inject(CookieService);
   constructor(private activatedroute:ActivatedRoute) {}
   data: any;
+
+  isSubmitting :boolean = false;
+
   ngOnInit() {
     this.activatedroute.data.subscribe(data => {
       this.data=data;
@@ -33,6 +36,12 @@ export class AppSideLoginComponent implements OnInit{
   });
 
   submit() {
+
+  if (this.form.invalid) {
+    return;
+  }
+
+  this.isSubmitting = true;
     this.authService.login(
       {mail:this.form.getRawValue().mail, phone: this.form.getRawValue().phone , password:this.form.getRawValue().password , roles : this.data.roles }
       ).subscribe((response) => {
@@ -45,6 +54,7 @@ export class AppSideLoginComponent implements OnInit{
           if (response.error.mail == true) {
             this.form.controls['mail'].setErrors({'incorrect': true});
           }
+          this.isSubmitting = false;
           return;
         } else {
           localStorage.setItem('userId', response.userId)
