@@ -2,19 +2,6 @@
 
 /* Chrome, Safari, Edge, Opera */
 /* Remove arrows/spinners from number inputs globally */
-input[type="number"] {
-  -moz-appearance: textfield !important;
-  /* Firefox */
-}
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  /* WebKit browsers (Chrome, Safari) */
-  margin: 0 !important;
-  /* Optional: Remove extra spacing */
-}
 
 @plugin "daisyui" {
   themes: bumblebee --default, dark --prefersdark, cupcake;
@@ -192,4 +179,18 @@ input[type="number"]::-webkit-outer-spin-button {
       }
     }
   }
+}
+
+input[type="number"] {
+  -moz-appearance: textfield !important;
+  /* Firefox */
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  /* WebKit browsers (Chrome, Safari) */
+  margin: 0 !important;
+  /* Optional: Remove extra spacing */
 }
