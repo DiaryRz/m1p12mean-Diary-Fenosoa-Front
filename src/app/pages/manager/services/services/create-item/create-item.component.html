@@ -10,7 +10,7 @@
       {
       <span class="text-xs text-error">
         @if (form.get('service_name')?.hasError('required')) { Veuillez entrer le nom du service}
-        @if (form.get('service_name')?.hasError('exist')) { Veuillez entrer le nom du service}
+        @if (form.get('service_name')?.hasError('exist')) { Ce service existe déjà!}
       </span>
       }
     </div>

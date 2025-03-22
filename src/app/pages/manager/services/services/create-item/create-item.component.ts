@@ -1,4 +1,6 @@
-import { Component ,inject ,OnInit}   from '@angular/core';
+import {
+  Component, inject, OnInit,
+  Output, EventEmitter }              from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -17,7 +19,7 @@ import { ServicesService }            from 'src/app/services/services.service';
 export class CreateItemComponent {
   fb = inject(FormBuilder);
   serviceService = inject(ServicesService);
-
+  @Output() newItemAdded = new EventEmitter<void>();
 
   form = this.fb.nonNullable.group({
     service_name  : ['' , Validators.required],
@@ -27,8 +29,16 @@ export class CreateItemComponent {
   });
 
   submit(){
-    console.log(this.form.getRawValue());
+    this.serviceService.addService(this.form.getRawValue())
+    .subscribe(value => {
+        if(value.exist){
+          this.form.controls['service_name'].setErrors({'exist':true})
+        }
+        else{
+          this.newItemAdded.emit(); // Notify the parent
+        }
 
-    // this.serviceService.addService()
+    });
   }
+
 }

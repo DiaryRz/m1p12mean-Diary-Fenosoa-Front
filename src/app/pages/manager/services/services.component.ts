@@ -18,11 +18,14 @@ import { ServicesService }                          from 'src/app/services/servi
 export class ServicesComponent  implements OnInit{
   services : ServiceItem[];
   constructor(private serviceService: ServicesService){}
-  ngOnInit(){
+
+  fetchServices() {
     this.serviceService.listServices().subscribe((val) => {
-      console.log(val);
       this.services = val;
     });
+  }
+  ngOnInit(){
+    this.fetchServices();
   }
 
 }

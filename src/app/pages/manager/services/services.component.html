@@ -1,18 +1,33 @@
 <div class="collapse collapse-plus bg-base-100 border-base-300 border">
   <input type="checkbox" />
-  <div class="collapse-title font-semibold">Ajouter un employé</div>
+  <div class="collapse-title font-semibold">Ajouter un service</div>
   <div class="w-full flex justify-center collapse-content ">
-    <create-service-item class="text-sm bg-base-100" />
+    <create-service-item (newItemAdded)="fetchServices()" class="text-sm bg-base-100" />
   </div>
 </div>
 
 
 <div class="m-1">
-  @for(service of services ; track service){
-  <div service-item></div>
-  }@empty{
-  <div class="w-full h-full content-center align-middle items-center">
-    <h1 class="text-5xl font-bold w-full  h-full text-center text-secondary">Pas encore de services</h1>
-  </div>
-  }
+  <table class="table w-full">
+    <thead class="ltr:text-left rtl:text-right w-full">
+      <tr>
+        <th>Service</th>
+        <th>Coût</th>
+        <th>Temps approximatif d'execution</th>
+        <th>Personnel nécessaires</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200 p-4">
+
+      @for(service of services ; track service){
+      <tr service-item [service_item]="service"></tr>
+      }@empty{
+      <tr>
+        <td colspan="4">
+          <h1 class="text-5xl font-bold w-full  h-full text-center text-secondary">Pas encore de services</h1>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
 </div>
