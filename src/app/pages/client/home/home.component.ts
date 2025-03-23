@@ -12,8 +12,7 @@ import { RouterModule } from '@angular/router';
 export class HomeComponent implements OnInit {
   @Output() loadComponent = new EventEmitter<NavItem[]>();
   client_options: NavItem[] = [
-      {navCap: 'Home', divider: true},
-      {displayName: 'Acceuil'    , iconName: 'home'          , external: false , route: 'client'},
+      {navCap: 'Acceuil', divider: true},
       {displayName: 'Rendez-vous', iconName: 'calendar-clock', external: false , route: 'client/appointment'},
       {displayName: 'Historique' , iconName: 'history'       , external: false , route: 'client/history'},
       {displayName: 'Voitures'   , iconName: 'car'           , external: false , route: 'client/cars'},

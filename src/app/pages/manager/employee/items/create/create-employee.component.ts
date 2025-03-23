@@ -118,7 +118,7 @@ export class CreateEmployeeComponent implements OnInit {
         }
         return;
       }
-      if (response.ok) {
+      if (response.success) {
         this.router.navigateByUrl('/manager/employee');
       }
     });

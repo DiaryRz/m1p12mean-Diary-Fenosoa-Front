@@ -7,7 +7,7 @@ export const ManagerGuard: CanActivateFn = (route, state) => {
   const router = inject(Router)
   userService.verifyCurrentUser().subscribe(val=>{
     if ( val.error &&
-      val.error.ok !=true) {
+      val.error.success !=true) {
       router.navigateByUrl(`/employee/login`)
     }
     if (localStorage.getItem('refreshToken') !== val.userId){

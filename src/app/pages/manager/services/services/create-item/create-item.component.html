@@ -35,7 +35,7 @@
         class="input rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary bg-transparent">
         <input type="number" min="0.01" step="0.01" class="w-full focus:outline-0 h-full px-2"
           formControlName="time_needed" />
-        <span class="label">Heure(s)</span>
+        <span class="label">Minute(s)</span>
       </label>
       @if (form.get('time_needed')?.invalid && (form.get('time_needed')?.dirty || form.get('time_needed')?.touched))
       {

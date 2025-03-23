@@ -105,7 +105,7 @@ export class AppSideRegisterComponent {
         }
         return;
       }
-      if (response.ok) {
+      if (response.success) {
         this.router.navigateByUrl('/login');
       }
     });

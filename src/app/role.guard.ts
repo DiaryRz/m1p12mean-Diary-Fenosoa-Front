@@ -8,7 +8,7 @@ export const RoleGuard: CanActivateChildFn = (route, state) => {
   const router = inject(Router)
   userService.verifyCurrentUser().subscribe(val=>{
     if ( val.error &&
-      val.error.ok !=true) {
+      val.error.success !=true) {
       router.navigateByUrl(`/login`)
     }
     if (localStorage.getItem('refreshToken') !== val.userId){
