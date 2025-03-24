@@ -36,7 +36,6 @@ export class CarService {
     );
   }
 
-
   listClientCars(client_id: String):Observable<any> {
     return this.http.get(`${this.apiUrl}/client/${client_id}`).pipe(
       catchError((error: HttpErrorResponse) => {
@@ -45,4 +44,5 @@ export class CarService {
       })
     );
   }
+
 }

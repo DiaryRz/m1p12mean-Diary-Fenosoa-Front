@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
+import { CarCreateComponent } from './create/create.component';
 
 @Component({
   selector: 'app-cars',
-  imports: [],
+  imports: [ CarCreateComponent ],
   templateUrl: './cars.component.html',
-  styleUrl: './cars.component.scss'
 })
 export class CarsComponent {
 

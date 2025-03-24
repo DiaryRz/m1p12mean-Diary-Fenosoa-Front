@@ -1,0 +1,14 @@
+<p>create works!</p>
+
+<div *ngIf="currentStep === 1">
+  <car-create mulitstep='true' (formChange)="onCarFormChange($event)" />
+</div>
+
+<div *ngIf="currentStep === 2">
+</div>
+
+<div>
+  <button (click)="previousStep()" *ngIf="currentStep > 1">Previous</button>
+  <button (click)="nextStep()" *ngIf="currentStep < totalSteps">Next</button>
+  <button (click)="submitForm()" *ngIf="currentStep === totalSteps">Submit</button>
+</div>
