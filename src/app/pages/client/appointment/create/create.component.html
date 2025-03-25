@@ -1,5 +1,4 @@
-<div class="w-full flex justify-center items-center">
-  {{currentStep }}/{{ totalSteps}}
+<div class="w-full flex justify-center items-center py-4">
   <ul class="steps">
     <li class="step" [class.step-primary]="currentStep >= 2">Véhicule</li>
     <li class="step" [class.step-primary]="currentStep >= 3">Services</li>
@@ -20,12 +19,14 @@
       <div class="my-4 w-full flex gap-4 justify-evenly card-body">
         <label>
           <input type="radio" class="radio radio-primary" name="selectionType" [(ngModel)]="formData.selectionType"
-            value="existing">
+            value="existing" [checked]="formData.selectionType === 'existing'"
+            (change)="onSelectionTypeChange('existing')">
+
           Selectionner véhicule
         </label>
         <label>
           <input type="radio" class="radio radio-primary" name="selectionType" [(ngModel)]="formData.selectionType"
-            value="new">
+            value="new" [checked]="formData.selectionType === 'new'" (change)="onSelectionTypeChange('new')">
           Ajouter nouveau véhicule
         </label>
       </div>
@@ -35,15 +36,18 @@
 
   <div *ngIf="currentStep === 2">
     <div *ngIf="formData.selectionType === 'new'">
-      <car-create #vehicleForm (formChange)="formData.car_data = $event" [mulitstep]="true" />
+      <car-create #vehicleForm (formChange)="formData.car_data = $event" [mulitstep]="true"
+        [init]="formData.car_data" />
     </div>
     <div *ngIf="formData.selectionType === 'existing'">
-      <form-vehicule-list #vehicleListForm [vehicules]="vehicules_list" />
+      <form-vehicle-list #vehicleListForm (formChange)="formData.car_data = $event" [vehicles]="vehicles_list"
+        [init]="formData.car_data" />
     </div>
   </div>
 
   <div *ngIf="currentStep === 3">
-    <form-service-list #serviceListForm (formChange)="formData.services_data = $event" [services]="services_list" />
+    <form-service-list #serviceListForm (formChange)="formData.services_data = $event" [services]="services_list"
+      [init]="formData.services_data" />
   </div>
 
   <hr class="m-2" />

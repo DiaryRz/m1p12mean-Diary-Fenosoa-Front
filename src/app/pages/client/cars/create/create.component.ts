@@ -17,6 +17,7 @@ export class CarCreateComponent implements OnInit {
   @Output() formChange = new EventEmitter<any>();
   @Output() formSubmit = new EventEmitter<void>();
   @Input() mulitstep = false;
+  @Input() init: CarInterface = {} as CarInterface;
 
   _form = this.fb.nonNullable.group({
     date_creation: [ new Date, [ Validators.required ] ],
@@ -44,6 +45,7 @@ export class CarCreateComponent implements OnInit {
   }
 
   ngOnInit(){
+    this.form.patchValue(this.init);
     this.list_categories();
   }
 

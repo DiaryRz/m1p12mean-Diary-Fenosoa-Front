@@ -4,7 +4,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { FormsModule } from '@angular/forms';
 
 import { CarCreateComponent } from 'src/app/pages/client/cars/create/create.component';
-import { FormVehiculeListComponent } from './forms/vehicule.list/form.vehicule.list.component'
+import { FormVehicleListComponent } from './forms/vehicle.list/form.vehicle.list.component'
 import { FormServiceListComponent } from './forms/service.list/form.service.list.component'
 import { CarService } from 'src/app/services/car.service';
 import { ServicesService } from 'src/app/services/services.service';
@@ -14,15 +14,17 @@ import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'appointment-create',
-  imports: [ CarCreateComponent, FormVehiculeListComponent , FormServiceListComponent, CommonModule ,FormsModule ,MaterialModule],
+  imports: [ CarCreateComponent, FormVehicleListComponent , FormServiceListComponent, CommonModule ,FormsModule ,MaterialModule],
   templateUrl: './create.component.html',
 })
 export class AppointmentCreateComponent {
   @ViewChild('vehicleForm') vehicleForm!: CarCreateComponent;
-  @ViewChild('vehicleListForm') vehicleListForm!: FormVehiculeListComponent;
+  @ViewChild('vehicleListForm') vehicleListForm!: FormVehicleListComponent;
   @ViewChild('serviceListForm') serviceListForm!: FormServiceListComponent;
 
   currentStep = 1;
+  prevStep = 1;
+  prevSelectionType = '';
   totalSteps = 5;
 
   formData = {
@@ -34,16 +36,16 @@ export class AppointmentCreateComponent {
 
 
   services_list = [];
-  vehicules_list = [];
+  vehicles_list = [];
   constructor(private carService: CarService , private serviceService: ServicesService) {}
 
 
-  listExistingVehicules() {
+  listExistingVehicles() {
     const client_id = localStorage.getItem('userId') || '';
     this.carService.listClientCars(client_id)
       .subscribe((value:any)=>{
         console.log(value);
-        this.vehicules_list = value;
+        this.vehicles_list = value;
       });
   }
 
@@ -55,26 +57,24 @@ export class AppointmentCreateComponent {
     });
   }
 
+  print(value:any){
+    console.log(value)
+  }
+
   async nextStep() {
     if (this.currentStep >= this.totalSteps) {
       return
     }
 
+    this.prevStep =this.currentStep;
     this.currentStep++;
-    if (this.currentStep === 3) {
-      this.listServices();
-      if (this.serviceListForm?.form?.invalid) {
-        this.serviceListForm.form.markAllAsTouched();
-        this.currentStep++;
-        return;
-      }
-    }
 
     if (this.currentStep === 2 && this.formData.selectionType === 'existing') {
-      this.listExistingVehicules();
+      this.listExistingVehicles();
     }
 
     if (this.currentStep === 2 && this.formData.selectionType === 'new') {
+      this.prevSelectionType =this.formData.selectionType;
       // Check if form is invalid
       if (this.vehicleForm?.form?.invalid) {
       this.vehicleForm.form.markAllAsTouched();
@@ -96,6 +96,15 @@ export class AppointmentCreateComponent {
         return;
       }
     }
+
+    if (this.currentStep === 3) {
+      this.listServices();
+      if (this.serviceListForm?.form?.invalid) {
+        this.serviceListForm.form.markAllAsTouched();
+        this.currentStep++;
+        return;
+      }
+    }
   }
 
   previousStep() {
@@ -107,6 +116,14 @@ export class AppointmentCreateComponent {
   submitForm() {
     console.log('Form Data:', this.formData);
     // Handle form submission
+  }
+
+  onSelectionTypeChange(newType: 'existing' | 'new') {
+    // Clear car_data when switching between new/existing
+    if (this.formData.selectionType && this.formData.selectionType !== newType) {
+      this.formData.car_data = {};
+    }
+    this.formData.selectionType = newType;
   }
 
   isNextDisabled(): boolean {
@@ -121,4 +138,5 @@ export class AppointmentCreateComponent {
         return false;
     }
   }
+
 }
