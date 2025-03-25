@@ -4,7 +4,7 @@
     @for(service of services; track service._id) {
     <div class="inline-flex items-center join">
       <label
-        class="peer join-item label border border-base-300 w-full p-2 rounded-box px-auto cursor-pointer has-checked:border-primary gap-2">
+        class="peer join-item label border border-base-300 w-full p-2 rounded-xl px-auto cursor-pointer has-checked:border-primary gap-2">
         <input type="checkbox" class="radio peer hidden radio-primary" [checked]="isServiceSelected(service._id)"
           (change)="updateSelectedServices( $index, $event)" />
         <span class="w-full mx-4 flex gap-4 justify-between">

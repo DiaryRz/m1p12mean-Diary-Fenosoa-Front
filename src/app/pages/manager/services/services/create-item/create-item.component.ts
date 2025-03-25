@@ -23,9 +23,10 @@ export class CreateItemComponent {
   @Output() newItemAdded = new EventEmitter<void>();
 
   _form = this.fb.nonNullable.group({
-    service_name  : ['' , Validators.required],
+    service_name  : [ '' , Validators.required],
     unit_price    : [ Validators.required],
     time_needed   : [ Validators.required],
+    need_mult     : [ false, Validators.required],
     ressources    : [ Validators.required],
   });
 
@@ -34,7 +35,9 @@ export class CreateItemComponent {
   }
 
   submit(){
-    this.serviceService.addService(this.form.getRawValue())
+    let value = this.form.getRawValue();
+    value.need_mult || true
+    this.serviceService.addService(value)
     .subscribe(value => {
         if(value.exist){
           this._form.controls['service_name'].setErrors({'exist':true})

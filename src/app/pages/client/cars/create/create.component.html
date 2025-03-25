@@ -53,18 +53,21 @@
   </div>
 
 
-  <label class="select focus-within:outline-0 w-full">
-    <span class="label">Catégorie/Taille du véhicule</span>
-    <select
-      class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline-0 focus-within:outline-primary bg-transparent"
-      formControlName="category_id">
-      @for(categ of categs ; track categ){
-      <option class="bg-red-500" value="{{categ._id}}">{{categ.type_name}}
-        <span class="badge badge-info">( coût x{{categ.mult_price}} )</span>
-      </option>
-      }
-    </select>
-  </label>
+  <fieldset class="fieldset">
+    <label class="select focus-within:outline-0 w-full">
+      <span class="label">Catégorie/Taille du véhicule</span>
+      <select
+        class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline-0 focus-within:outline-primary bg-transparent"
+        formControlName="category_id">
+        @for(categ of categs ; track categ){
+        <option class="bg-red-500" value="{{categ._id}}">{{categ.type_name}}
+          ( coût x{{categ.mult_price}} )
+        </option>
+        }
+      </select>
+    </label>
+    <p class="fieldset-label">Le coût du service dépend de la taille de votre véhicule</p>
+  </fieldset>
 
   <label class="select focus-within:outline-primary bg-transparent w-full">
     <span class="label">Type de carburant</span>

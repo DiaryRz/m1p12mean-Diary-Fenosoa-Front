@@ -4,5 +4,6 @@ export interface ServiceItem {
   service_name: String,
   unit_price: Number,
   ressources: Number,
+  need_mult: Boolean,
   time_needed: Number,
 }

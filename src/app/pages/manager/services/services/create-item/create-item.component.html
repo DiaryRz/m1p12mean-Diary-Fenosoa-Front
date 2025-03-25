@@ -1,4 +1,4 @@
-<div class="card border-base-300 border rounded-box text-primary-content w-96">
+<div class="card border-base-300 border rounded-xl text-primary-content w-96">
   <form class="card-body" [formGroup]="_form" (submit)="submit()">
     <h2 class="card-title">Ajouter nouveau service</h2>
     <div class="w-full">
@@ -58,7 +58,11 @@
         @if (_form.get('ressources')?.hasError('required')){ Veuillez entrer le nombre mécaniciens nécessaires}</span>
       }
     </div>
-
+    <label class="border rounded-xl w-full py-2 has-checked:border-success text-center">
+      <input type="checkbox" class="hidden radio radio-primary" name="selectionType" value="true"
+        formControlName="need_mult">
+      Affecté par le multiplicateur de prix
+    </label>
 
     <div class="card-actions w-full justify-center m-2">
       <button type="submit" [disabled]="_form.invalid" class="btn btn-primary">
