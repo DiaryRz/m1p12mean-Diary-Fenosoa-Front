@@ -1,0 +1,14 @@
+<div class="w-full">
+  <ul class="list bg-base-100 rounded-box shadow-md">
+    @for(vehicule of vehicules ; track vehicule){
+    <li class="list-row">
+      <input type="radio" name="radio-vehicule" class="radio radio-primary" />
+    </li>
+    } @empty{
+    <li class="list-row w-full">
+      <h2 class="text-3xl text-center w-full font-bold">Pas encore de véhicule enregister</h2>
+    </li>
+    }
+
+  </ul>
+</div>

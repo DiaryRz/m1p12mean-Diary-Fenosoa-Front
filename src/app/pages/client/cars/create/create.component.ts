@@ -1,6 +1,6 @@
 import { Component ,inject, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { MaterialModule } from 'src/app/material.module';
-import { FormBuilder, ReactiveFormsModule, Validators ,ValidatorFn ,AbstractControl,ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup ,ReactiveFormsModule, Validators ,ValidatorFn ,AbstractControl,ValidationErrors } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { CarCategoryService } from 'src/app/services/car-category.service'
 import { CarService } from 'src/app/services/car.service'
@@ -15,15 +15,16 @@ import { EngineType , CarInterface } from './car.interface'
 })
 export class CarCreateComponent implements OnInit {
   @Output() formChange = new EventEmitter<any>();
+  @Output() formSubmit = new EventEmitter<void>();
   @Input() mulitstep = false;
 
-  form = this.fb.nonNullable.group({
+  _form = this.fb.nonNullable.group({
     date_creation: [ new Date, [ Validators.required ] ],
     category_id: [ '', [ Validators.required ] ],
     immatriculation: [ '', [ Validators.required ] ],
     mark: [ '', [ Validators.required ] ],
     model: [ '' , [ Validators.required ] ],
-    place_number:[ 1, [ Validators.required ] ],
+    place_number:[ 2 ,  [ Validators.required ] ],
     engine_fuel_Type:[ '', [ Validators.required ] ],
     user_id: [ localStorage.getItem('userId'), [ Validators.required ] ],
   })
@@ -36,7 +37,7 @@ export class CarCreateComponent implements OnInit {
     .values(EngineType);
 
   constructor(private fb: FormBuilder ){
-    this.form.valueChanges.subscribe((value) => {
+    this._form.valueChanges.subscribe((value) => {
       this.formChange.emit(value);
     });
 
@@ -44,15 +45,18 @@ export class CarCreateComponent implements OnInit {
 
   ngOnInit(){
     this.list_categories();
-
   }
 
-  test(){
-    console.log(this.f.getRawValue());
+  submit(){
+    this.formSubmit.emit()
   }
 
-  get f(){
-    return this.form;
+  get form(): FormGroup{
+    return this._form;
+  }
+
+  markAllAsTouched() {
+    this.form.markAllAsTouched();
   }
 
   list_categories(){

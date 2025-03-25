@@ -105,7 +105,6 @@ export class CreateEmployeeComponent implements OnInit {
         firstname : firstname
       }
     ).subscribe((response) => {
-      console.log('response', response);
       if (response.error !== undefined ) {
         if (response.error.field.CIN == true) {
           this.form.controls['CIN'].setErrors({'incorrect': true});

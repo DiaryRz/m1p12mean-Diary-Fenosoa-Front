@@ -1,0 +1,29 @@
+<div class="w-full">
+  <form [formGroup]="form" class="w-full flex flex-col gap-2.5 p-4">
+    @for(service of services; track service._id) {
+    <div class="inline-flex items-center join">
+      <label
+        class="peer join-item label border border-base-300 w-full p-2 rounded-box px-auto cursor-pointer has-checked:border-primary gap-2">
+        <input type="checkbox" class="radio peer hidden radio-primary" [checked]="isServiceSelected(service._id)"
+          (change)="updateSelectedServices(service._id, $event)" />
+        <span class="w-full mx-4 flex gap-4 justify-between">
+          <span>{{service.service_name}}</span>
+          <span>{{service.unit_price}} Ar</span>
+        </span>
+      </label>
+      <i-tabler class="join-item peer-has-checked:hidden ml-4" name="x"></i-tabler>
+    </div>
+
+    } @empty {
+    <h2 class="text-3xl text-center w-full font-bold">Pas encore de services</h2>
+    }
+    @if (form.get('serviceIds')?.invalid && (form.get('serviceIds')?.dirty ||
+    form.get('serviceIds')?.touched))
+    {
+    <span class="text-xs text-error">
+      @if (form.get('serviceIds')?.hasError('minLength')) { Veuillez selectionner au moins un service.}
+    </span>
+    }
+
+  </form>
+</div>

@@ -45,4 +45,11 @@ export class CarService {
     );
   }
 
+  getByPlate(immatriculation: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/plate`, {immatriculation: immatriculation}).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of({error : error.error}); // This is your fallback value
+      })
+    );
+  }
 }

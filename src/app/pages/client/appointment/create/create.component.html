@@ -1,14 +1,63 @@
-<p>create works!</p>
-
-<div *ngIf="currentStep === 1">
-  <car-create mulitstep='true' (formChange)="onCarFormChange($event)" />
+<div class="w-full flex justify-center items-center">
+  {{currentStep }}/{{ totalSteps}}
+  <ul class="steps">
+    <li class="step" [class.step-primary]="currentStep >= 2">Véhicule</li>
+    <li class="step" [class.step-primary]="currentStep >= 3">Services</li>
+    <li class="step" [class.step-primary]="currentStep >= 4">Devis</li>
+    <li class="step" [class.step-primary]="currentStep >= 5">Confirmation</li>
+  </ul>
 </div>
 
-<div *ngIf="currentStep === 2">
-</div>
+<div class="max-w-4/5 border border-base-300 mx-auto rounded-box">
+  <div *ngIf="currentStep === 1" class="w-full flex justify-center items-center ">
+    <div class="card  max-w-4/5">
 
-<div>
-  <button (click)="previousStep()" *ngIf="currentStep > 1">Previous</button>
-  <button (click)="nextStep()" *ngIf="currentStep < totalSteps">Next</button>
-  <button (click)="submitForm()" *ngIf="currentStep === totalSteps">Submit</button>
+      <h1 class="my-4 text-xl font-semibold w-full text-center card-title">Ajouter nouveau véhicule ou
+        selectionner à partir
+        de vos
+        ancien véhicule ?</h1>
+      <hr />
+      <div class="my-4 w-full flex gap-4 justify-evenly card-body">
+        <label>
+          <input type="radio" class="radio radio-primary" name="selectionType" [(ngModel)]="formData.selectionType"
+            value="existing">
+          Selectionner véhicule
+        </label>
+        <label>
+          <input type="radio" class="radio radio-primary" name="selectionType" [(ngModel)]="formData.selectionType"
+            value="new">
+          Ajouter nouveau véhicule
+        </label>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="currentStep === 2">
+    <div *ngIf="formData.selectionType === 'new'">
+      <car-create #vehicleForm (formChange)="formData.car_data = $event" [mulitstep]="true" />
+    </div>
+    <div *ngIf="formData.selectionType === 'existing'">
+      <form-vehicule-list #vehicleListForm [vehicules]="vehicules_list" />
+    </div>
+  </div>
+
+  <div *ngIf="currentStep === 3">
+    <form-service-list #serviceListForm (formChange)="formData.services_data = $event" [services]="services_list" />
+  </div>
+
+  <hr class="m-2" />
+  <div class="w-full flex flex-row justify-evenly px-4 py-2">
+    <button class="btn btn-primary btn-outline gap-2" (click)="previousStep()" *ngIf="currentStep > 1">
+      <i-tabler name="arrow-left" />Retour
+    </button>
+    <button class="btn btn-primary btn-outline gap-2" (click)="nextStep()" *ngIf="currentStep < totalSteps"
+      [disabled]="isNextDisabled()">
+      Suivant<i-tabler name="arrow-right" />
+    </button>
+    <button class="btn btn-primary btn-outline gap-2 justify-between" (click)="submitForm()"
+      *ngIf="currentStep === totalSteps">
+      <i-tabler name="check" />Confirmer
+    </button>
+  </div>
 </div>
