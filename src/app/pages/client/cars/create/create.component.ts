@@ -38,10 +38,9 @@ export class CarCreateComponent implements OnInit {
     .values(EngineType);
 
   constructor(private fb: FormBuilder ){
-    this._form.valueChanges.subscribe((value) => {
+    this.form.valueChanges.subscribe((value) => {
       this.formChange.emit(value);
     });
-
   }
 
   ngOnInit(){
@@ -49,6 +48,20 @@ export class CarCreateComponent implements OnInit {
     this.list_categories();
   }
 
+  async  checkExist(): Promise<boolean> {
+    try {
+      const value = await this.carService.getByPlate(this.form.value.immatriculation).toPromise();
+
+      if (value?.immatriculation === this.form.value.immatriculation) {
+        this.form.controls['immatriculation'].setErrors({ exist: true });
+        return true; // Invalid (exists)
+      }
+      return false; // Valid (doesn't exist)
+    } catch (error) {
+      console.error('Error checking plate:', error);
+      return false; // Fallback (handle as needed)
+    }
+  }
   submit(){
     this.formSubmit.emit()
   }

@@ -6,15 +6,27 @@ import { FormsModule } from '@angular/forms';
 import { CarCreateComponent } from 'src/app/pages/client/cars/create/create.component';
 import { FormVehicleListComponent } from './forms/vehicle.list/form.vehicle.list.component'
 import { FormServiceListComponent } from './forms/service.list/form.service.list.component'
+
+
+import { AppointmentService } from 'src/app/services/appointment.service';
 import { CarService } from 'src/app/services/car.service';
+import { CarCategoryService } from 'src/app/services/car-category.service';
 import { ServicesService } from 'src/app/services/services.service';
 
 import { Observable,of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+import { MinutesToHoursPipe } from 'src/app/pipe/minutes-to-hours.pipe'
+import { FindPipe } from 'src/app/pipe/find.pipe'
+
 @Component({
   selector: 'appointment-create',
-  imports: [ CarCreateComponent, FormVehicleListComponent , FormServiceListComponent, CommonModule ,FormsModule ,MaterialModule],
+  imports: [
+    CarCreateComponent, FormVehicleListComponent ,
+    FormServiceListComponent, CommonModule ,
+    FormsModule ,MaterialModule ,
+    MinutesToHoursPipe, FindPipe
+  ],
   templateUrl: './create.component.html',
 })
 export class AppointmentCreateComponent {
@@ -30,14 +42,13 @@ export class AppointmentCreateComponent {
   formData = {
     selectionType: null as 'existing' | 'new' | null,
     car_data: {} as any,
-    services_data: [] as any[],
+    services_data: {} as any,
     appointment_data: {} as any,
   };
 
-
   services_list = [];
   vehicles_list = [];
-  constructor(private carService: CarService , private serviceService: ServicesService) {}
+  constructor(private appointmentService:AppointmentService , private carService: CarService, private carCategoryService: CarCategoryService, private serviceService: ServicesService) {}
 
 
   listExistingVehicles() {
@@ -64,6 +75,11 @@ export class AppointmentCreateComponent {
   async nextStep() {
     if (this.currentStep >= this.totalSteps) {
       return
+    }
+
+    if (this.currentStep === 2 && this.formData.selectionType === 'new') {
+      if(await this.vehicleForm.checkExist())
+        return;
     }
 
     this.prevStep =this.currentStep;
@@ -98,6 +114,15 @@ export class AppointmentCreateComponent {
     }
 
     if (this.currentStep === 3) {
+      if (this.formData.selectionType === 'new') {
+        // fetch categ;
+        this.carCategoryService.getCarCategory(this.formData.car_data.category_id)
+          .subscribe(
+            (value:any)=>{
+              this.formData.car_data.category_id = value;
+            }
+          )
+      }
       this.listServices();
       if (this.serviceListForm?.form?.invalid) {
         this.serviceListForm.form.markAllAsTouched();
@@ -105,17 +130,45 @@ export class AppointmentCreateComponent {
         return;
       }
     }
+    if (this.currentStep === 4) {
+      this.formData.appointment_data = {
+        id_user: localStorage.getItem('userId'),
+        services: this.formData.services_data.service_ids,
+        label_price: this.formData.services_data.total_price,
+        label_duration: this.formData.services_data.duration,
+      }
+      console.log(this.formData);
+    }
   }
 
   previousStep() {
     if (this.currentStep > 1) {
       this.currentStep--;
     }
+    if (this.currentStep  === 2) {
+      this.formData.services_data = {};
+    }
+
   }
 
   submitForm() {
-    console.log('Form Data:', this.formData);
-    // Handle form submission
+    if(this.formData.selectionType == 'new'){
+      this.carService.addCar(this.formData.car_data)
+        .subscribe((value:any)=>{
+          this.formData.appointment_data.id_car = value._id;
+      });
+    }
+
+    if(this.formData.selectionType == 'existing'){
+      this.formData.appointment_data.id_car = this.formData.car_data._id
+    }
+    this.formData.appointment_data.date_reservation_request = new Date();
+
+    this.appointmentService.createAppointment(this.formData.appointment_data)
+      .subscribe((value:any)=>{
+        console.log( value );
+      })
+
   }
 
   onSelectionTypeChange(newType: 'existing' | 'new') {

@@ -9,7 +9,8 @@
           (change)="updateSelectedServices( $index, $event)" />
         <span class="w-full mx-4 flex gap-4 justify-between">
           <span class="text-secondary">{{service.service_name}}</span>
-          <span>{{service.unit_price.valueOf() | currency:'Ar'}}</span>
+          <span>{{(service.need_mult ? service.unit_price.valueOf() * price_mult : service.unit_price.valueOf()) |
+            currency:'Ar'}}</span>
         </span>
       </label>
       <i-tabler class=" join-item peer-has-checked:hidden ml-4" name="circle"></i-tabler>
@@ -29,6 +30,10 @@
     <div class="flex flex-row justify-between px-10">
       <span>Total </span>
       <span class="badge badge-info text-base-content badge-lg">{{this.form.value.total_price | currency:'Ar'}}</span>
+    </div>
+    <div class="flex flex-row justify-between px-10">
+      <span>Durée (éstimation en heure(s)) </span>
+      <span class="badge badge-info text-base-content badge-lg">{{this.form.value.duration | minutesToHours}}</span>
     </div>
   </form>
 </div>
