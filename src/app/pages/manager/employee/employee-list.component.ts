@@ -14,6 +14,7 @@ import { CreateEmployeeComponent } from './items/create/create-employee.componen
   templateUrl: './employee-list.component.html',
 })
 export class EmployeeListComponent implements OnInit {
+
   employees: EmployeeItem[];
   filteredEmployees: EmployeeItem[] = [];
 
@@ -44,7 +45,6 @@ export class EmployeeListComponent implements OnInit {
     this.filterRole = '';
     this.applyFilters();
   }
-
   ngOnInit(){
     this.isFetching = true;
     this.userService.getAllEmployee().subscribe((val) => {

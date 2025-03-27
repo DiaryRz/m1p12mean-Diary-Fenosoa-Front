@@ -20,7 +20,8 @@
       <label class="label m-2">Coût</label>
       <label
         class="input rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary bg-transparent">
-        <input type="number" min="1" step="1" class="w-full focus:outline-0 h-full px-2" formControlName="unit_price" />
+        <input type="number" min="1" step="1" class="w-full focus:outline-0 h-full px-2" formControlName="unit_price"
+          (keypress)="numericOnly($event)" />
         <span class="label">Ar</span>
       </label>
       @if (_form.get('price')?.invalid && (_form.get('price')?.dirty || _form.get('price')?.touched))
@@ -35,7 +36,7 @@
       <label
         class="input rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary bg-transparent">
         <input type="number" min="0.01" step="0.01" class="w-full focus:outline-0 h-full px-2"
-          formControlName="time_needed" />
+          formControlName="time_needed" (keypress)="numericOnly($event)" />
         <span class="label">Minute(s)</span>
       </label>
       @if (_form.get('time_needed')?.invalid && (_form.get('time_needed')?.dirty || _form.get('time_needed')?.touched))
