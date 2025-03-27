@@ -9,20 +9,19 @@ Button to create New employee
 <div class=" overflow-x-auto rounded-xl border border-base-content/5 bg-base-100 mt-2 w-full">
   <div class="flex w-full my-4 px-2 join">
     <label class="select join-item focus-within:outline-0">
-      <span class="label">Type</span>
-      <select [(ngModel)]="filterRole" (change)="applyFilters()"
-        class="select w-fit focus:outline-0 focus:border-accent ">
+      <span class="label">Rôle</span>
+      <select [(ngModel)]="filterRole" (change)="applyFilters()" class="w-fit focus:outline-0 focus:border-accent ">
         <option value="">Tous</option>
         <option value="manager">Manager</option>
         <option value="mechanics">Mécanicien</option>
       </select>
     </label>
-    <label class="input focus-within:outline-0 focus-within:border-accent w-full">
+    <label class="input focus-within:outline-0 w-full">
       <i-tabler name="search" />
       <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Rechercher..."
         class="w-full focus:outline-0 focus:border-0 border-0 join-item" />
     </label>
-    <button (click)="resetFilters()" class="btn join-item">
+    <button (click)="resetFilters()" class="btn btn-ghost btn-neutral join-item">
       <i-tabler name="restore" />
     </button>
   </div>
@@ -31,31 +30,36 @@ Button to create New employee
 
 
 
-  <table class="table w-full">
-    <thead class="ltr:text-left rtl:text-right w-full">
-      <tr>
-        <th>Date d'inscription</th>
-        <th>Nom & Prénoms</th>
-        <th>Role</th>
-        <th>Date de naissance</th>
-        <th>CIN</th>
-        <th class="sticky"></th>
-        <th class="sticky"></th>
-      </tr>
-    </thead>
-    <tbody class="divide-y divide-gray-200 p-4">
-      @defer (when !isFetching) {
-      @for(employee of filteredEmployees; track employee) {
-      <tr app-employee-list-item [my_id]="my_id" [employee]="employee"></tr>
-      }
-      } @loading{
-      <tr>
-        <td colspan="7">
-          <div class="col-span-7 h-8 mx-2 my-4 skeleton"></div>
-        </td>
-      </tr>
-      }
-    </tbody>
+  <div class="overflow-x-auto">
+    <table class="table w-full table-pin-cols">
+      <thead class="ltr:text-left rtl:text-right w-full">
+        <tr>
+          <th>Date d'inscription</th>
+          <th>Nom & Prénoms</th>
+          <th>Role</th>
+          <th>Date de naissance</th>
+          <th>CIN</th>
+          <th class="sticky"></th>
+          <th class="sticky"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 p-4">
+        @defer (when !isFetching) {
+        @for(employee of filteredEmployees; track employee) {
+        @if(employee._id != my_id){
+        <tr app-employee-list-item [my_id]="my_id" [employee]="employee"></tr>
+        }
+        }
+        }
+        @placeholder{
+        <tr>
+          <td colspan="7">
+            <div class="col-span-7 h-8 mx-2 my-4 skeleton"></div>
+          </td>
+        </tr>
+        }
+      </tbody>
 
-  </table>
+    </table>
+  </div>
 </div>

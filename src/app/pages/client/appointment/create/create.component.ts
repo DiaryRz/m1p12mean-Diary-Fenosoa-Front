@@ -1,6 +1,7 @@
-import { Component, ViewChild, inject} from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
+import { DateAdapter } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 
 import { CarCreateComponent } from 'src/app/pages/client/cars/create/create.component';
@@ -19,6 +20,7 @@ import { catchError } from 'rxjs/operators';
 import { MinutesToHoursPipe } from 'src/app/pipe/minutes-to-hours.pipe'
 import { FindPipe } from 'src/app/pipe/find.pipe'
 
+
 @Component({
   selector: 'appointment-create',
   imports: [
@@ -30,10 +32,42 @@ import { FindPipe } from 'src/app/pipe/find.pipe'
   templateUrl: './create.component.html',
 })
 export class AppointmentCreateComponent {
+
   @ViewChild('vehicleForm') vehicleForm!: CarCreateComponent;
   @ViewChild('vehicleListForm') vehicleListForm!: FormVehicleListComponent;
   @ViewChild('serviceListForm') serviceListForm!: FormServiceListComponent;
+  disabledDates = [
+    new Date(2025, 3, 27), // November 15, 2023
+    new Date(2025, 3, 28)  // November 20, 2023
+  ];
 
+  dateFilter = (date: Date | null): boolean => {
+    if (!date) return false;
+       const today = new Date();
+    today.setHours(15, 0, 0, 0);
+
+    const oneMonthFromNow = new Date();
+    oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
+    oneMonthFromNow.setHours(15, 0, 0, 0);
+
+    // Normalize dates for comparison (ignore time components)
+
+    // Disable dates outside range
+    //     if (date < today || date > oneMonthFromNow) return false;
+
+    if (date < today || date > oneMonthFromNow) return false;
+
+    // Disable weekends (0 = Sunday, 6 = Saturday)
+    const day = date.getDay();
+    if (day === 0 || day === 6) return false;
+
+    if (this.dateAdapter.compareDate(date, today) < 0 ||
+        this.dateAdapter.compareDate(date, oneMonthFromNow) > 0) {
+      return false;
+    }
+    return true
+
+  };
   currentStep = 1;
   prevStep = 1;
   prevSelectionType = '';
@@ -48,8 +82,14 @@ export class AppointmentCreateComponent {
 
   services_list = [];
   vehicles_list = [];
-  constructor(private appointmentService:AppointmentService , private carService: CarService, private carCategoryService: CarCategoryService, private serviceService: ServicesService) {}
 
+  constructor(
+    private appointmentService: AppointmentService,
+    private carService: CarService,
+    private carCategoryService: CarCategoryService,
+    private serviceService: ServicesService,
+    private dateAdapter: DateAdapter<Date>
+  ) {}
 
   listExistingVehicles() {
     const client_id = localStorage.getItem('userId') || '';
@@ -167,7 +207,7 @@ export class AppointmentCreateComponent {
     this.appointmentService.createAppointment(this.formData.appointment_data)
       .subscribe((value:any)=>{
         console.log( value );
-      })
+    })
 
   }
 

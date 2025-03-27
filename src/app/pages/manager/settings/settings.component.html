@@ -1,0 +1,70 @@
+<div class="m-1">
+  <h1 class="text-2xl my-4 font-bold w-full h-full text-center uppercase">Configurations</h1>
+  <hr />
+  <div class="flex my-4 flex-col gap-y-4">
+    @for (item of config | keyvalue; track item.key) {
+    @if (item.key === 'after_hour_appointment' || item.key === 'max_appointment_per_day' || item.key ===
+    'offset_date_appointment') {
+    <div class="grid grid-rows-2 join join-vertical lg:join-horizontal lg:grid-cols-2">
+      <span class=" join-item py-4 px-8 border border-base-300 w-full text-center lg:text-left ">
+        @if (item.key === 'after_hour_appointment') {
+        Heure limite de dépôt
+        }
+        @if (item.key === 'max_appointment_per_day') {
+        Limte rendez-vous par jour
+        }
+        @if (item.key === 'offset_date_appointment') {
+        Fenêtre de rendez-vous
+        }
+      </span>
+      @if (edit_mode.edit)
+      {
+      @if (item.key === 'after_hour_appointment') {
+      <div class="input join-item h-full focus-within:outline-0 focus-within:border-primary text-center w-full">
+        <input [(ngModel)]=" edit_mode.edit_value.after_hour_appointment" class="w-full h-full px-8"
+          [matTimepicker]="picker" />
+        <mat-timepicker #picker interval="1h" />
+      </div>
+      }@else
+      {
+      <label class="input join-item h-full focus-within:outline-0 focus-within:border-primary py-4 px-8 w-full">
+        <input class="grow" [(ngModel)]="edit_mode.edit_value[item.key]" />
+
+        @if (item.key === 'offset_date_appointment') {
+        <span class="badge badge-neutral badge-xs">jour(s)</span>
+        }
+      </label>
+      }
+      } @else {
+      <span class="join-item border border-base-300 py-4 px-8 text-center w-full">
+        @if (item.key === 'after_hour_appointment') {
+        {{ item.value.valueOf() | timeString}}
+        }
+        @else if (item.key === 'offset_date_appointment') {
+        {{ getDurationDisplay(item.value) }}
+        }
+        @else{
+        {{ item.value }}
+        }
+      </span>
+      }
+    </div>
+    }
+    }
+  </div>
+  <div class="clear-both"></div>
+  <div class="flex justify-end gap-2 mt-4">
+    @if (edit_mode.edit) {
+    <button class="btn btn-outline btn-primary" (click)="onCancel()">
+      <i-tabler name="square-x" /> Annuler
+    </button>
+    <button class="btn btn-outline btn-primary" (click)="onSave()" [disabled]=" !isChanged()">
+      <i-tabler name="device-floppy" /> Enregistrer
+    </button>
+    } @else if (!edit_mode.edit) {
+    <button class="btn btn-outline btn-primary" (click)="onEdit()">
+      <i-tabler name="edit" /> Modifier
+    </button>
+    }
+  </div>
+</div>

@@ -28,7 +28,7 @@ import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Datepicker
-import {   provideNativeDateAdapter } from '@angular/material/core';
+import { MAT_DATE_LOCALE,provideNativeDateAdapter } from '@angular/material/core';
 
 
 // Cookies
@@ -39,6 +39,7 @@ import { HttpSettingInterceptor } from './httpsetting.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
     provideHttpClient( withInterceptors([HttpSettingInterceptor]) ),
     CookieService,
     provideZoneChangeDetection({ eventCoalescing: true }),

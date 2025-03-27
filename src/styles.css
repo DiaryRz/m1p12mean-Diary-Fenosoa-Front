@@ -82,13 +82,85 @@
 }
 
 .mat-calendar {
-  @apply font-sans;
+  @apply font-sans border border-base-300 bg-base-100 rounded-lg text-base-content;
+
+
+  .mat-calendar-header {
+    @apply font-sans p-0;
+
+    .mat-calendar-controls {
+      @apply font-sans my-0.5;
+    }
+
+  }
+
+}
+
+.mat-calendar-body-active {
+  .mat-calendar-body-selected {
+    @apply rounded-lg bg-primary text-primary-content;
+  }
+}
+
+.mat-calendar-body-today {
+  @apply rounded-lg border border-secondary;
+}
+
+.mat-calendar-body-disabled {
+  @apply opacity-20 cursor-not-allowed;
+}
+
+.mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  @apply bg-accent;
+}
+
+.mat-calendar-header {
+  @apply bg-base-100 text-base-content;
+}
+
+.mat-calendar-body-label,
+.mat-calendar-period-button,
+.mat-calendar-next-button,
+.mat-calendar-previous-button {
+  @apply text-base-content;
+}
+
+.mat-calendar-table-header {
+  @apply text-base-content/70;
+}
+
+.mat-calendar-body-cell-content:not(.mat-calendar-body-today) {
+  @apply text-base-content rounded-lg border-base-200;
+}
+
+/* Range styling */
+.range-start {
+  @apply bg-primary text-primary-content rounded-full;
+}
+
+.range-end {
+  @apply bg-primary text-primary-content rounded-full;
+}
+
+.in-range {
+  @apply bg-primary/20;
+
+  &.mat-calendar-body-cell-content {
+    @apply rounded-none;
+  }
 }
 
 .mat-datepicker-toggle {
   @apply text-primary;
 }
 
+.mat-timepicker-panel {
+  @apply bg-base-100 rounded-lg border border-base-300;
+}
+
+.mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+  @apply border border-primary rounded-lg;
+}
 
 .sidebar-list {
 
