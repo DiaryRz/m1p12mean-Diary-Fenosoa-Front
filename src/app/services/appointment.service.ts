@@ -27,6 +27,15 @@ export class AppointmentService {
     );
   }
 
+  listTakenDates(startDate: string , endDate: string):Observable<any> {
+    return this.http.get(`${this.apiUrl}/dates/occupees?startDate=${startDate}&endDate=${endDate}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.log(error);
+        return of({error : error.error}); // This is your fallback value
+      })
+    );
+  }
+
   listAppointments():Observable<any> {
 
     return this.http.get(`${this.apiUrl}`).pipe(

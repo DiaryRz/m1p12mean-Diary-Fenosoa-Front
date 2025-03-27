@@ -11,7 +11,7 @@
 
   <div class="h-full grow">
     <div *ngIf="currentStep === 1" class="w-full flex justify-center items-center ">
-      <!-- <div class="card  max-w-4/5">
+      <div class="card  max-w-4/5">
 
         <h1 class="my-4 text-xl font-semibold w-full text-center card-title">Ajouter nouveau véhicule ou
           selectionner à partir
@@ -33,10 +33,7 @@
           </label>
         </div>
       </div>
--->
 
-      <mat-calendar class="w-72" [(selected)]="formData.appointment_data.appointment_date"
-        [dateFilter]="dateFilter"></mat-calendar>
     </div>
 
     <div *ngIf="currentStep === 2">
@@ -105,7 +102,17 @@
       </div>
     </div>
 
-    <div *ngIf="currentStep === 5" class="w-72">
+    <div *ngIf="currentStep === 5" class="w-full flex flex-col justify-center items-center">
+      <mat-calendar class="w-72 m-4" [(selected)]="formData.appointment_data.date_appointment"
+        [dateFilter]="dateFilter"></mat-calendar>
+      <label class="floating-label focus-within:outline-0 focus-within:border-primary text-center h-10 w-72">
+        <span>Heure de dépot du véhicule</span>
+        <input [(ngModel)]="formData.appointment_data.date_appointment"
+          class="input rounded-lg px-8  focus:outline-0 focus:border-primary text-center h-10 w-72"
+          [matTimepicker]="picker" />
+        <mat-timepicker #picker interval="1h" />
+      </label>
+
     </div>
 
   </div>

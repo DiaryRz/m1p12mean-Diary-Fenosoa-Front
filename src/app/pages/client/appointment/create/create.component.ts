@@ -1,8 +1,10 @@
 import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
-import { DateAdapter } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
+
+import { MatTimepickerModule } from '@angular/material/timepicker';
+import { DateAdapter } from '@angular/material/core';
 
 import { CarCreateComponent } from 'src/app/pages/client/cars/create/create.component';
 import { FormVehicleListComponent } from './forms/vehicle.list/form.vehicle.list.component'
@@ -20,13 +22,16 @@ import { catchError } from 'rxjs/operators';
 import { MinutesToHoursPipe } from 'src/app/pipe/minutes-to-hours.pipe'
 import { FindPipe } from 'src/app/pipe/find.pipe'
 
+import { format } from 'date-fns'
+
 
 @Component({
   selector: 'appointment-create',
   imports: [
     CarCreateComponent, FormVehicleListComponent ,
-    FormServiceListComponent, CommonModule ,
-    FormsModule ,MaterialModule ,
+    FormServiceListComponent,
+    CommonModule, FormsModule,
+    MaterialModule, MatTimepickerModule,
     MinutesToHoursPipe, FindPipe
   ],
   templateUrl: './create.component.html',
@@ -36,38 +41,30 @@ export class AppointmentCreateComponent {
   @ViewChild('vehicleForm') vehicleForm!: CarCreateComponent;
   @ViewChild('vehicleListForm') vehicleListForm!: FormVehicleListComponent;
   @ViewChild('serviceListForm') serviceListForm!: FormServiceListComponent;
-  disabledDates = [
-    new Date(2025, 3, 27), // November 15, 2023
-    new Date(2025, 3, 28)  // November 20, 2023
+  disabledDates:Date[] = [
   ];
 
   dateFilter = (date: Date | null): boolean => {
     if (!date) return false;
-       const today = new Date();
+
+    // Your existing checks for disabled dates, weekends, etc.
+    const today = new Date();
     today.setHours(15, 0, 0, 0);
 
     const oneMonthFromNow = new Date();
     oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
     oneMonthFromNow.setHours(15, 0, 0, 0);
 
-    // Normalize dates for comparison (ignore time components)
-
-    // Disable dates outside range
-    //     if (date < today || date > oneMonthFromNow) return false;
-
     if (date < today || date > oneMonthFromNow) return false;
 
-    // Disable weekends (0 = Sunday, 6 = Saturday)
     const day = date.getDay();
     if (day === 0 || day === 6) return false;
 
-    if (this.dateAdapter.compareDate(date, today) < 0 ||
-        this.dateAdapter.compareDate(date, oneMonthFromNow) > 0) {
-      return false;
-    }
-    return true
+    return !this.disabledDates.some(disabledDate =>
+      this.dateAdapter.compareDate(date, disabledDate) === 0
+    );
+  }
 
-  };
   currentStep = 1;
   prevStep = 1;
   prevSelectionType = '';
@@ -89,7 +86,21 @@ export class AppointmentCreateComponent {
     private carCategoryService: CarCategoryService,
     private serviceService: ServicesService,
     private dateAdapter: DateAdapter<Date>
-  ) {}
+  ) {
+
+    const startDate = new Date()
+    const endDate   = new Date();
+    endDate.setMonth(endDate.getMonth() + 1);
+    endDate.setHours(15, 0, 0, 0);
+
+
+    this.appointmentService.listTakenDates(format(startDate , "yyyy-MM-dd"), format(endDate , "yyyy-MM-dd"))
+      .subscribe((value:any)=>{
+        value.data.forEach((date:string)=>{
+          this.disabledDates.push(new Date(date));
+        })
+    })
+  }
 
   listExistingVehicles() {
     const client_id = localStorage.getItem('userId') || '';
@@ -202,6 +213,7 @@ export class AppointmentCreateComponent {
     if(this.formData.selectionType == 'existing'){
       this.formData.appointment_data.id_car = this.formData.car_data._id
     }
+
     this.formData.appointment_data.date_reservation_request = new Date();
 
     this.appointmentService.createAppointment(this.formData.appointment_data)

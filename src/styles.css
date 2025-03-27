@@ -129,6 +129,10 @@
   @apply text-base-content/70;
 }
 
+.mdc-button__label {
+  @apply text-base-content;
+}
+
 .mat-calendar-body-cell-content:not(.mat-calendar-body-today) {
   @apply text-base-content rounded-lg border-base-200;
 }
