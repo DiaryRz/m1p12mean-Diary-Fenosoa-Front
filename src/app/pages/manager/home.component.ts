@@ -15,9 +15,10 @@ export class HomeComponent implements OnInit {
   @Output() loadComponent = new EventEmitter<NavItem[]>();
   manager_options: NavItem[] = [
       {navCap: 'Home', divider: true},
-      {displayName: 'Employés'      , iconName: 'user-filled'   , external: false , route: 'manager/employee'},
-      {displayName: 'Configuration' , iconName: 'settings'      , external: false , route: 'manager/settings'},
-      {displayName: 'Services'      , iconName: 'tools'         , external: false , route: 'manager/services'},
+      {displayName: 'Employés'      , iconName: 'user-filled'   , external: false , route: 'manager/employee'       },
+      {displayName: 'Configuration' , iconName: 'settings'      , external: false , route: 'manager/settings'       },
+      {displayName: 'Services'      , iconName: 'tools'         , external: false , route: 'manager/services'       },
+      {displayName: 'Rendez-vous'   , iconName: 'calendar'      , external: false , route: 'manager/appointments'   },
       // {displayName: 'Statistique', iconName: 'chart-area'    , external: false , route: 'manager/'},
     ];
   ngOnInit(){

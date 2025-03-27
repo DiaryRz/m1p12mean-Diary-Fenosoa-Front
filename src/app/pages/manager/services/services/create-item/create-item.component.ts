@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
   FormsModule }                       from '@angular/forms';
+import  { CommonModule }                from '@angular/common';
 import { Observable, of  }            from 'rxjs';
 import { MaterialModule }             from 'src/app/material.module';
 
@@ -14,7 +15,7 @@ import { ServicesService }            from 'src/app/services/services.service';
 
 @Component({
   selector: 'create-service-item',
-  imports: [MaterialModule, FormsModule, ReactiveFormsModule ],
+  imports: [CommonModule ,MaterialModule, FormsModule, ReactiveFormsModule ],
   templateUrl: './create-item.component.html',
 })
 export class CreateItemComponent{

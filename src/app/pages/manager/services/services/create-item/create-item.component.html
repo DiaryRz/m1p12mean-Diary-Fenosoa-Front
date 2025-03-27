@@ -47,22 +47,14 @@
       }
     </div>
 
-    <div class="w-full">
-      <label class="label m-2">Nombre de mécaniciens nécessaires</label>
-      <label
-        class="input rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary bg-transparent">
-        <input type="number" min="1" step="1" class="w-full focus:outline-0 h-full px-2" formControlName="ressources" />
-      </label>
-      @if (_form.get('ressources')?.invalid && (_form.get('ressources')?.dirty || _form.get('ressources')?.touched))
-      {
-      <span class="text-xs text-error">
-        @if (_form.get('ressources')?.hasError('required')){ Veuillez entrer le nombre mécaniciens nécessaires}</span>
-      }
-    </div>
-    <label class="border rounded-xl w-full py-2 has-checked:border-success text-center">
+    <label class="border rounded-xl w-full p-2 has-checked:border-success text-center join flex justify-between">
       <input type="checkbox" class="hidden radio radio-primary" name="selectionType" value="true"
         formControlName="need_mult">
-      Affecté par le multiplicateur de prix
+      <span class="label join-item">Multiplicateur de prix</span>
+      <span class="label join-item">
+        <i-tabler *ngIf="!form.value.need_mult" name="circle" />
+        <i-tabler *ngIf="form.value.need_mult" class="text-success" name="circle-check-filled" />
+      </span>
     </label>
 
     <div class="card-actions w-full justify-center m-2">

@@ -19,8 +19,15 @@ export const PagesRoutes: Routes = [
       {
         path: 'settings',
         loadChildren: () =>
-          import('./settings/settings.routes').then((m) => m.ServicesRoutes),
+          import('./settings/settings.routes').then((m) => m.SettingsRoutes),
       },
+      {
+        path: 'appointments',
+        loadChildren: () =>
+          import('./appointments/appointments.routes').then((m) => m.AppointmentsRoutes),
+      },
+
+
     ],
   },
 ];

@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { SettingsComponent } from './settings.component';
 
 
-export const ServicesRoutes: Routes = [
+export const SettingsRoutes: Routes = [
   {
     path: '',
     component: SettingsComponent,
