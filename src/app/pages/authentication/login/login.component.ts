@@ -45,8 +45,6 @@ export class AppSideLoginComponent implements OnInit{
     this.authService.login(
       {mail:this.form.getRawValue().mail, phone: this.form.getRawValue().phone , password:this.form.getRawValue().password , roles : this.data.roles }
       ).subscribe((response) => {
-        console.log(response);
-
         if (response.error !== undefined ) {
           if (response.error.password == true) {
             this.form.controls['password'].setErrors({'incorrect': true});
@@ -62,6 +60,7 @@ export class AppSideLoginComponent implements OnInit{
           localStorage.setItem('accessToken', response.accessToken)
           this.router.navigateByUrl('/client');
         }
+        this.isSubmitting = false;
     });
   }
 }

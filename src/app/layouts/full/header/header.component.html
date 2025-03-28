@@ -1,15 +1,21 @@
-<div class="navbar sticky bg-base-100 shadow-sm ">
+<div class="navbar fixed top-0 bg-base-100  right-0 shadow-sm z-40">
   <!-- Mobile Menu -->
   <div class="navbar-start">
-    <button mat-icon-button (click)="toggleMobileNav.emit()" class="d-flex justify-content-center">
-      <i-tabler class="iconify icon-20 d-flex" name="menu-2" />
+    <button class="btn btn-ghost btn-circle swap swap-rotate" (click)="toggleMobileNav.emit()">
+      <!-- this hidden checkbox controls the state -->
+      <input type="checkbox" />
+      <i-tabler class="iconify icon-20 d-flex swap-off fill-current" name="menu-2" />
+      <i-tabler class="iconify icon-20 d-flex swap-on fill-current" name="x" />
+
     </button>
+
   </div>
   <!-- --------------------------------------------------------------- -->
   <!-- Notification Dropdown -->
   <!-- --------------------------------------------------------------- -->
 
   <div class="navbar-end gap-3">
+    <div notification-header> </div>
     <div class="btn-group w-fit join rounded-xl">
       <label for="light-theme" class="btn btn-md join-item relative ">
         <input id="light-theme" type="radio" name="theme-radios" value="bumblebee" class="peer hidden theme-controller">
@@ -32,7 +38,8 @@
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
         <img src="/assets/images/profile/user-1.jpg" class="rounded-full aspect-square w-10" width="50" />
       </div>
-      <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-xl z-1 mt-3 w-52 p-2 shadow">
+      <ul tabindex="0"
+        class="absolute menu menu-sm dropdown-content bg-base-200 border border-base-300 rounded-xl z-1 mt-3 w-52 p-2 shadow">
         <li class="px-3 mt-3">
           <button (click)="logout()" mat-stroked-button class="btn btn-soft w-full">Logout</button>
         </li>

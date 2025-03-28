@@ -15,6 +15,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 
 
 import { AuthService } from '../../../services/auth.service'
+import { NotificationComponent } from './notification/notification.component'
 
 @Component({
   selector: 'app-header',
@@ -24,7 +25,8 @@ import { AuthService } from '../../../services/auth.service'
     NgScrollbarModule,
     TablerIconsModule,
     MaterialModule,
-    MatBadgeModule
+    MatBadgeModule,
+    NotificationComponent
   ],
   templateUrl: './header.component.html',
   encapsulation: ViewEncapsulation.None,

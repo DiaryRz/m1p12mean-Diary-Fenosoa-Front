@@ -11,6 +11,6 @@ export class MinutesToHoursPipe implements PipeTransform {
     const mins = minutes % 60;
 
     // Format as "HH:MM" (e.g., 90 mins → "1:30")
-    return `${hours}:${mins.toString().padStart(2, '0')}`;
+    return `${hours}h${mins.toString().padStart(2, '0')}mn`;
   }
 }

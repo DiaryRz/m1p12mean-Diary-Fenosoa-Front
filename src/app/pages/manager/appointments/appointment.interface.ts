@@ -1,0 +1,15 @@
+export interface AppointmentInterface {
+  _id: string,
+  id_user: string,
+  id_car: string,
+  services: string,
+  total_duration: number,
+  total_price: number,
+  total_payed: number,
+  status: string,
+  ticket_recup : string | null,
+  date_appointment: Date,
+  date_deposition : Date | null,
+  date_pick_up : Date | null,
+  date_reservation_request: Date,
+}

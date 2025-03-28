@@ -1,0 +1,26 @@
+<div class="dropdown  dropdown-center">
+  <div tabindex="0" role="button" class=" indicator">
+    <span *ngIf="unreadCount > 0" class="indicator-item badge badge-xs badge-secondary">
+      {{ unreadCount }}
+    </span>
+    <div class="btn btn-ghost btn-circle">
+      <i-tabler name="bell" />
+    </div>
+  </div>
+  <ul tabindex="0"
+    class="menu list menu-sm dropdown-content bg-base-200 border border-base-300 rounded-xl z-1 min-w-52 mt-3 w-fit shadow">
+    @for(notification of notifications ; track notification){
+    @if(!notification.read)
+    {
+    <li class="px-3 my-1 list-item" (click)="onNotificationClick(notification)">
+      {{ notification.title }}
+    </li>
+    }
+    }
+    @empty{
+    <li class="px-3 my-1">
+      <i-tabler name="x" /> Pas de notification
+    </li>
+    }
+  </ul>
+</div>

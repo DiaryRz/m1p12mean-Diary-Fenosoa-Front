@@ -1,0 +1,24 @@
+<div class="m-1">
+
+  <button type="button" class="btn btn-outline btn-circle m-4" (click)='test()'><i-tabler name="bell" /></button>
+
+  <ul class="list bg-base-100 rounded-box shadow-md gap-2">
+    @defer (when !isFetching) {
+    @for(appointment of appointments; track appointment){
+    <li class="list-row rounded-lg border border-base-300">
+      <div class="text-4xl font-thin opacity-30 tabular-nums"> {{ $index + 1}} </div>
+      <div appointment-item [appointment]="appointment"></div>
+    </li>
+    }
+    }
+    @loading{
+    <li class="list-row skeleton w-full ">
+    </li>
+    }
+    @placeholder{
+    <li class="list-row skeleton w-full ">
+    </li>
+    }
+  </ul>
+
+</div>

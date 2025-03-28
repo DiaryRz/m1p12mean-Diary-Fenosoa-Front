@@ -36,9 +36,9 @@ export class AppointmentService {
     );
   }
 
-  listAppointments():Observable<any> {
+  listAppointments(with_dates: boolean):Observable<any> {
 
-    return this.http.get(`${this.apiUrl}`).pipe(
+    return this.http.get(`${this.apiUrl}${with_dates ? '/pending-with-date': '' }`).pipe(
       catchError((error: HttpErrorResponse) => {
         console.log(error);
         return of({error : error.error}); // This is your fallback value
