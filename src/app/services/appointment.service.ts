@@ -46,9 +46,18 @@ export class AppointmentService {
     );
   }
 
-  listClientAppointments(client_id: String):Observable<any> {
+  listClientAppointments(client_id: string):Observable<any> {
 
     return this.http.get(`${this.apiUrl}/client/${client_id}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.log(error);
+        return of({error : error.error}); // This is your fallback value
+      })
+    );
+  }
+
+  confirmAppointment(id_appointment: string){
+    return this.http.post(`${this.apiUrl}/confirm` , { id_appointment:id_appointment }).pipe(
       catchError((error: HttpErrorResponse) => {
         console.log(error);
         return of({error : error.error}); // This is your fallback value

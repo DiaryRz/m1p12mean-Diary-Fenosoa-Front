@@ -1,4 +1,4 @@
-<div class="dropdown  dropdown-center">
+<div class="dropdown dropdown-bottom dropdown-end">
   <div tabindex="0" role="button" class=" indicator">
     <span *ngIf="unreadCount > 0" class="indicator-item badge badge-xs badge-secondary">
       {{ unreadCount }}
@@ -7,20 +7,50 @@
       <i-tabler name="bell" />
     </div>
   </div>
-  <ul tabindex="0"
-    class="menu list menu-sm dropdown-content bg-base-200 border border-base-300 rounded-xl z-1 min-w-52 mt-3 w-fit shadow">
-    @for(notification of notifications ; track notification){
-    @if(!notification.read)
-    {
-    <li class="px-3 my-1 list-item" (click)="onNotificationClick(notification)">
-      {{ notification.title }}
-    </li>
-    }
-    }
-    @empty{
-    <li class="px-3 my-1">
-      <i-tabler name="x" /> Pas de notification
-    </li>
-    }
-  </ul>
+  <div tabindex="0"
+    class="tabs tabs-lift dropdown-content bg-base-200 border border-base-300 rounded-xl z-1 mt-3 shadow min-w-[30dvw]">
+    <input type="radio" name="notif_tabs" class="tab" aria-label="Non lus" checked />
+    <div class="tab-content bg-base-100 border-base-300 p-6">
+      <ul class="list">
+        @if( unreadCount > 0 ) {
+        @for(notification of notifications ; track notification){
+        @if(!notification.read)
+        {
+        <li class="px-3 my-1 list-item" (click)="onNotificationClick(notification)">
+          {{ notification.message }}
+        </li>
+        }
+        }
+        @empty{
+        <li class="px-3 my-1 align-middle">
+          <i-tabler name="x" /> Pas de notification
+        </li>
+        }
+        }
+        @else{
+        <li class="px-3 my-1 align-middle">
+          <i-tabler name="x" /> Pas de notification
+        </li>
+        }
+      </ul>
+    </div>
+
+    <input type="radio" name="notif_tabs" class="tab" aria-label="Tous" />
+    <div class="tab-content bg-base-100 border-base-300 p-6">
+      <ul class="list">
+        @for(notification of notifications ; track notification){
+        <li class="px-3 my-1 list-item">
+          {{ notification.message }}
+
+        </li>
+        }
+        @empty{
+        <li class="px-3 my-1 align-middle">
+          <i-tabler name="x" /> Pas de notification
+        </li>
+        }
+      </ul>
+    </div>
+
+  </div>
 </div>

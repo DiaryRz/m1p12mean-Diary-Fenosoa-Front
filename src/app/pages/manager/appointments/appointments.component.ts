@@ -32,8 +32,10 @@ import { AppointmentItemComponent } from './items/item.component';
 })
 export class AppointmentsComponent implements OnInit {
   constructor( private appointmentService: AppointmentService, private notificationService: NotificationService, private dateAdapter: DateAdapter<Date> ) {}
+
   appointments: AppointmentInterface[] = [] as AppointmentInterface[];
   isFetching: boolean = false;
+
   ngOnInit(): void {
     this.loadAppointments();
   }
@@ -56,7 +58,7 @@ export class AppointmentsComponent implements OnInit {
     this.notificationService.sendNotification(
       {
         recipient: 'user_002',
-        message: {content: 'Real-time notification', title: "Test notif" },
+        message: {content: 'Real-time notification', title: "Rendez-vouz validé" },
       }
     );
   }

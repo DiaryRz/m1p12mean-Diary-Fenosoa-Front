@@ -63,8 +63,8 @@ export class CreateItemComponent{
         }
         else{
           this.newItemAdded.emit(); // Notify the parent
+          this.form.reset();
         }
-
     });
   }
 

@@ -1,4 +1,4 @@
-<div class="m-1 w-full ">
+<div class="m-1 w-full bg">
   <div class="w-full grid grid-cols-3 gap-2">
     <div class="">
       <div>
@@ -39,10 +39,10 @@
         <div class="text-left text-accent">
           {{ service.service_name }}
         </div>
-        <div class="text-info">
+        <div class="text-info dark:text-base-content">
           {{service.time_needed | minutesToHours}} h
         </div>
-        <div class="text-info">
+        <div class="text-info dark:text-base-content">
           {{(service.need_mult ?
           service.unit_price.valueOf() *
           appointment.id_car.category_id.mult_price :
@@ -53,4 +53,9 @@
     </ul>
   </div>
 
+  <div class="mb-4 flex items-center justify-center">
+    <button class="btn btn-outline btn-success w-4/6 mx-auto" (click)="confirm(appointment._id)"> <i-tabler
+        name="check" />
+      Confirmer</button>
+  </div>
 </div>
