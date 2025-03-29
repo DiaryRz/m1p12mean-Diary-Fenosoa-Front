@@ -25,7 +25,12 @@
           <!-- ============================================================== -->
           <!-- Outlet -->
           <!-- ============================================================== -->
+          @defer{
           <router-outlet (activate)="onComponentActivated($event)"></router-outlet>
+          }@placeholder{
+          <div class="w-full rounded-lg h-full skeleton">
+          </div>
+          }
         </main>
       </div>
     </mat-sidenav-content>

@@ -1,6 +1,7 @@
 <div class="w-full">
   <h2 class="text-xl my-4 text-center w-full font-bold">Selectionner votre véhicule</h2>
   <div class="flex flex-wrap gap-4 bg-base-100 rounded-xl shadow-md mx-2 h-full overflow-y-scroll">
+    @defer(){
     @for(vehicle of vehicles ; track vehicle){
     <label class="card border border-base-300 has-checked:border-primary has-checked:outline-0 grow p-2">
       <div class="card-body py-2">
@@ -18,6 +19,11 @@
     } @empty{
     <div class="list-row w-full col-span-3">
       <h2 class="text-xl text-warning text-center w-full font-bold">Pas encore de véhicule enregister</h2>
+    </div>
+    }
+    }@placeholder{
+
+    <div class="skeleton w-full h-full">
     </div>
     }
 

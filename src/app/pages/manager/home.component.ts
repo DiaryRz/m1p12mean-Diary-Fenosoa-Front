@@ -8,7 +8,15 @@ import { RouterModule } from '@angular/router';
   selector: 'app-home',
   imports: [CommonModule, RouterModule ],
   template: `<title> Home | ReviveAuto </title>
+@defer{
 <router-outlet></router-outlet>
+}@placeholder{
+<div class="w-full rounded-lg h-full skeleton">
+</div>
+}@loading{
+<div class="w-full rounded-lg h-full skeleton">
+</div>
+}
 `,
 })
 export class HomeComponent implements OnInit {

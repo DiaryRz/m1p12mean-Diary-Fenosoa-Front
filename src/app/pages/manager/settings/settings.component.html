@@ -6,14 +6,17 @@
     @if (item.key === 'after_hour_appointment' || item.key === 'max_appointment_per_day' || item.key ===
     'offset_date_appointment') {
     <div class="grid grid-rows-2 join join-vertical lg:join-horizontal lg:grid-cols-2">
-      <span class=" join-item py-4 px-8 border border-base-300 w-full text-center lg:text-left ">
+      <span class=" join-item py-4 px-8 border border-base-300 w-full text-center lg:text-left flex items-center gap-4">
         @if (item.key === 'after_hour_appointment') {
+        <i-tabler name="clock" />
         Heure limite de dépôt
         }
         @if (item.key === 'max_appointment_per_day') {
+        <i-tabler name="math-equal-lower" />
         Limte rendez-vous par jour
         }
         @if (item.key === 'offset_date_appointment') {
+        <i-tabler name="calendar-clock" />
         Fenêtre de rendez-vous
         }
       </span>

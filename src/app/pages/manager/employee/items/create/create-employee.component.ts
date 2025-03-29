@@ -1,7 +1,7 @@
+import {  Component, inject, OnInit,  Output, EventEmitter }              from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
-import { Component ,inject ,OnInit} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators ,ValidatorFn ,AbstractControl,ValidationErrors } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { Observable, of  } from 'rxjs';
@@ -35,6 +35,9 @@ import { UserService } from 'src/app/services/user.service';
   ],
 })
 export class CreateEmployeeComponent implements OnInit {
+
+  @Output() newItemAdded = new EventEmitter<void>();
+
 
   fb = inject(FormBuilder);
   employeeService = inject(UserService);
@@ -119,6 +122,7 @@ export class CreateEmployeeComponent implements OnInit {
       }
       if (response.success) {
         this.router.navigateByUrl('/manager/employee');
+          this.newItemAdded.emit();
       }
     });
   }

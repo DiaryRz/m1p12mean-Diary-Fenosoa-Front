@@ -46,6 +46,11 @@ export class EmployeeListComponent implements OnInit {
     this.applyFilters();
   }
   ngOnInit(){
+    this.fetchEmployees();
+  }
+
+  fetchEmployees(){
+
     this.isFetching = true;
     this.userService.getAllEmployee().subscribe((val) => {
       this.employees = val;

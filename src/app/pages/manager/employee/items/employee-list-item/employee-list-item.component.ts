@@ -1,6 +1,8 @@
 import {
-  Component, Input,
-  ElementRef, ViewChild , inject }                  from '@angular/core';
+  Component, OnInit,
+  ElementRef, ViewChild,
+  Input, Output, EventEmitter,
+  inject }                                          from '@angular/core';
 import { DatePipe }                                 from '@angular/common';
 import { FormsModule, NgModel }                     from '@angular/forms';
 import { MaterialModule }                           from 'src/app/material.module';
@@ -22,6 +24,7 @@ export class EmployeeListItemComponent {
   @ViewChild('details_modal') details_modal!: ElementRef<HTMLDialogElement>;
   @ViewChild('fire_modal') fire_modal!: ElementRef<HTMLDialogElement>;
   @ViewChild('passwordInput') passwordInput!: NgModel;
+  @Output() needRefresh = new EventEmitter<void>();
 
   // Open a modal
   openModal(modal: HTMLDialogElement) {
@@ -43,6 +46,7 @@ export class EmployeeListItemComponent {
           if (value.error && value.error.error.password == true) {
             this.passwordInput.control.setErrors({incorrect: true});
           }
+          this.needRefresh.emit();
         }
       )
   }
