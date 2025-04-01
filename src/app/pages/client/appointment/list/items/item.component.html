@@ -74,6 +74,8 @@
         <span>Heure de dépot du véhicule</span>
         <input [(ngModel)]="add_date_value"
           class="input rounded-md px-8  focus:outline-0 focus:border-primary text-center h-10 w-full"
+          [min]="format_date(timeFilter.min,'HH:mm')"
+          [max]="format_date(timeFilter.max,'HH:mm')"
           [matTimepicker]="timepicker" />
         <mat-timepicker #timepicker interval="1h" />
       </label>
@@ -83,7 +85,7 @@
     </button>
   </div>
 }
-  @if(appointment.status == 'confirmé'){
+  @if(appointment.status == 'validé'){
   <div class="mb-4 flex items-center justify-center w-full">
     <button class="btn btn-outline btn-success w-4/6 mx-auto" (click)="openModal(payment_modal)"> <i-tabler
         name="basket-dollar" />

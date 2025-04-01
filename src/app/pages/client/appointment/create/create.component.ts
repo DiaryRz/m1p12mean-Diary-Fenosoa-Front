@@ -13,6 +13,7 @@ import { FormServiceListComponent } from './forms/service.list/form.service.list
 
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { VehicleService } from 'src/app/services/vehicle.service';
+import { ConfigService } from 'src/app/services/config.service';
 import { CarCategoryService } from 'src/app/services/car-category.service';
 import { ServicesService } from 'src/app/services/services.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -42,21 +43,22 @@ export class AppointmentCreateComponent {
   @ViewChild('vehicleForm') vehicleForm!: VehicleCreateComponent;
   @ViewChild('vehicleListForm') vehicleListForm!: FormVehicleListComponent;
   @ViewChild('serviceListForm') serviceListForm!: FormServiceListComponent;
+
+  private config:any = {} as any;
+
   disabledDates:Date[] = [
   ];
-
   dateFilter = (date: Date | null): boolean => {
     if (!date) return false;
-
     // Your existing checks for disabled dates, weekends, etc.
     const today = new Date();
-    today.setHours(15, 0, 0, 0);
+    today.setHours(this.config.after_hour_appointment.getHours(), this.config.after_hour_appointment.getMinutes(), 0, 0);
 
-    const oneMonthFromNow = new Date();
-    oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
-    oneMonthFromNow.setHours(15, 0, 0, 0);
+    const lastDay = new Date();
+    lastDay.setDate(lastDay.getDate() + this.config.offset_date_appointment);
+    lastDay.setHours(this.config.after_hour_appointment.getHours(), this.config.after_hour_appointment.getMinutes(), 0, 0);
 
-    if (date < today || date > oneMonthFromNow) return false;
+    if (date < today || date > lastDay) return false;
 
     const day = date.getDay();
     if (day === 0 || day === 6) return false;
@@ -65,6 +67,8 @@ export class AppointmentCreateComponent {
       this.dateAdapter.compareDate(date, disabledDate) === 0
     );
   }
+  timeFilter : { min: number, max: number};
+
 
   currentStep = 1;
   prevStep = 1;
@@ -87,9 +91,17 @@ export class AppointmentCreateComponent {
     private carCategoryService: CarCategoryService,
     private serviceService: ServicesService,
     private notificationService: NotificationService,
+    private configService: ConfigService ,
     private dateAdapter: DateAdapter<Date>
   ) {
 
+    this.configService.getConfig().subscribe((value:any)=>{
+      this.config = {...value, after_hour_appointment: new Date(value.after_hour_appointment)};
+      this.timeFilter = {
+        min:  new Date().setHours(6,0,0,0),
+        max: new Date().setHours(this.config.after_hour_appointment.getHours(), this.config.after_hour_appointment.getMinutes(), 0, 0)
+      }
+    })
     const startDate = new Date()
     const endDate   = new Date();
     endDate.setMonth(endDate.getMonth() + 1);
@@ -108,7 +120,6 @@ export class AppointmentCreateComponent {
     const client_id = localStorage.getItem('userId') || '';
     this.vehicleService.listClientVehicles(client_id)
       .subscribe((value:any)=>{
-        //console.log(value);
         this.vehicles_list = value;
       });
   }
@@ -161,7 +172,6 @@ export class AppointmentCreateComponent {
           }
 
       } catch (error) {
-        //console.error('Error checking license plate:', error);
         return;
       }
     }
@@ -176,6 +186,7 @@ export class AppointmentCreateComponent {
             }
           )
       }
+
       this.listServices();
       if (this.serviceListForm?.form?.invalid) {
         this.serviceListForm.form.markAllAsTouched();
@@ -245,17 +256,20 @@ export class AppointmentCreateComponent {
     this.formData.selectionType = newType;
   }
 
+  format_date(date:number ,f:string){
+    return format(new Date(date), f)
+  }
+
   isNextDisabled(): boolean {
     switch (this.currentStep) {
       case 1:
         return !this.formData.selectionType;
       case 2:
-          return this.vehicleForm?.form?.invalid ?? false;
+          return ( this.vehicleListForm?.form?.invalid || this.vehicleForm?.form?.invalid) ?? false;
       case 3:
           return this.serviceListForm?.form?.invalid ?? false;
       default:
         return false;
     }
   }
-
 }

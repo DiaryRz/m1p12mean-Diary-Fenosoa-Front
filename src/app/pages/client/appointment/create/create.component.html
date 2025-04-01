@@ -7,7 +7,7 @@
   </ul>
 </div>
 
-<div class="max-w-4/5 border border-base-300 mx-auto rounded-xl min-h-4/6 flex flex-col">
+<div class="max-w-4/5 mx-auto rounded-xl min-h-4/6 flex flex-col">
 
   <div class="h-full grow">
     <div *ngIf="currentStep === 1" class="w-full flex justify-center items-center ">
@@ -68,10 +68,10 @@
                 <div class="text-left text-accent">
                   {{ (services_list | find:'_id':service)?.service_name }}
                 </div>
-                <div class="badge badge-info">
+                <div class=" text-info">
                   {{(services_list | find:'_id':service)?.time_needed | minutesToHours}} heure(s)
                 </div>
-                <div class="badge badge-info">
+                <div class="text-info">
                   {{((services_list | find:'_id':service)?.need_mult ? (services_list |
                   find:'_id':service)?.unit_price.valueOf() *
                   formData.car_data.category_id.mult_price :
@@ -103,12 +103,17 @@
 
     <div *ngIf="currentStep === 5" class="w-full flex flex-col justify-center items-center">
       <mat-calendar class="w-72 m-4" [(selected)]="formData.appointment_data.date_appointment"
-        [dateFilter]="dateFilter"></mat-calendar>
+        [dateFilter]="dateFilter"
+      ></mat-calendar>
       <label class="floating-label focus-within:outline-0 focus-within:border-primary text-center h-10 w-72">
         <span>Heure de dépot du véhicule</span>
-        <input [(ngModel)]="formData.appointment_data.date_appointment"
+        <input
+          [(ngModel)]="formData.appointment_data.date_appointment"
           class="input rounded-lg px-8  focus:outline-0 focus:border-primary text-center h-10 w-72"
-          [matTimepicker]="picker" />
+          [matTimepicker]="picker"
+          [min]="format_date(timeFilter.min,'HH:mm')"
+          [max]="format_date(timeFilter.max,'HH:mm')"
+        />
         <mat-timepicker #picker interval="1h" />
       </label>
     </div>

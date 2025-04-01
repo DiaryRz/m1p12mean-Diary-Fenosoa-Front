@@ -18,7 +18,7 @@ export class FormVehicleListComponent {
   @Input() init: VehicleInterface = {} as VehicleInterface;
 
   _form = this.fb.nonNullable.group({
-   data: [this.init , [Validators.required, Validators.minLength(1)] ]
+   data: [Object.keys(this.init).length === 0 ? null : this.init , [Validators.required, Validators.minLength(1)] ]
   })
 
 
@@ -46,5 +46,4 @@ export class FormVehicleListComponent {
   private emitCurrentSelection() {
     this.formChange.emit(this.form.getRawValue() || {data : this.init});
   }
-
 }

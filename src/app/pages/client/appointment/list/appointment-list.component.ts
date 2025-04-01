@@ -16,6 +16,7 @@ import { TimeStringPipe } from 'src/app/pipe/time-string.pipe'
 
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { AppointmentInterface } from './appointment.interface';
+import { ConfigService } from 'src/app/services/config.service';
 
 import { NotificationService } from 'src/app/services/notification.service';
 
@@ -37,7 +38,11 @@ import { format } from "date-fns"
 })
 export class AppointmentListComponent implements OnInit {
 
-  constructor( private appointmentService: AppointmentService, private notificationService: NotificationService, private dateAdapter: DateAdapter<Date> ) {
+  constructor(
+    private appointmentService: AppointmentService,
+    private notificationService: NotificationService,
+    private configService: ConfigService,
+    private dateAdapter: DateAdapter<Date> ) {
 
     const startDate = new Date()
     const endDate   = new Date();
@@ -51,11 +56,11 @@ export class AppointmentListComponent implements OnInit {
           this.disabledDates.push(new Date(date));
         })
     })
-
   }
 
   appointments: AppointmentInterface[] = [] as AppointmentInterface[];
   isFetching: boolean = false;
+  private config:any = {} as any;
   @Input() waiting: boolean = false;
 
   disabledDates:Date[] = [
@@ -63,16 +68,15 @@ export class AppointmentListComponent implements OnInit {
 
   dateFilter = (date: Date | null): boolean => {
     if (!date) return false;
-
     // Your existing checks for disabled dates, weekends, etc.
     const today = new Date();
-    today.setHours(15, 0, 0, 0);
+    today.setHours(this.config.after_hour_appointment.getHours(), this.config.after_hour_appointment.getMinutes(), 0, 0);
 
-    const oneMonthFromNow = new Date();
-    oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
-    oneMonthFromNow.setHours(15, 0, 0, 0);
+    const lastDay = new Date();
+    lastDay.setDate(lastDay.getDate() + this.config.offset_date_appointment);
+    lastDay.setHours(this.config.after_hour_appointment.getHours(), this.config.after_hour_appointment.getMinutes(), 0, 0);
 
-    if (date < today || date > oneMonthFromNow) return false;
+    if (date < today || date > lastDay) return false;
 
     const day = date.getDay();
     if (day === 0 || day === 6) return false;
@@ -82,8 +86,16 @@ export class AppointmentListComponent implements OnInit {
     );
   }
 
+  timeFilter : { min: number , max: number };
 
   ngOnInit(): void {
+    this.configService.getConfig().subscribe((value:any)=>{
+      this.config = {...value, after_hour_appointment: new Date(value.after_hour_appointment)};
+      this.timeFilter = {
+        min:  new Date().setHours(6,0,0,0),
+        max: new Date().setHours(this.config.after_hour_appointment.getHours(), this.config.after_hour_appointment.getMinutes(), 0, 0)
+      }
+    })
     this.loadAppointments();
   }
 
@@ -97,7 +109,7 @@ export class AppointmentListComponent implements OnInit {
           this.appointments = value.data.map(( apt:any ) => {
             return {...apt, date_appointment: new Date(apt.date_appointment)}
           });
-          //console.log(this.appointments);
+          console.log(this.appointments);
           this.isFetching = false;
         }
       )

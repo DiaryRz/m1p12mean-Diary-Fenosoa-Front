@@ -24,6 +24,8 @@ import { AppointmentInterface } from '../appointment.interface';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PaymentService } from 'src/app/services/payment.service';
 
+import { format } from 'date-fns';
+
 @Component({
   selector: '[appointment-item]',
   imports:
@@ -47,6 +49,7 @@ export class AppointmentItemComponent implements OnInit {
   ) {}
   @Input() appointment:any;
   @Input() dateFilter:any;
+  @Input() timeFilter:any;
   @Output() refetch = new EventEmitter<void>();
   @ViewChild('payment_modal') payement_modal!: ElementRef<HTMLDialogElement>;
   @ViewChild('date_modal') date_modal!: ElementRef<HTMLDialogElement>;
@@ -94,7 +97,6 @@ export class AppointmentItemComponent implements OnInit {
         }
       });
     }
-
   }
 
   // Open a modal
@@ -149,6 +151,10 @@ export class AppointmentItemComponent implements OnInit {
       })
   }
 
+  format_date(date:number ,f:string){
+    return format(new Date(date), f)
+  }
+
   add_date(){
     this.appointmentService.addDate(this.appointment._id, this.add_date_value).subscribe(
       (value:any)=>{
@@ -161,5 +167,4 @@ export class AppointmentItemComponent implements OnInit {
   log(value:any){
     //console.log(value)
   }
-
 }

@@ -53,7 +53,7 @@
                   <mat-datepicker class="border border-r-red-300 bg-white drop-shadow-md hidden" color="primary"
                     #picker></mat-datepicker>
                   <button class="aspect-square" type="button" (click)="picker.open()"><i-tabler
-                      class="aspect-squarew-5 text-black iconify" name="calendar" /></button>
+                      class="aspect-squarew-5 iconify" name="calendar" /></button>
                 </div>
                 @if (form.get('birth_date')?.invalid && (form.get('birth_date')?.dirty ||
                 form.get('birth_date')?.touched))
@@ -110,14 +110,17 @@
             <div class="w-full">
               <label class="label m-2">Téléphone</label>
               <div
-                class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary">
-                <input class="w-full focus:outline-0 h-full px-2" formControlName="phone" />
+                class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary join inline-flex items-center"
+              >
+                <span class="label mx-2 join-item">+261</span>
+                <input class="w-full focus:outline-0 h-full px-2 join-item"
+                                formControlName="phone"
+                />
               </div>
-              @if (form.get('phone')?.invalid && (form.get('phone')?.dirty || form.get('phone')?.touched)) {
-
-              <span class="text-xs text-error">@if (form.get('phone')?.hasError('required'))
-                {Veuillez entrer votre numero de téléphone}</span>
-              }
+                @if (form.get('phone')?.invalid && (form.get('phone')?.dirty || form.get('phone')?.touched)) {
+                <span class="text-xs text-error">@if (form.get('phone')?.hasError('required'))
+                  {Veuillez entrer votre numero de téléphone}</span>
+                }
             </div>
 
             <div>
@@ -157,7 +160,7 @@
           <a [routerLink]="['/login']" class="w-full link-secondary items-center align-middle text-center">
             Se connecter</a>
         </mat-card-content>
-        <!--         <button type="button" (click)="test()">Test</button> -->
+                <button type="button" (click)="test()">Test</button>
       </mat-card>
 
     </div>

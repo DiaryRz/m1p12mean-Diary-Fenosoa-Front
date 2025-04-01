@@ -4,7 +4,9 @@
     @for(appointment of appointments; track appointment){
     <li class="list-row rounded-lg border border-base-300 w-full flex flex-col" appointment-item (refetch)="loadAppointments()"
           [appointment]="appointment"
-          [dateFilter]="dateFilter">
+          [dateFilter]="dateFilter"
+          [timeFilter]="timeFilter"
+        >
     </li>
     }@empty{
 
