@@ -15,6 +15,7 @@ import { AppointmentService } from 'src/app/services/appointment.service';
 import { CarService } from 'src/app/services/car.service';
 import { CarCategoryService } from 'src/app/services/car-category.service';
 import { ServicesService } from 'src/app/services/services.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 import { Observable,of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -85,6 +86,7 @@ export class AppointmentCreateComponent {
     private carService: CarService,
     private carCategoryService: CarCategoryService,
     private serviceService: ServicesService,
+    private notificationService: NotificationService,
     private dateAdapter: DateAdapter<Date>
   ) {
 
@@ -218,7 +220,19 @@ export class AppointmentCreateComponent {
 
     this.appointmentService.createAppointment(this.formData.appointment_data)
       .subscribe((value:any)=>{
-        console.log( value );
+        if(this.formData.appointment_data.date_appointment){
+          const content =
+            `Un rendez-vous à été demander pour le ${this.formData.appointment_data.date_appointment}`;
+          this.notificationService.sendNotification(
+            {
+              to_role: "manager",
+              message: {content: content, title: "Demande de rendez-vous" },
+            }
+          );
+        this.formData.appointment_data = {}
+        this.formData.car_data = {}
+        this.formData.services_data = {}
+      }
     })
 
   }

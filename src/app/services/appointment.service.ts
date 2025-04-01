@@ -36,9 +36,25 @@ export class AppointmentService {
     );
   }
 
-  listAppointments(with_dates: boolean):Observable<any> {
+  listAppointments(option: { with_dates?: boolean , verified?: boolean , waiting?: boolean}):Observable<any> {
 
-    return this.http.get(`${this.apiUrl}${with_dates ? '/pending-with-date': '' }`).pipe(
+    const userId: string = localStorage.getItem('userId') || '';
+    console.log(userId);
+    let endpoint;
+    if(option.waiting == true){
+      endpoint = this.apiUrl + "/waiting/" + userId;
+    }
+    else if(option.verified == true){
+      endpoint = this.apiUrl + "/verified/" + userId;
+    }
+    else if(option.with_dates == true){
+      endpoint = this.apiUrl + "/pending-with-date";
+    }
+    else{
+      endpoint = this.apiUrl;
+    }
+    console.log(endpoint);
+    return this.http.get(endpoint).pipe(
       catchError((error: HttpErrorResponse) => {
         console.log(error);
         return of({error : error.error}); // This is your fallback value
@@ -58,6 +74,15 @@ export class AppointmentService {
 
   confirmAppointment(id_appointment: string){
     return this.http.post(`${this.apiUrl}/confirm` , { id_appointment:id_appointment }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.log(error);
+        return of({error : error.error}); // This is your fallback value
+      })
+    );
+  }
+
+  addDate(id_appointment: string , date_appointment: Date){
+    return this.http.post(`${this.apiUrl}/adddate` , { date_appointment: date_appointment ,id_appointment:id_appointment }).pipe(
       catchError((error: HttpErrorResponse) => {
         console.log(error);
         return of({error : error.error}); // This is your fallback value

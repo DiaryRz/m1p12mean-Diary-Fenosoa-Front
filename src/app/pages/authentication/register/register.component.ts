@@ -58,6 +58,7 @@ export class AppSideRegisterComponent {
     password: ['', Validators.required],
     password_confirm: ['',[  Validators.required , this.validateSamePassword]],
   });
+
   private validateSamePassword(control: AbstractControl): ValidationErrors | null {
     const password = control.parent?.get('password');
     const confirmPassword = control.parent?.get('password_confirm');

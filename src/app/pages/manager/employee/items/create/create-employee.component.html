@@ -43,7 +43,7 @@ and
             <mat-datepicker class="border border-r-red-300 bg-white drop-shadow-md hidden" color="primary"
               #picker></mat-datepicker>
             <button class="aspect-square" type="button" (click)="picker.open()"><i-tabler
-                class="aspect-squarew-5 iconify" name="calendar" /></button>
+                class="aspect-square w-5 iconify" name="calendar" /></button>
           </div>
           @if (form.get('birth_date')?.invalid && (form.get('birth_date')?.dirty ||
           form.get('birth_date')?.touched))

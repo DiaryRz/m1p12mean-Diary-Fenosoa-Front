@@ -31,6 +31,7 @@ import { AppointmentItemComponent } from './items/item.component';
   templateUrl: './appointments.component.html',
 })
 export class AppointmentsComponent implements OnInit {
+
   constructor( private appointmentService: AppointmentService, private notificationService: NotificationService, private dateAdapter: DateAdapter<Date> ) {}
 
   appointments: AppointmentInterface[] = [] as AppointmentInterface[];
@@ -42,7 +43,7 @@ export class AppointmentsComponent implements OnInit {
 
   loadAppointments(): void {
     this.isFetching = true;
-    this.appointmentService.listAppointments(true)
+    this.appointmentService.listAppointments({with_dates : true })
       .subscribe(
         (value:any)=>{
           this.appointments = value.data.map(( apt:any ) => {

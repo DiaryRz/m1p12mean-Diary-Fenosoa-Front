@@ -10,25 +10,32 @@
   <div tabindex="0"
     class="tabs tabs-lift dropdown-content bg-base-200 border border-base-300 rounded-xl z-1 mt-3 shadow min-w-[30dvw]">
     <input type="radio" name="notif_tabs" class="tab" aria-label="Non lus" checked />
-    <div class="tab-content bg-base-100 border-base-300 p-6">
+    <div class="tab-content bg-base-100 border-base-300 p-2">
       <ul class="list">
         @if( unreadCount > 0 ) {
         @for(notification of notifications ; track notification){
         @if(!notification.read)
         {
-        <li class="px-3 my-1 list-item" (click)="onNotificationClick(notification)">
-          {{ notification.message }}
+        <li class="list-item w-full">
+          <div tabindex="0" class="collapse bg-base-100 border-base-300 border w-full">
+            <input type="checkbox" />
+            <span class="collapse-title font-semibold w-full">{{ notification.title }}</span>
+            <div class="collapse-content text-sm">
+              {{ notification.message }}
+            </div>
+          </div>
+          <i-tabler class="btn btn-ghost w-4 h-4 btn-circle float-end" name="eye"  (click)="onNotificationClick(notification)"/>
         </li>
         }
         }
         @empty{
-        <li class="px-3 my-1 align-middle">
+        <li class="px-3 my-1 inline-flex items-center">
           <i-tabler name="x" /> Pas de notification
         </li>
         }
         }
         @else{
-        <li class="px-3 my-1 align-middle">
+        <li class="px-3 my-1 inline-flex items-center">
           <i-tabler name="x" /> Pas de notification
         </li>
         }
@@ -36,16 +43,21 @@
     </div>
 
     <input type="radio" name="notif_tabs" class="tab" aria-label="Tous" />
-    <div class="tab-content bg-base-100 border-base-300 p-6">
+    <div class="tab-content bg-base-100 border-base-300 p-2">
       <ul class="list">
         @for(notification of notifications ; track notification){
-        <li class="px-3 my-1 list-item">
-          {{ notification.message }}
-
+        <li class="px-2 list-item w-full">
+          <div tabindex="0" class="collapse bg-base-100 border-base-300 border w-full">
+            <input type="checkbox" />
+            <span class="collapse-title font-semibold w-full">{{ notification.title }}</span>
+            <div class="collapse-content text-sm">
+              {{ notification.message }}
+            </div>
+          </div>
         </li>
         }
         @empty{
-        <li class="px-3 my-1 align-middle">
+        <li class="px-3 my-1 inline-flex items-center">
           <i-tabler name="x" /> Pas de notification
         </li>
         }

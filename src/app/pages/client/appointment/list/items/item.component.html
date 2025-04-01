@@ -1,0 +1,149 @@
+<div class="flex flex-col md:grid md:grid-cols-3 ">
+  <div class="w-full justify-between gap-2 h-full">
+
+    <div class="">
+      <div>
+        <div>
+          {{ appointment.id_user.firstname }}
+          {{ appointment.id_user.name | uppercase }}
+        </div>
+      </div>
+      <div>
+        @if(appointment.date_appointment.valueOf() > 0){
+          {{(appointment.date_appointment.valueOf() | datetimeString )}}
+        }
+      </div>
+    </div>
+    <div class="flex flex-col">
+      <div>
+        Coût: <span class="text-accent">{{ appointment.total_price | currency:'Ar':'symbol':'1.2-2' }}</span>
+      </div>
+      <div>
+        Durée: <span class="text-accent">{{ appointment.total_duration | minutesToHours}}</span>
+      </div>
+    </div>
+    <div class="flex flex-col">
+      <div>
+        <span class="text-accent">{{ appointment.id_car.mark +" "+ appointment.id_car.model}}</span>
+        ( {{ appointment.id_car.engine_fuel_Type}} )
+      </div>
+      <div>
+        <span>{{ appointment.id_car.immatriculation }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mb-4 col-span-2 border-t border-t-base-300 md:border-t-0 md:border-l md:border-l-base-300">
+    <h3 class="text-md text-center text-primary w-full font-semibold my-2">Services Inclus:</h3>
+    <ul class="list w-full">
+      <li *ngFor="let service of appointment.services" class="list-row grid grid-cols-3 justify-between w-full">
+        <div class="text-left text-accent">
+          {{ service.service_name }}
+        </div>
+        <div class="text-info dark:text-base-content text-center">
+          {{service.time_needed | minutesToHours}}
+        </div>
+        <div class="text-info dark:text-base-content text-right">
+          {{
+          (service.need_mult ?
+          service.unit_price.valueOf() *
+          appointment.id_car.category_id.mult_price :
+          service.unit_price.valueOf()) |
+          currency:'Ar'}}
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+@if(appointment.date_appointment.valueOf() == 0){
+  <div class="flex flex-col gap-4">
+    <div class="flex flex-col md:flex-row gap-4">
+      <label class="floating-label focus-within:outline-0 focus-within:border-primary text-center h-10 w-full mx-auto">
+        <span>Date de dépot du véhicule</span>
+        <div class="input rounded-md px-8  focus:outline-0 focus:border-primary text-center h-10 w-full" >
+          <input  [matDatepickerFilter]="dateFilter" [matDatepicker]="picker"
+            [(ngModel)]="add_date_value">
+          <button class="aspect-square" type="button" (click)="picker.open()"><i-tabler
+            class="aspect-square w-5 iconify" name="calendar" /></button>
+        </div>
+        <mat-datepicker class="border border-r-red-300 bg-white drop-shadow-md hidden" color="primary"
+          #picker></mat-datepicker>
+      </label>
+      <label class="floating-label focus-within:outline-0 focus-within:border-primary text-center h-10 w-full mx-auto">
+        <span>Heure de dépot du véhicule</span>
+        <input [(ngModel)]="add_date_value"
+          class="input rounded-md px-8  focus:outline-0 focus:border-primary text-center h-10 w-full"
+          [matTimepicker]="timepicker" />
+        <mat-timepicker #timepicker interval="1h" />
+      </label>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2 mx-auto w-full" (click)="add_date()">
+      <i-tabler name="check"/>  Ajouter
+    </button>
+  </div>
+}
+  @if(appointment.status == 'confirmé'){
+  <div class="mb-4 flex items-center justify-center w-full">
+    <button class="btn btn-outline btn-success w-4/6 mx-auto" (click)="openModal(payment_modal)"> <i-tabler
+        name="basket-dollar" />
+      Payer</button>
+
+    <dialog #payment_modal class="modal">
+      <div class="modal-box">
+        <h3 class="text-md font-bold">Payment de la première moitié  {{appointment.total_price * 0.5 | currency:'Ar' }}  (50%)</h3>
+        <form class="card-body" [formGroup]="form" (submit)="pay()">
+          <div class="w-full">
+            <label class="label m-2">Téléphone</label>
+            <div
+              class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary join inline-flex items-center"
+            >
+              <span class="label mx-2 join-item">+261</span>
+              <input class="w-full focus:outline-0 h-full px-2 join-item"
+                              formControlName="phone_number"
+              />
+            </div>
+              @if (_form.get('phone_number')?.invalid && (_form.get('phone_number')?.dirty ||
+              _form.get('phone_number')?.touched)) {
+              <span class="text-error text-xs">
+                @if (_form.get('phone_number')?.hasError('required')) {Insérer le numéro de téléphone mobile money}
+                @if (_form.get('phone_number')?.hasError('incorrect')) {Numero de téléphone incorrect}
+              </span>
+              }
+          </div>
+          <div class="w-full">
+            <label class="label m-2">Code mobile money</label>
+            <div
+              class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary"
+            >
+              <input class="w-full focus:outline-0 h-full px-2" type="password" formControlName="code"/>
+            </div>
+          </div>
+          <div class="w-full">
+            <label class="label m-2">Mot de passe</label>
+            <div
+              class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary"
+            >
+              <input class="w-full focus:outline-0 h-full px-2" type="password" formControlName="password"
+              />
+            </div>
+              @if (_form.get('password')?.invalid && (_form.get('password')?.dirty ||
+              _form.get('password')?.touched)) {
+              <span class="text-error text-xs">
+                @if (_form.get('password')?.hasError('required')) {Veuillez inserer votre mot de passe}
+                @if (_form.get('password')?.hasError('incorrect')) {Le mot de passe est incorrect}
+              </span>
+              }
+
+          </div>
+          <button type="submit" [disabled]="form.invalid" class="btn btn-primary mt-2 mx-auto w-full">
+            <i-tabler name="check"/>  Payer
+          </button>
+        </form>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
+  </div>
+  }

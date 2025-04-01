@@ -158,6 +158,21 @@
   @apply text-primary;
 }
 
+/* Add this to your global styles.css or styles.scss */
+.cdk-overlay-container {
+  z-index: 9999 !important;
+}
+
+.cdk-global-overlay-wrapper,
+.cdk-overlay-pane {
+  z-index: 9999 !important;
+}
+
+/* Make sure the modal doesn't create a new stacking context */
+.modal-box {
+  transform: none !important;
+}
+
 .mat-timepicker-panel {
   @apply bg-base-100 rounded-lg border border-base-300;
 }
