@@ -24,7 +24,8 @@ import { AppointmentInterface } from '../appointment.interface';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PaymentService } from 'src/app/services/payment.service';
 
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 @Component({
   selector: '[appointment-item]',
@@ -137,11 +138,12 @@ export class AppointmentItemComponent implements OnInit {
           }
         }else{
           const content =
-            `${this.appointment.id_user.firstname+ " " + this.appointment.id_user.name } à payer ${ this.appointment.total_price *0.50 } Ar (50%) pour le rendez-vous de ${ this.appointment.date_appointment }` ;
+            `${this.appointment.id_user.firstname+ " " + this.appointment.id_user.name } à payer ${ this.appointment.total_price *0.50 } Ar (50%),
+              pour le rendez-vous de ${ format(this.appointment.date_appointment, 'PPPPp', { locale: fr } )}` ;
           this.notificationService.sendNotification(
             {
               to_role: "manager",
-              message: {content: content, title: "Demande de rendez-vous" },
+              message: {content: content, title: "Payement (moitié)" },
             }
           );
           this.closeModal(this.payement_modal.nativeElement);

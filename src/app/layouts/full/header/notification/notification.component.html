@@ -11,20 +11,20 @@
     class="tabs tabs-border tabs-top tabs-sm dropdown-content bg-base-200 border border-base-300 rounded-xl z-1 mt-3 shadow min-w-[30dvw]">
     <input type="radio" name="notif_tabs" class="tab" aria-label="Non lus" checked />
     <div class="tab-content bg-base-100 border-base-300 p-2">
-      <ul class="list">
+      <ul class="list gap-2">
         @if( unreadCount > 0 ) {
         @for(notification of notifications ; track notification){
         @if(!notification.read)
         {
-        <li class="list-row w-full">
-          <div tabindex="0" class="collapse bg-base-100 border-base-300 border w-full">
+        <li class="px-2 inline-flex gap-2 w-full items-center">
+          <div tabindex="0" class="collapse bg-base-100 border-base-300 border w-full h-full">
             <input type="checkbox" />
             <span class="collapse-title font-semibold w-full">{{ notification.title }}</span>
-            <div class="collapse-content text-sm">
+            <div class="collapse-content text-sm h-full">
               {{ notification.message }}
             </div>
           </div>
-          <i-tabler class="btn btn-ghost w-4 h-4 btn-circle float-end" name="eye"  (click)="onNotificationClick(notification)"/>
+          <i-tabler class="btn btn-ghost aspect-square w-6 btn-circle float-end" name="eye"  (click)="onNotificationClick(notification)"/>
         </li>
         }
         }
@@ -44,13 +44,13 @@
 
     <input type="radio" name="notif_tabs" class="tab" aria-label="Tous" />
     <div class="tab-content bg-base-100 border-base-300 p-2">
-      <ul class="list">
+      <ul class="list gap-2">
         @for(notification of notifications ; track notification){
-        <li class="px-2 list-item w-full">
-          <div tabindex="0" class="collapse bg-base-100 border-base-300 border w-full">
+        <li class="px-2 inline-flex w-full">
+          <div tabindex="0" class="collapse bg-base-100 border-base-300 border w-full h-full">
             <input type="checkbox" />
             <span class="collapse-title font-semibold w-full">{{ notification.title }}</span>
-            <div class="collapse-content text-sm">
+            <div class="collapse-content text-sm h-full">
               {{ notification.message }}
             </div>
           </div>

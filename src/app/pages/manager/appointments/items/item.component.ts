@@ -16,6 +16,9 @@ import { AppointmentInterface } from '../appointment.interface';
 
 import { NotificationService } from 'src/app/services/notification.service';
 
+import { format, parseISO } from 'date-fns';
+import { fr } from 'date-fns/locale';
+
 @Component({
   selector: '[appointment-item]',
   standalone: true,
@@ -44,7 +47,7 @@ export class AppointmentItemComponent{
     this.appointmentService.confirmAppointment(id).subscribe((res:any )=>{
       if (res!.success) {
         const content =
-          `Votre rendez-vous pour le ${this.appointment.date_appointment } à été validé.
+          `Votre rendez-vous pour le ${format(this.appointment.date_appointment, 'PPPPp', { locale: fr }) }, à été validé.
           Veuillez payer ${ this.appointment.total_price * 0.5 } Ar (50%) pour confirmé le rendez-vous.,
           `;
         /* const content =
