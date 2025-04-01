@@ -21,7 +21,7 @@ export class AppointmentService {
   createAppointment(appointmentData: any):Observable<any> {
     return this.http.post(`${this.apiUrl}` , appointmentData).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );
@@ -30,7 +30,7 @@ export class AppointmentService {
   listTakenDates(startDate: string , endDate: string):Observable<any> {
     return this.http.get(`${this.apiUrl}/dates/occupees?startDate=${startDate}&endDate=${endDate}`).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );
@@ -39,7 +39,7 @@ export class AppointmentService {
   listAppointments(option: { with_dates?: boolean , verified?: boolean , waiting?: boolean}):Observable<any> {
 
     const userId: string = localStorage.getItem('userId') || '';
-    console.log(userId);
+    //console.log(userId);
     let endpoint;
     if(option.waiting == true){
       endpoint = this.apiUrl + "/waiting/" + userId;
@@ -53,10 +53,10 @@ export class AppointmentService {
     else{
       endpoint = this.apiUrl;
     }
-    console.log(endpoint);
+    //console.log(endpoint);
     return this.http.get(endpoint).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );
@@ -66,7 +66,7 @@ export class AppointmentService {
 
     return this.http.get(`${this.apiUrl}/client/${client_id}`).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );
@@ -75,7 +75,7 @@ export class AppointmentService {
   confirmAppointment(id_appointment: string){
     return this.http.post(`${this.apiUrl}/confirm` , { id_appointment:id_appointment }).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );
@@ -84,7 +84,7 @@ export class AppointmentService {
   addDate(id_appointment: string , date_appointment: Date){
     return this.http.post(`${this.apiUrl}/adddate` , { date_appointment: date_appointment ,id_appointment:id_appointment }).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );

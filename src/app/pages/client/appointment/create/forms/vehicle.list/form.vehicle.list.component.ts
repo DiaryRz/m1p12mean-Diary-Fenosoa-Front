@@ -2,7 +2,7 @@ import { Component ,inject, EventEmitter, OnInit, Output, Input } from '@angular
 import { MaterialModule } from 'src/app/material.module';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators ,ValidatorFn ,AbstractControl,ValidationErrors } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { EngineType , CarInterface } from 'src/app/pages/client/cars/create/car.interface'
+import { EngineType , VehicleInterface } from 'src/app/pages/client/vehicles/create/vehicle.interface'
 
 @Component({
   selector: 'form-vehicle-list',
@@ -14,8 +14,8 @@ export class FormVehicleListComponent {
   @Output() formChange = new EventEmitter<any>();
   @Input() mulitstep = false;
 
-  @Input() vehicles: CarInterface[] = [];
-  @Input() init: CarInterface = {} as CarInterface;
+  @Input() vehicles: VehicleInterface[] = [];
+  @Input() init: VehicleInterface = {} as VehicleInterface;
 
   _form = this.fb.nonNullable.group({
    data: [this.init , [Validators.required, Validators.minLength(1)] ]
@@ -34,8 +34,8 @@ export class FormVehicleListComponent {
     return this._form;
   }
 
-  isVehicleSelected(car_id: String): boolean {
-    return ( this.form.value.data?._id == car_id );
+  isVehicleSelected(vehicle_id: String): boolean {
+    return ( this.form.value.data?._id == vehicle_id );
   }
 
   updateSelectedVehicles(index: number, event: Event) {

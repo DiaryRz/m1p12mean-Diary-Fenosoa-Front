@@ -17,20 +17,19 @@
           selectionner à partir
           de vos
           ancien véhicule ?</h1>
-
         <div class="my-4 w-full flex gap-4 justify-evenly card-body">
-          <label>
-            <input type="radio" class="radio radio-primary" name="selectionType" [(ngModel)]="formData.selectionType"
-              value="existing" [checked]="formData.selectionType === 'existing'"
-              (change)="onSelectionTypeChange('existing')">
+          <label class="border rounded-xl w-full p-2 has-checked:border-success text-center join flex justify-between">
+            <input type="radio" class="hidden radio radio-primary" name="selectionType"
+                  [(ngModel)]="formData.selectionType" value="existing" [checked]="formData.selectionType === 'existing'"
+                  (change)="onSelectionTypeChange('existing')" >
+            <span class="label join-item"><i-tabler name="menu-2"/> Selectionner véhicule</span>
+          </label>
+          <label class="border rounded-xl w-full p-2 has-checked:border-success text-center join flex justify-between">
+            <input type="radio" class="hidden radio radio-primary" name="selectionType" [(ngModel)]="formData.selectionType"
+                  value="new" [checked]="formData.selectionType === 'new'" (change)="onSelectionTypeChange('new')" >
+            <span class="label join-item"> <i-tabler name="plus"/> Ajouter nouveau véhicule</span>
+          </label>
 
-            Selectionner véhicule
-          </label>
-          <label>
-            <input type="radio" class="radio radio-primary" name="selectionType" [(ngModel)]="formData.selectionType"
-              value="new" [checked]="formData.selectionType === 'new'" (change)="onSelectionTypeChange('new')">
-            Ajouter nouveau véhicule
-          </label>
         </div>
       </div>
 
@@ -38,12 +37,12 @@
 
     <div *ngIf="currentStep === 2">
       <div *ngIf="formData.selectionType === 'new'">
-        <car-create #vehicleForm (formChange)="formData.car_data = $event" [mulitstep]="true"
+        <vehicle-create #vehicleForm (formChange)="formData.car_data = $event" [mulitstep]="true"
           [init]="formData.car_data" />
       </div>
       <div *ngIf="formData.selectionType === 'existing'">
         <form-vehicle-list #vehicleListForm
-          (formChange)="print($event);formData.car_data = $event.data ; print(formData.car_data)"
+          (formChange)="formData.car_data = $event.data"
           [vehicles]="vehicles_list" [init]="formData.car_data" />
       </div>
     </div>

@@ -25,7 +25,7 @@ export class EmployeeListItemComponent {
 
   // Open a modal
   openModal(modal: HTMLDialogElement) {
-    console.log(modal);
+    //console.log(modal);
 
     modal.showModal();
   }

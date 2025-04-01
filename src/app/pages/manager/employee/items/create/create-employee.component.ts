@@ -83,12 +83,12 @@ export class CreateEmployeeComponent implements OnInit {
       value.push(controlName + " : " +control?.value);
       if (control?.errors) {
         error.push(control?.errors);
-        /* console.log('Control name with error: ', controlName);
-        console.log('Error details: ', control.errors); */
+        /* //console.log('Control name with error: ', controlName);
+        //console.log('Error details: ', control.errors); */
       }
     });
-    console.log(value);
-    console.log(error);
+    //console.log(value);
+    //console.log(error);
 
   }
   submit() {

@@ -8,7 +8,7 @@
     </div>
   </div>
   <div tabindex="0"
-    class="tabs tabs-lift dropdown-content bg-base-200 border border-base-300 rounded-xl z-1 mt-3 shadow min-w-[30dvw]">
+    class="tabs tabs-border tabs-top tabs-sm dropdown-content bg-base-200 border border-base-300 rounded-xl z-1 mt-3 shadow min-w-[30dvw]">
     <input type="radio" name="notif_tabs" class="tab" aria-label="Non lus" checked />
     <div class="tab-content bg-base-100 border-base-300 p-2">
       <ul class="list">
@@ -16,7 +16,7 @@
         @for(notification of notifications ; track notification){
         @if(!notification.read)
         {
-        <li class="list-item w-full">
+        <li class="list-row w-full">
           <div tabindex="0" class="collapse bg-base-100 border-base-300 border w-full">
             <input type="checkbox" />
             <span class="collapse-title font-semibold w-full">{{ notification.title }}</span>

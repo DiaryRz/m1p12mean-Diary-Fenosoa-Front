@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { HistoryComponent } from './history/history.component';
 import { AppointementComponent } from './appointment/appointment.component'
-import { CarsComponent } from './cars/cars.component'
+import { VehiclesComponent } from './vehicles/vehicles.component'
 
 export const PagesRoutes: Routes = [
   {
@@ -10,8 +10,8 @@ export const PagesRoutes: Routes = [
     component: HomeComponent,
     children: [
       {
-        path: 'cars',
-        component: CarsComponent,
+        path: 'vehicles',
+        component: VehiclesComponent,
       },
       {
         path: 'appointment',

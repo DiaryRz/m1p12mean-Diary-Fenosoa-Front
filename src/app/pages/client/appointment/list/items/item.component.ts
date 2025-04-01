@@ -100,7 +100,7 @@ export class AppointmentItemComponent implements OnInit {
   // Open a modal
   openModal(modal: HTMLDialogElement) {
 
-    console.log(modal);
+    //console.log(modal);
     modal.showModal();
 
   }
@@ -124,7 +124,7 @@ export class AppointmentItemComponent implements OnInit {
 
     this.paymentService.pay({ id_appointment: this.appointment._id ,userId : localStorage.getItem('userId'),...this.form.getRawValue(),phone_number : phone_number },true)
       .subscribe(( value : any )=>{
-        console.log(value.error);
+        //console.log(value.error);
 
         if (value.error?.error) {
           if(value.error.error.password == true){
@@ -159,7 +159,7 @@ export class AppointmentItemComponent implements OnInit {
   }
 
   log(value:any){
-    console.log(value)
+    //console.log(value)
   }
 
 }

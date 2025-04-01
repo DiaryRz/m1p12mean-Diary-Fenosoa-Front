@@ -49,7 +49,7 @@ export class AppointmentsComponent implements OnInit {
           this.appointments = value.data.map(( apt:any ) => {
             return {...apt, date_appointment: new Date(apt.date_appointment)}
           });
-          console.log(this.appointments);
+          //console.log(this.appointments);
           this.isFetching = false;
         }
       )

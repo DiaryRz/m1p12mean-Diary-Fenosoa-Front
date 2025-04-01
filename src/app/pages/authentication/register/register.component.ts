@@ -72,10 +72,10 @@ export class AppSideRegisterComponent {
   test(){
     Object.keys(this.form.controls).forEach(controlName => {
       const control = this.form.get(controlName);
-      console.log(controlName + " : " +control?.value);
+      //console.log(controlName + " : " +control?.value);
       /* if (control?.errors) {
-        console.log('Control name with error: ', controlName);
-        console.log('Error details: ', control.errors);
+        //console.log('Control name with error: ', controlName);
+        //console.log('Error details: ', control.errors);
       } */
     });
   }
@@ -93,7 +93,7 @@ export class AppSideRegisterComponent {
         firstname : firstname
       }
     ).subscribe((response) => {
-        console.log('response', response);
+        //console.log('response', response);
       if (response.field !== undefined ) {
         if (response.field.CIN == true) {
           this.form.controls['CIN'].setErrors({'incorrect': true});

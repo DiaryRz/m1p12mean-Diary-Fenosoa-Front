@@ -15,7 +15,7 @@ export class PrettyJsonPipe implements PipeTransform {
       const parsedValue = typeof value === 'string' ? JSON.parse(value) : value;
       return JSON.stringify(parsedValue, null, indentSpaces);
     } catch (e) {
-      console.error('Failed to parse JSON:', e);
+      //console.error('Failed to parse JSON:', e);
       return typeof value === 'string' ? value : JSON.stringify(value);
     }
   }

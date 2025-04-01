@@ -5,7 +5,7 @@ export enum EngineType {
   Hybrid = 'Hybrid'
 };
 
-export interface CarInterface {
+export interface VehicleInterface {
     _id: String,
     date_creation: Date,
     category_id: String,

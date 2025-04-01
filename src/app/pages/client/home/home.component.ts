@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
       {navCap: 'Acceuil', divider: true},
       {displayName: 'Rendez-vous', iconName: 'calendar-clock', external: false , route: 'client/appointment'},
       {displayName: 'Historique' , iconName: 'history'       , external: false , route: 'client/history'},
-      {displayName: 'Voitures'   , iconName: 'car'           , external: false , route: 'client/cars'},
+      {displayName: 'Vehicules'   , iconName: 'car'           , external: false , route: 'client/vehicles'},
     ];
   ngOnInit(){
     this.loadComponent.emit(this.client_options);

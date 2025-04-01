@@ -47,8 +47,7 @@
     @if (form.get('place_number')?.invalid && (form.get('place_number')?.dirty || form.get('place_number')?.touched))
     {
     <span class="text-xs text-error">
-      @if (form.get('place_number')?.hasError('place_number')){ Veuillez entplace_number le nombre de palce du
-      véhicule}</span>
+      @if (form.get('place_number')?.hasError('place_number')){ Veuillez entrer le nombre de place du véhicule}</span>
     }
   </div>
 
@@ -78,17 +77,13 @@
       }
     </select>
   </label>
-  @if(mulitstep != true){
 
+  @if(mulitstep != true){
   <div class="card-actions w-full justify-center m-2">
-    <button type="submit" class="btn btn-primary w-full">
+    <button type="submit" class="btn btn-primary w-full" [disabled]="form.invalid">
       Ajouter
     </button>
   </div>
   }
 </form>
 
-<!--
-
-
-<button type="button" (click)="test()">test</button> -->

@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class CarService {
+export class VehicleService {
   private apiUrl = `${environment.apiUrl}/car`;
   constructor(private http: HttpClient) { }
 
@@ -18,28 +18,28 @@ export class CarService {
       withCredentials : true,
   };
 
-  addCar(carData: any):Observable<any> {
+  addVehicle(carData: any):Observable<any> {
     return this.http.post(`${this.apiUrl}` , carData).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );
   }
 
-  listCars(client_id: String):Observable<any> {
+  listVehicles(client_id: String):Observable<any> {
     return this.http.get(`${this.apiUrl}/client/${client_id}`).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );
   }
 
-  listClientCars(client_id: String):Observable<any> {
-    return this.http.get(`${this.apiUrl}/client/${client_id}`).pipe(
+  listClientVehicles(user_id: String):Observable<any> {
+    return this.http.get(`${this.apiUrl}/client/${user_id}`).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );

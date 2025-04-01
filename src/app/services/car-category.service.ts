@@ -21,7 +21,7 @@ export class CarCategoryService {
   getCarCategory(id: string) :Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );
@@ -29,7 +29,7 @@ export class CarCategoryService {
   listCarCategories() :Observable<any> {
     return this.http.get(`${this.apiUrl}`).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );

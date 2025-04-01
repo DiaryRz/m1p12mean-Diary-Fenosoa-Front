@@ -48,7 +48,7 @@ export class NotificationService {
         });
 
         this.socket.on('connect_error', (err) => {
-          console.error('Connection error:', err);
+          //console.error('Connection error:', err);
         });
 
         this.socket.on('initial-notifications', (notifications: any[]) => {
@@ -61,7 +61,7 @@ export class NotificationService {
         });
 
         this.socket.on('disconnect', (reason) => {
-          console.log('Socket disconnected:', reason);
+          //console.log('Socket disconnected:', reason);
         });
       }
     });
@@ -77,7 +77,7 @@ export class NotificationService {
         const requests: Observable<any[]>[] = [
           this.http.get<any[]>(`${this.serverUrl}/notifications/${userRole}`).pipe(
             catchError(error => {
-              console.error('Error fetching role-based notifications:', error);
+              //console.error('Error fetching role-based notifications:', error);
               return of([]);
             })
           )
@@ -88,7 +88,7 @@ export class NotificationService {
           requests.push(
             this.http.get<any[]>(`${this.serverUrl}/notifications/employee`).pipe(
               catchError(error => {
-                console.error('Error fetching employee notifications:', error);
+                //console.error('Error fetching employee notifications:', error);
                 return of([]);
               })
             )
@@ -100,7 +100,7 @@ export class NotificationService {
       }),
       // Process the combined results
       map((results: any[][]) => {
-        console.log(results);
+        //console.log(results);
 
         // Flatten the array of arrays into a single array
         return results.reduce((acc, notifications) => [...acc, ...notifications], []);
@@ -202,7 +202,7 @@ export class NotificationService {
 
 
   private handleError(error: HttpErrorResponse) {
-    console.error('An error occurred:', error);
+    //console.error('An error occurred:', error);
     return of({ error: error.error?.error || 'Something went wrong' });
   }
 

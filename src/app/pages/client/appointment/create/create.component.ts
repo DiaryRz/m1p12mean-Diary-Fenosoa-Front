@@ -6,13 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { DateAdapter } from '@angular/material/core';
 
-import { CarCreateComponent } from 'src/app/pages/client/cars/create/create.component';
+import { VehicleCreateComponent } from 'src/app/pages/client/vehicles/create/create.component';
 import { FormVehicleListComponent } from './forms/vehicle.list/form.vehicle.list.component'
 import { FormServiceListComponent } from './forms/service.list/form.service.list.component'
 
 
 import { AppointmentService } from 'src/app/services/appointment.service';
-import { CarService } from 'src/app/services/car.service';
+import { VehicleService } from 'src/app/services/vehicle.service';
 import { CarCategoryService } from 'src/app/services/car-category.service';
 import { ServicesService } from 'src/app/services/services.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -29,7 +29,7 @@ import { format } from 'date-fns'
 @Component({
   selector: 'appointment-create',
   imports: [
-    CarCreateComponent, FormVehicleListComponent ,
+    VehicleCreateComponent, FormVehicleListComponent ,
     FormServiceListComponent,
     CommonModule, FormsModule,
     MaterialModule, MatTimepickerModule,
@@ -39,7 +39,7 @@ import { format } from 'date-fns'
 })
 export class AppointmentCreateComponent {
 
-  @ViewChild('vehicleForm') vehicleForm!: CarCreateComponent;
+  @ViewChild('vehicleForm') vehicleForm!: VehicleCreateComponent;
   @ViewChild('vehicleListForm') vehicleListForm!: FormVehicleListComponent;
   @ViewChild('serviceListForm') serviceListForm!: FormServiceListComponent;
   disabledDates:Date[] = [
@@ -83,7 +83,7 @@ export class AppointmentCreateComponent {
 
   constructor(
     private appointmentService: AppointmentService,
-    private carService: CarService,
+    private vehicleService: VehicleService,
     private carCategoryService: CarCategoryService,
     private serviceService: ServicesService,
     private notificationService: NotificationService,
@@ -106,9 +106,9 @@ export class AppointmentCreateComponent {
 
   listExistingVehicles() {
     const client_id = localStorage.getItem('userId') || '';
-    this.carService.listClientCars(client_id)
+    this.vehicleService.listClientVehicles(client_id)
       .subscribe((value:any)=>{
-        console.log(value);
+        //console.log(value);
         this.vehicles_list = value;
       });
   }
@@ -116,13 +116,13 @@ export class AppointmentCreateComponent {
   listServices() {
     this.serviceService.listServices()
     .subscribe((value:any)=>{
-      console.log(value);
+      //console.log(value);
       this.services_list = value;
     });
   }
 
   print(value:any){
-    console.log(value)
+    //console.log(value)
   }
 
   async nextStep() {
@@ -152,7 +152,7 @@ export class AppointmentCreateComponent {
 
       // Verify license plate doesn't exist
       try {
-          const response = await this.carService.getByPlate(this.formData.car_data.immatriculation).toPromise();
+          const response = await this.vehicleService.getByPlate(this.formData.car_data.immatriculation).toPromise();
 
           if (response?.error?.success === true) {
             this.vehicleForm.form.controls['immatriculation'].setErrors({ exist: true });
@@ -161,7 +161,7 @@ export class AppointmentCreateComponent {
           }
 
       } catch (error) {
-        console.error('Error checking license plate:', error);
+        //console.error('Error checking license plate:', error);
         return;
       }
     }
@@ -190,7 +190,7 @@ export class AppointmentCreateComponent {
         label_price: this.formData.services_data.total_price,
         label_duration: this.formData.services_data.duration,
       }
-      console.log(this.formData);
+      //console.log(this.formData);
     }
   }
 
@@ -206,7 +206,7 @@ export class AppointmentCreateComponent {
 
   submitForm() {
     if(this.formData.selectionType == 'new'){
-      this.carService.addCar(this.formData.car_data)
+      this.vehicleService.addVehicle(this.formData.car_data)
         .subscribe((value:any)=>{
           this.formData.appointment_data.id_car = value._id;
       });

@@ -92,12 +92,12 @@ export class AppointmentListComponent implements OnInit {
     this.appointmentService.listAppointments(this.waiting  == true ? {waiting:true} : {verified:true})
       .subscribe(
         (value:any)=>{
-          console.log(value);
+          //console.log(value);
 
           this.appointments = value.data.map(( apt:any ) => {
             return {...apt, date_appointment: new Date(apt.date_appointment)}
           });
-          console.log(this.appointments);
+          //console.log(this.appointments);
           this.isFetching = false;
         }
       )
@@ -105,7 +105,7 @@ export class AppointmentListComponent implements OnInit {
 
     // Open a modal
   openModal(modal: HTMLDialogElement) {
-    console.log(modal);
+    //console.log(modal);
 
     modal.showModal();
   }
