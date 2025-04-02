@@ -76,7 +76,7 @@ export class NotificationService {
 
         // Create an array of observables based on role
         const requests: Observable<any[]>[] = [
-          this.http.post<any[]>(`${this.serverUrl}/notifications/${userRole}`, {userId: user._id}).pipe(
+          this.http.post<any[]>(`${this.serverUrl}/notifications/all/${userRole}`, {userId: user._id}).pipe(
             catchError(error => {
               //console.error('Error fetching role-based notifications:', error);
               return of([]);
@@ -87,7 +87,7 @@ export class NotificationService {
         // Add employee notifications if not a client
         if (userRole !== 'client') {
           requests.push(
-            this.http.get<any[]>(`${this.serverUrl}/notifications/employee`).pipe(
+            this.http.post<any[]>(`${this.serverUrl}/notifications/all/employee`,{}).pipe(
               catchError(error => {
                 //console.error('Error fetching employee notifications:', error);
                 return of([]);

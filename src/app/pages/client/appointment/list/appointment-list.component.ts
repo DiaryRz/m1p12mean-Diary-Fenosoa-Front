@@ -101,7 +101,7 @@ export class AppointmentListComponent implements OnInit {
 
   loadAppointments(): void {
     this.isFetching = true;
-    this.appointmentService.listAppointments(this.waiting  == true ? {waiting:true} : {verified:true})
+    this.appointmentService.listAppointments(this.waiting  == true ? {waiting:true} : {verified:true}, {})
       .subscribe(
         (value:any)=>{
           //console.log(value);

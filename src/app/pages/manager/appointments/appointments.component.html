@@ -1,12 +1,41 @@
-<div class="m-1">
+
+
+  <div class="flex w-full my-4 px-2 join">
+    <label class="select join-item focus-within:outline-0">
+      <span class="label">Status</span>
+      <select [(ngModel)]="filterStatus" (change)="applyFilters()" class="w-fit focus:outline-0 focus:border-accent ">
+        <option value="">Tous</option>
+        <option value="confirmé">Confirmé/Payé(Moitié)</option>
+        <option value="validé">Validé</option>
+      </select>
+    </label>
+    <label class="input focus-within:outline-0 w-full">
+      <i-tabler name="search" />
+      <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Rechercher..."
+        class="w-full focus:outline-0 focus:border-0 border-0 join-item" />
+    </label>
+    <button (click)="resetFilters()" class="btn btn-ghost btn-neutral join-item">
+      <i-tabler name="restore" />
+    </button>
+  </div>
+
+
+<div class="rounded-lg border border-base-300 m-3">
   <ul class="list bg-base-100 rounded-box shadow-md gap-2">
     @defer (when !isFetching) {
-    @for(appointment of appointments; track appointment){
+    @for(appointment of filteredAppointments; track appointment){
     <li class="list-row rounded-lg border border-base-300">
       <div class="text-4xl font-thin opacity-30 tabular-nums"> {{ $index + 1}} </div>
       <div appointment-item [appointment]="appointment"></div>
     </li>
     }
+      @empty{
+      <li class="list-row rounded-lg border border-base-300 w-full flex flex-col">
+        <h3 class="w-full text-lg font-semibold">
+        Pas de rendez-vous validé
+        </h3>
+      </li>
+      }
     }
     @loading{
     <li class="list-row skeleton w-full ">
@@ -17,5 +46,4 @@
     </li>
     }
   </ul>
-
 </div>

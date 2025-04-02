@@ -36,30 +36,43 @@ export class AppointmentService {
     );
   }
 
-  listAppointments(option: { with_dates?: boolean , verified?: boolean , waiting?: boolean}):Observable<any> {
+  listAppointments(option: { with_dates?: boolean , verified?: boolean , waiting?: boolean} , body: any ):Observable<any> {
 
     const userId: string = localStorage.getItem('userId') || '';
-    //console.log(userId);
     let endpoint;
     if(option.waiting == true){
       endpoint = this.apiUrl + "/waiting/" + userId;
-    }
-    else if(option.verified == true){
-      endpoint = this.apiUrl + "/verified/" + userId;
-    }
-    else if(option.with_dates == true){
-      endpoint = this.apiUrl + "/pending-with-date";
-    }
-    else{
-      endpoint = this.apiUrl;
-    }
-    //console.log(endpoint);
-    return this.http.get(endpoint).pipe(
+      return this.http.get(endpoint).pipe(
       catchError((error: HttpErrorResponse) => {
-        //console.log(error);
+        return of({error : error.error}); // This is your fallback value
+      })
+      );
+    }
+    if(option.verified == true){
+      endpoint = this.apiUrl + "/verified/" + userId;
+      return this.http.get(endpoint).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of({error : error.error}); // This is your fallback value
+      })
+      );
+    }
+
+    if(option.with_dates == true){
+      endpoint = this.apiUrl + "/pending-with-date";
+      return this.http.get(endpoint).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of({error : error.error}); // This is your fallback value
+      })
+      );
+
+    }
+    endpoint = this.apiUrl + "/get";
+    return this.http.post(endpoint, { cond: body }).pipe(
+      catchError((error: HttpErrorResponse) => {
         return of({error : error.error}); // This is your fallback value
       })
     );
+    //console.log(endpoint);
   }
 
   listClientAppointments(client_id: string):Observable<any> {
