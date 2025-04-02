@@ -76,8 +76,6 @@ export class AppointmentsComponent implements OnInit {
     })
       .subscribe(
         (value:any)=>{
-          console.log(value);
-
           this.appointments = value.data.map(( apt:any ) => {
             return {...apt, date_appointment: new Date(apt.date_appointment)}
           });

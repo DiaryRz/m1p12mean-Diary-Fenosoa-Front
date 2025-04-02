@@ -89,7 +89,8 @@
     </button>
   </div>
 }
-@if(appointment.total_payed > 0 && appointment.status != "confirmé" ){
+@if(appointment.total_payed == 0 && appointment.status != "confirmé" ){
+
 <div class="mb-4 flex items-center justify-center w-full">
   <button class="btn btn-outline btn-success w-4/6 mx-auto" (click)="openModal(payment_modal)"> <i-tabler
       name="basket-dollar" />

@@ -133,7 +133,6 @@ export class AppointmentItemComponent implements OnInit {
     );
   }
 
-
   pay(){
     if(this.appointment.total_payed == this.appointment.total_price *0.5){
       this.refetch.emit();
