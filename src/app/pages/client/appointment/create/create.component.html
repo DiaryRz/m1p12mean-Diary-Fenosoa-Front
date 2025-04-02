@@ -1,139 +1,141 @@
-<div class="w-full flex justify-center items-center py-4">
-  <ul class="steps">
-    <li class="step" [class.step-primary]="currentStep >= 2">Véhicule</li>
-    <li class="step" [class.step-primary]="currentStep >= 3">Services</li>
-    <li class="step" [class.step-primary]="currentStep >= 4">Devis</li>
-    <li class="step" [class.step-primary]="currentStep >= 5">Confirmation</li>
-  </ul>
-</div>
-
-<div class="max-w-4/5 mx-auto rounded-xl min-h-4/6 flex flex-col">
-
-  <div class="h-full grow">
-    <div *ngIf="currentStep === 1" class="w-full flex justify-center items-center ">
-      <div class="card  max-w-4/5">
-
-        <h1 class="my-4 text-xl font-semibold w-full text-center card-title">Ajouter nouveau véhicule ou
-          selectionner à partir
-          de vos
-          ancien véhicule ?</h1>
-        <div class="my-4 w-full flex gap-4 justify-evenly card-body">
-          <label class="border rounded-xl w-full p-2 has-checked:border-success text-center join flex justify-between">
-            <input type="radio" class="hidden radio radio-primary" name="selectionType"
-                  [(ngModel)]="formData.selectionType" value="existing" [checked]="formData.selectionType === 'existing'"
-                  (change)="onSelectionTypeChange('existing')" >
-            <span class="label join-item"><i-tabler name="menu-2"/> Selectionner véhicule</span>
-          </label>
-          <label class="border rounded-xl w-full p-2 has-checked:border-success text-center join flex justify-between">
-            <input type="radio" class="hidden radio radio-primary" name="selectionType" [(ngModel)]="formData.selectionType"
-                  value="new" [checked]="formData.selectionType === 'new'" (change)="onSelectionTypeChange('new')" >
-            <span class="label join-item"> <i-tabler name="plus"/> Ajouter nouveau véhicule</span>
-          </label>
-
-        </div>
-      </div>
-
-    </div>
-
-    <div *ngIf="currentStep === 2">
-      <div *ngIf="formData.selectionType === 'new'">
-        <vehicle-create #vehicleForm (formChange)="formData.car_data = $event" [mulitstep]="true"
-          [init]="formData.car_data" />
-      </div>
-      <div *ngIf="formData.selectionType === 'existing'">
-        <form-vehicle-list #vehicleListForm
-          (formChange)="formData.car_data = $event.data"
-          [vehicles]="vehicles_list" [init]="formData.car_data" />
-      </div>
-    </div>
-
-    <div *ngIf="currentStep === 3">
-      <form-service-list #serviceListForm (formChange)="formData.services_data = $event" [services]="services_list"
-        [init]="formData.services_data" [price_mult]="formData.car_data.category_id.mult_price"
-        [time_mult]="formData.car_data.category_id.mult_time" />
-    </div>
-
-    <div *ngIf="currentStep === 4">
-      <!--DEVIS-->
-      <div class="card w-full max-w-md bg-base-100 shadow-xl border border-primary mx-auto my-4">
-        <div class="card-body">
-
-          <h2 class="card-title text-2xl font-bold">Devis</h2>
-          <!-- Services List -->
-          <div class="mb-4">
-            <h3 class="text-lg font-semibold mb-2">Services Inclus:</h3>
-            <ul class="list w-full">
-              <li *ngFor="let service of formData.appointment_data.services"
-                class="list-row inline-flex justify-between">
-                <div class="text-left text-accent">
-                  {{ (services_list | find:'_id':service)?.service_name }}
-                </div>
-                <div class=" text-info">
-                  {{(services_list | find:'_id':service)?.time_needed | minutesToHours}} heure(s)
-                </div>
-                <div class="text-info">
-                  {{((services_list | find:'_id':service)?.need_mult ? (services_list |
-                  find:'_id':service)?.unit_price.valueOf() *
-                  formData.car_data.category_id.mult_price :
-                  (services_list | find:'_id':service)?.unit_price.valueOf()) |
-                  currency:'Ar'}}
-                </div>
-              </li>
-            </ul>
-          </div>
-          <hr>
-          <!-- Pricing & Duration -->
-          <div class="stats stats-vertical bg-base-200">
-            <div class="stat">
-              <div class="stat-title">Coûts</div>
-              <div class="stat-value text-primary">
-                {{ formData.appointment_data.label_price | currency:'Ar':'symbol':'1.2-2' }}
-              </div>
-            </div>
-            <div class="stat">
-              <div class="stat-title">Durée estimée</div>
-              <div class="stat-value text-secondary">
-                {{ formData.appointment_data.label_duration | minutesToHours }} <!-- Uses custom pipe --> heure(s)
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="currentStep === 5" class="w-full flex flex-col justify-center items-center">
-      <mat-calendar class="w-72 m-4" [(selected)]="formData.appointment_data.date_appointment"
-        [dateFilter]="dateFilter"
-      ></mat-calendar>
-      <label class="floating-label focus-within:outline-0 focus-within:border-primary text-center h-10 w-72">
-        <span>Heure de dépot du véhicule</span>
-        <input
-          [(ngModel)]="formData.appointment_data.date_appointment"
-          class="input rounded-lg px-8  focus:outline-0 focus:border-primary text-center h-10 w-72"
-          [matTimepicker]="picker"
-          [min]="format_date(timeFilter.min,'HH:mm')"
-          [max]="format_date(timeFilter.max,'HH:mm')"
-        />
-        <mat-timepicker #picker interval="1h" />
-      </label>
-    </div>
-
+<div class="flex flex-row md:flex-col">
+  <div class="flex justify-start md:w-full items-center md:mx-auto">
+    <ul class="steps steps-vertical md:steps-horizontal w-full">
+      <li class="step text-sm" [class.step-primary]="currentStep >= 2">Véhicule</li>
+      <li class="step text-sm" [class.step-primary]="currentStep >= 3">Services</li>
+      <li class="step text-sm" [class.step-primary]="currentStep >= 4">Devis</li>
+      <li class="step text-sm" [class.step-primary]="currentStep >= 5">Date & Heure</li>
+    </ul>
   </div>
 
+  <div class="max-w-4/5 mx-auto rounded-xl min-h-4/6 flex flex-col">
+
+    <div class="h-full grow">
+      <div *ngIf="currentStep === 1" class="w-full flex justify-center items-center ">
+        <div class="card  max-w-4/5">
+
+          <h1 class="my-4 text-xl font-semibold w-full text-center card-title">Ajouter nouveau véhicule ou
+            selectionner à partir
+            de vos
+            ancien véhicule ?</h1>
+          <div class="my-4 w-full flex gap-4 justify-evenly card-body">
+            <label class="border rounded-xl w-full p-2 has-checked:border-success text-center join flex justify-between">
+              <input type="radio" class="hidden radio radio-primary" name="selectionType"
+                [(ngModel)]="formData.selectionType" value="existing" [checked]="formData.selectionType === 'existing'"
+                (change)="onSelectionTypeChange('existing')" >
+              <span class="label join-item"><i-tabler name="menu-2"/> Selectionner véhicule</span>
+            </label>
+            <label class="border rounded-xl w-full p-2 has-checked:border-success text-center join flex justify-between">
+              <input type="radio" class="hidden radio radio-primary" name="selectionType" [(ngModel)]="formData.selectionType"
+                value="new" [checked]="formData.selectionType === 'new'" (change)="onSelectionTypeChange('new')" >
+              <span class="label join-item"> <i-tabler name="plus"/> Ajouter nouveau véhicule</span>
+            </label>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="currentStep === 2">
+        <div *ngIf="formData.selectionType === 'new'">
+          <vehicle-create #vehicleForm (formChange)="formData.car_data = $event" [mulitstep]="true"
+            [init]="formData.car_data" />
+        </div>
+        <div *ngIf="formData.selectionType === 'existing'">
+          <form-vehicle-list #vehicleListForm
+            (formChange)="formData.car_data = $event.data"
+            [vehicles]="vehicles_list" [init]="formData.car_data" />
+        </div>
+      </div>
+
+      <div *ngIf="currentStep === 3">
+        <form-service-list #serviceListForm (formChange)="formData.services_data = $event" [services]="services_list"
+          [init]="formData.services_data" [price_mult]="formData.car_data.category_id.mult_price"
+          [time_mult]="formData.car_data.category_id.mult_time" />
+      </div>
+
+      <div *ngIf="currentStep === 4">
+        <!--DEVIS-->
+        <div class="card w-full max-w-md bg-base-100 shadow-xl border border-primary mx-auto my-4">
+          <div class="card-body">
+
+            <h2 class="card-title text-2xl font-bold">Devis</h2>
+            <!-- Services List -->
+            <div class="mb-4">
+              <h3 class="text-lg font-semibold mb-2">Services Inclus:</h3>
+              <ul class="list w-full">
+                <li *ngFor="let service of formData.appointment_data.services"
+                  class="list-row inline-flex justify-between">
+                  <div class="text-left text-accent">
+                    {{ (services_list | find:'_id':service)?.service_name }}
+                  </div>
+                  <div class=" text-info">
+                    {{(services_list | find:'_id':service)?.time_needed | minutesToHours}} heure(s)
+                  </div>
+                  <div class="text-info">
+                    {{((services_list | find:'_id':service)?.need_mult ? (services_list |
+                    find:'_id':service)?.unit_price.valueOf() *
+                    formData.car_data.category_id.mult_price :
+                    (services_list | find:'_id':service)?.unit_price.valueOf()) |
+                    currency:'Ar'}}
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <hr>
+            <!-- Pricing & Duration -->
+            <div class="stats stats-vertical bg-base-200">
+              <div class="stat">
+                <div class="stat-title">Coûts</div>
+                <div class="stat-value text-primary">
+                  {{ formData.appointment_data.label_price | currency:'Ar':'symbol':'1.2-2' }}
+                </div>
+              </div>
+              <div class="stat">
+                <div class="stat-title">Durée estimée</div>
+                <div class="stat-value text-secondary">
+                  {{ formData.appointment_data.label_duration | minutesToHours }} <!-- Uses custom pipe --> heure(s)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="currentStep === 5" class="w-full flex flex-col justify-center items-center">
+        <mat-calendar class="w-72 m-4" [(selected)]="formData.appointment_data.date_appointment"
+          [dateFilter]="dateFilter"
+        ></mat-calendar>
+        <label class="floating-label focus-within:outline-0 focus-within:border-primary text-center h-10 w-72">
+          <span>Heure de dépot du véhicule</span>
+          <input
+            [(ngModel)]="formData.appointment_data.date_appointment"
+            class="input rounded-lg px-8  focus:outline-0 focus:border-primary text-center h-10 w-72"
+            [matTimepicker]="picker"
+            [min]="format_date(timeFilter.min,'HH:mm')"
+            [max]="format_date(timeFilter.max,'HH:mm')"
+          />
+          <mat-timepicker #picker interval="1h" />
+        </label>
+      </div>
+
+    </div>
 
 
-  <div class="w-full flex flex-row justify-evenly px-4 py-2">
-    <button class="btn btn-primary btn-outline gap-2" (click)="previousStep()" *ngIf="currentStep > 1">
-      <i-tabler name="arrow-left" />Retour
-    </button>
-    <button class="btn btn-primary btn-outline gap-2" (click)="nextStep()" *ngIf="currentStep < totalSteps"
-      [disabled]="isNextDisabled()">
-      @if(currentStep == 4){<i-tabler class="text-success" name="check" />Accepter} @else{Suivant<i-tabler
-        name="arrow-right" />}
-    </button>
-    <button class="btn btn-primary btn-outline gap-2 justify-between" (click)="submitForm()"
-      *ngIf="currentStep === totalSteps">
-      <i-tabler name="check" />Confirmer
-    </button>
+
+    <div class="w-full flex flex-row justify-evenly px-4 py-2">
+      <button class="btn btn-primary btn-outline gap-2" (click)="previousStep()" *ngIf="currentStep > 1">
+        <i-tabler name="arrow-left" />Retour
+      </button>
+      <button class="btn btn-primary btn-outline gap-2" (click)="nextStep()" *ngIf="currentStep < totalSteps"
+        [disabled]="isNextDisabled()">
+        @if(currentStep == 4){<i-tabler class="text-success" name="check" />Accepter} @else{Suivant<i-tabler
+          name="arrow-right" />}
+      </button>
+      <button class="btn btn-primary btn-outline gap-2 justify-between" (click)="submitForm()"
+        *ngIf="currentStep === totalSteps">
+        <i-tabler name="check" />Confirmer
+      </button>
+    </div>
   </div>
 </div>
