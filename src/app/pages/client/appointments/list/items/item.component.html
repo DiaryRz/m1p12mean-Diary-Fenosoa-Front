@@ -11,16 +11,11 @@
         </div>
       </div>
       <div>
-        @if(context == 'work'){
+        @if(context != 'date'){
             Déposé le :
             <span class="text-info">
               {{(appointment.date_deposition.valueOf() | datetimeString )}}
             </span>
-        }
-        @else{
-          @if(appointment.date_appointment.valueOf() > 0){
-            {{(appointment.date_appointment.valueOf() | datetimeString )}}
-          }
         }
       </div>
     </div>
@@ -65,7 +60,7 @@
     </ul>
   </div>
 </div>
-@if(context == 'depose'){
+@if(context == 'd'){
   <button class="btn btn-outline btn-primary" (click)="mark_as_delivered()">
     Marquer comme livré
   </button>
