@@ -36,6 +36,7 @@
     @for(appointment of filteredAppointments; track appointment){
     <li class="list-row rounded-lg border border-base-300 w-full flex flex-col" appointment-item
           [appointment]="appointment"
+          [dateFilter]="dateFilter"
           [context]="context"
           (refetch)="refetch.emit()"
         >

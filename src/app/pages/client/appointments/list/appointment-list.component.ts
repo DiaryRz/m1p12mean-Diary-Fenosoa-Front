@@ -45,6 +45,13 @@ export class AppointmentListComponent implements OnInit {
     private configService: ConfigService,
     private dateAdapter: DateAdapter<Date> ) {
 
+    this.configService.getConfig().subscribe((value:any)=>{
+      this.config = {...value, after_hour_appointment: new Date(value.after_hour_appointment)};
+      this.timeFilter = {
+        min:  new Date().setHours(6,0,0,0),
+        max: new Date().setHours(this.config.after_hour_appointment.getHours(), this.config.after_hour_appointment.getMinutes(), 0, 0)
+      }
+    })
     const startDate = new Date()
     const endDate   = new Date();
     endDate.setMonth(endDate.getMonth() + 1);
