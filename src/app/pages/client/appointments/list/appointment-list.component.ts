@@ -1,6 +1,7 @@
 import {
   Component, OnInit,
-  Input,
+  Input, Output,
+  EventEmitter,
   ElementRef,
   ViewChild,
   inject
@@ -15,10 +16,10 @@ import { DateAdapter } from '@angular/material/core';
 import { TimeStringPipe } from 'src/app/pipe/time-string.pipe'
 
 import { AppointmentService } from 'src/app/services/appointment.service';
-import { AppointmentInterface } from './appointment.interface';
 import { ConfigService } from 'src/app/services/config.service';
-
 import { NotificationService } from 'src/app/services/notification.service';
+
+import { AppointmentInterface } from './appointment.interface';
 
 import { AppointmentItemComponent } from './items/item.component';
 
@@ -58,10 +59,15 @@ export class AppointmentListComponent implements OnInit {
     })
   }
 
-  appointments: AppointmentInterface[] = [] as AppointmentInterface[];
-  isFetching: boolean = false;
   private config:any = {} as any;
-  @Input() waiting: boolean = false;
+
+  isFetching: boolean = false;
+  @Input() appointments: AppointmentInterface[] = [] as AppointmentInterface[];
+  @Input() conditions : any = {};
+  @Input() context : string = '';
+  @Output() refetch = new EventEmitter<void>();
+  @Input() filteredAppointments: AppointmentInterface[] = [] as AppointmentInterface[];
+
 
   disabledDates:Date[] = [
   ];
@@ -91,40 +97,46 @@ export class AppointmentListComponent implements OnInit {
   ngOnInit(): void {
     this.configService.getConfig().subscribe((value:any)=>{
       this.config = {...value, after_hour_appointment: new Date(value.after_hour_appointment)};
-      this.timeFilter = {
-        min:  new Date().setHours(6,0,0,0),
-        max: new Date().setHours(this.config.after_hour_appointment.getHours(), this.config.after_hour_appointment.getMinutes(), 0, 0)
-      }
     })
-    this.loadAppointments();
+    this.applyFilters()
   }
 
-  loadAppointments(): void {
-    this.isFetching = true;
-    this.appointmentService.listAppointments(this.waiting  == true ? {waiting:true} : {verified:true}, {})
-      .subscribe(
-        (value:any)=>{
-          //console.log(value);
+  searchQuery: string = '';
+  filterStatus: string = '';
+  filterDate: {start?: Date , end?: Date} = {};
 
-          this.appointments = value.data.map(( apt:any ) => {
-            return {...apt, date_appointment: new Date(apt.date_appointment)}
-          });
-          console.log(this.appointments);
-          this.isFetching = false;
-        }
-      )
+  applyFilters() {
+    this.filteredAppointments = this.appointments.filter((appointment: AppointmentInterface ) => {
+      const matchesSearch =
+        appointment.id_user.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        appointment.id_user.firstname.toLowerCase().includes(this.searchQuery.toLowerCase())||
+        appointment.id_car.mark.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        appointment.id_car.model.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        appointment.id_car.immatriculation.toLowerCase().includes(this.searchQuery.toLowerCase())
+      const matchesStatus =
+        !this.filterStatus || appointment.status === this.filterStatus;
+
+      if (this.filterDate.start !== undefined && this.filterDate.end !== undefined) {
+        const matchesDate =
+          (
+            this.dateAdapter.compareDate(appointment.date_appointment , this.filterDate.start) >= 0 &&
+            this.dateAdapter.compareDate(appointment.date_appointment , this.filterDate.end) <= 0
+          )
+            ||
+          (
+            this.dateAdapter.compareDate(appointment.date_deposition || new Date() , this.filterDate.start) >= 0 &&
+            this.dateAdapter.compareDate(appointment.date_deposition || new Date() , this.filterDate.end) <= 0
+          )
+        return matchesSearch && matchesStatus && matchesDate;
+      }
+      return matchesSearch && matchesStatus;
+    });
   }
 
-    // Open a modal
-  openModal(modal: HTMLDialogElement) {
-    //console.log(modal);
-
-    modal.showModal();
+  resetFilters() {
+    this.searchQuery = '';
+    this.filterStatus = '';
+    this.filterDate = {};
+    this.applyFilters();
   }
-
-  // Close a modal
-  closeModal(modal: HTMLDialogElement) {
-    modal.close();
-  }
-
 }

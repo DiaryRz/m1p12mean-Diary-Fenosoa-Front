@@ -51,6 +51,7 @@ export class AppointmentItemComponent implements OnInit {
   @Input() appointment:any;
   @Input() dateFilter:any;
   @Input() timeFilter:any;
+  @Input() context : string = '';
   @Output() refetch = new EventEmitter<void>();
   @ViewChild('payment_modal') payement_modal!: ElementRef<HTMLDialogElement>;
   @ViewChild('date_modal') date_modal!: ElementRef<HTMLDialogElement>;
@@ -98,6 +99,8 @@ export class AppointmentItemComponent implements OnInit {
         }
       });
     }
+
+    this.appointment.date_deposition = new Date(this.appointment.date_deposition)
   }
 
   // Open a modal
@@ -116,43 +119,6 @@ export class AppointmentItemComponent implements OnInit {
     return this._form;
   }
 
-  pay(){
-    const phone_numberField = this._form.get('phone_number');
-    let phone_number = phone_numberField!.value;
-    if (phone_numberField) {
-      if (phone_numberField.value && !phone_numberField.value.startsWith('261')) {
-       phone_number = '261' + phone_numberField.value;
-      }
-    }
-
-    this.paymentService.pay({ id_appointment: this.appointment._id ,userId : localStorage.getItem('userId'),...this.form.getRawValue(),phone_number : phone_number },true)
-      .subscribe(( value : any )=>{
-        //console.log(value.error);
-
-        if (value.error?.error) {
-          if(value.error.error.password == true){
-            this.form.get('password')!.setErrors({ incorrect: true })
-          }
-          if(value.error.error.phone == true){
-            this.form.get('phone_number')!.setErrors({ invalid: true })
-          }
-        }else{
-          const content =
-            `${this.appointment.id_user.firstname+ " " + this.appointment.id_user.name } à payer ${ this.appointment.total_price *0.50 } Ar (50%),
-              pour le rendez-vous de ${ format(this.appointment.date_appointment, 'PPPPp', { locale: fr } )}` ;
-          this.notificationService.sendNotification(
-            {
-              to_role: "manager",
-              message: {content: content, title: "Payement (moitié)" },
-            }
-          );
-          this.closeModal(this.payement_modal.nativeElement);
-          this.form.patchValue({})
-          this.refetch.emit();
-        }
-      })
-  }
-
   format_date(date:number ,f:string){
     return format(new Date(date), f)
   }
@@ -167,6 +133,14 @@ export class AppointmentItemComponent implements OnInit {
   }
 
   log(value:any){
-    //console.log(value)
+    console.log(value)
+  }
+
+  mark_as_delivered(){
+    this.appointmentService.addDateDeposition(this.appointment._id).subscribe((value:any)=>{
+      console.log(value);
+
+      this.refetch.emit()
+    })
   }
 }

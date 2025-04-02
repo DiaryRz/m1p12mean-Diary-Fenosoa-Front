@@ -3,6 +3,29 @@
   Marqué la date/heure de dépôt du vehicule
 -->
 
+<div class="tabs tabs-border tabs-top tabs-sm w-full ">
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Tous" checked="checked" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list [appointments]="appointments" [filteredAppointments]="appointments" />
+  </div>
+
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Depôt ajourd'hui" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list [appointments]="filteredAppointmentsToDepositedToday"
+      [filteredAppointments]="filteredAppointmentsToDepositedToday" [context]="'depose'"
+      (refetch)="loadAppointments()" />
+  </div>
+
+
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Rendez-vous prêt" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list [appointments]="filteredAppointmentsToWorkedOn"
+      [filteredAppointments]="filteredAppointmentsToWorkedOn" (refetch)="loadAppointments()" [context]="'work'" />
+  </div>
+</div>
+
+
+<!-- <button type="" (click)="test()">test</button> -->
 
 <!--
   Travailler sur un ou plusieurs RDV qui ont une date de dépôt

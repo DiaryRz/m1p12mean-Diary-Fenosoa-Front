@@ -5,6 +5,7 @@
       <span class="label">Status</span>
       <select [(ngModel)]="filterStatus" (change)="applyFilters()" class="w-fit focus:outline-0 focus:border-accent ">
         <option value="">Tous</option>
+        <option value="en attente">En attente</option>
         <option value="confirmé">Confirmé/Payé(Moitié)</option>
         <option value="validé">Validé</option>
       </select>

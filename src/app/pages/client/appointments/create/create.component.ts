@@ -216,36 +216,38 @@ export class AppointmentCreateComponent {
   }
 
   submitForm() {
-    if(this.formData.selectionType == 'new'){
-      this.vehicleService.addVehicle(this.formData.car_data)
-        .subscribe((value:any)=>{
-          this.formData.appointment_data.id_car = value._id;
-      });
-    }
-
-    if(this.formData.selectionType == 'existing'){
-      this.formData.appointment_data.id_car = this.formData.car_data._id
-    }
-
-    this.formData.appointment_data.date_reservation_request = new Date();
-
-    this.appointmentService.createAppointment(this.formData.appointment_data)
-      .subscribe((value:any)=>{
-        if(this.formData.appointment_data.date_appointment){
-          const content =
-            `Un rendez-vous à été demander pour le ${this.formData.appointment_data.date_appointment}`;
-          this.notificationService.sendNotification(
-            {
-              to_role: "manager",
-              message: {content: content, title: "Demande de rendez-vous" },
-            }
-          );
-        this.formData.appointment_data = {}
-        this.formData.car_data = {}
-        this.formData.services_data = {}
+    if (this.currentStep == this.totalSteps){
+      if(this.formData.selectionType == 'new'){
+        this.vehicleService.addVehicle(this.formData.car_data)
+          .subscribe((value:any)=>{
+            this.formData.appointment_data.id_car = value._id;
+        });
       }
-    })
 
+      if(this.formData.selectionType == 'existing'){
+        this.formData.appointment_data.id_car = this.formData.car_data._id
+      }
+
+      this.formData.appointment_data.date_reservation_request = new Date();
+
+      this.appointmentService.createAppointment(this.formData.appointment_data)
+        .subscribe((value:any)=>{
+          if(this.formData.appointment_data.date_appointment){
+            const content =
+              `Un rendez-vous à été demander pour le ${this.formData.appointment_data.date_appointment}`;
+            this.notificationService.sendNotification(
+              {
+                to_role: "manager",
+                message: {content: content, title: "Demande de rendez-vous" },
+              }
+            );
+            this.formData.appointment_data = {}
+            this.formData.car_data = {}
+            this.formData.services_data = {}
+            this.currentStep = 1;
+          }
+        })
+    }
   }
 
   onSelectionTypeChange(newType: 'existing' | 'new') {

@@ -14,12 +14,15 @@ export class HomeComponent implements OnInit {
 
   private notificationService = inject(NotificationService);
   @Output() loadComponent = new EventEmitter<NavItem[]>();
-  client_options: NavItem[] = [
-      {navCap: 'Acceuil', divider: true},
-      {displayName: 'Rendez-vous', iconName: 'calendar-clock', external: false , route: 'client/appointment'},
-      {displayName: 'Historique' , iconName: 'history'       , external: false , route: 'client/history'},
-      {displayName: 'Vehicules'   , iconName: 'car'           , external: false , route: 'client/vehicles'},
-    ];
+  client_options: NavItem[] = [];
+  constructor(){
+    this.client_options = [
+        {navCap: 'Acceuil', divider: true},
+        {displayName: 'Rendez-vous', iconName: 'calendar-clock', external: false , route: 'client/appointment'},
+        {displayName: 'Historique' , iconName: 'history'       , external: false , route: 'client/history'},
+        {displayName: 'Vehicules'   , iconName: 'car'           , external: false , route: 'client/vehicles'},
+      ];
+  }
   ngOnInit(){
     this.loadComponent.emit(this.client_options);
   }

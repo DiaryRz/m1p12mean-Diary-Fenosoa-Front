@@ -1,8 +1,8 @@
 export interface AppointmentInterface {
   _id: string,
-  id_user: string,
-  id_car: string,
-  services: string,
+  id_user: any,
+  id_car: any,
+  services: string[],
   total_duration: number,
   total_price: number,
   total_payed: number,

@@ -36,10 +36,11 @@ export class AppointmentsComponent implements OnInit {
   appointments: AppointmentInterface[] = [] as AppointmentInterface[];
   filteredAppointments: AppointmentInterface[] = [];
 
+  isFetching: boolean = false;
+
   searchQuery: string = '';
   filterStatus: string = '';
 
-  isFetching: boolean = false;
 
   applyFilters() {
   this.filteredAppointments = this.appointments.filter((appointment: AppointmentInterface ) => {

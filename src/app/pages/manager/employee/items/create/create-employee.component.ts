@@ -65,11 +65,31 @@ export class CreateEmployeeComponent implements OnInit {
     const CINField = this.form.get('CIN');
     if (CINField) {
       CINField.valueChanges.subscribe(value => {
-        if (value) {
+        if (value && value.length > 12 ) {
+          CINField.setValue(value.slice(0 , 12), { emitEvent: false });
+        } else {
           const filteredValue = value.replace(/[^0-9]/g, '');
           if (filteredValue !== value) {
             CINField.setValue(filteredValue, { emitEvent: false });
           }
+        }
+      });
+    }
+
+
+    const phone_numberField = this.form.get('phone');
+
+    if (phone_numberField) {
+      phone_numberField.valueChanges.subscribe(value => {
+        if (!value) return; // Skip if empty
+        let filteredValue = value.replace(/[^0-9]/g, '');
+        filteredValue = filteredValue.replace(/^261/g,'');
+
+        if (filteredValue.startsWith('0')) {
+          filteredValue = filteredValue.substring(1);
+        }
+        if (filteredValue !== value) {
+          phone_numberField.setValue(filteredValue, { emitEvent: false });
         }
       });
     }
@@ -92,7 +112,11 @@ export class CreateEmployeeComponent implements OnInit {
 
   }
   submit() {
-    const { mail, phone , CIN , name , firstname , role_id , password , gender , birth_date} = this.form.getRawValue();
+    let { mail, phone , CIN , name , firstname , role_id , password , gender , birth_date} = this.form.getRawValue();
+    if (phone && !phone.startsWith('261')) {
+     phone = '261' + phone;
+    }
+
     this.employeeService.createEmployee(
       {
         role_id: role_id,

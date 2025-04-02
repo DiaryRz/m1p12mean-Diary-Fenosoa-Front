@@ -13,7 +13,9 @@ import { RouterModule } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   @Output() loadComponent = new EventEmitter<NavItem[]>();
-  manager_options: NavItem[] = [
+  manager_options: NavItem[] = [];
+  constructor(){
+    this.manager_options=  [
       {navCap: 'Home', divider: true},
       {displayName: 'Employés'      , iconName: 'user-filled'   , external: false , route: 'manager/employee'       },
       {displayName: 'Configuration' , iconName: 'settings'      , external: false , route: 'manager/settings'       },
@@ -21,6 +23,7 @@ export class HomeComponent implements OnInit {
       {displayName: 'Rendez-vous'   , iconName: 'calendar'      , external: false , route: 'manager/appointments'   },
       // {displayName: 'Statistique', iconName: 'chart-area'    , external: false , route: 'manager/'},
     ];
+  }
   ngOnInit(){
     this.loadComponent.emit(this.manager_options);
   }

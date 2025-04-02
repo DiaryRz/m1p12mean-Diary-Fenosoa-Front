@@ -102,4 +102,12 @@ export class AppointmentService {
       })
     );
   }
+
+  addDateDeposition(id_appointment:string){
+    return this.http.put(`${this.apiUrl}/${id_appointment}/date-deposition`,{}).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of({error : error.error}); // This is your fallback value
+      })
+    );
+  }
 }
