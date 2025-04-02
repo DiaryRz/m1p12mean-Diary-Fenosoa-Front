@@ -70,15 +70,18 @@ export class AppointmentItemComponent implements OnInit {
 
     if (phone_numberField) {
       phone_numberField.valueChanges.subscribe(value => {
-        if (!value) return; // Skip if empty
-        let filteredValue = value.replace(/[^0-9]/g, '');
-        filteredValue = filteredValue.replace(/^261/g,'');
+        if (value && value.length > 9) {
+          phone_numberField.setValue(value.slice(0 , 9), { emitEvent: false });
+        } else {
+          let filteredValue = value.replace(/[^0-9]/g, '');
+          filteredValue = filteredValue.replace(/^261/g,'');
 
-        if (filteredValue.startsWith('0')) {
-          filteredValue = filteredValue.substring(1);
-        }
-        if (filteredValue !== value) {
-          phone_numberField.setValue(filteredValue, { emitEvent: false });
+          if (filteredValue.startsWith('0')) {
+            filteredValue = filteredValue.substring(1);
+          }
+          if (filteredValue !== value) {
+            phone_numberField.setValue(filteredValue, { emitEvent: false });
+          }
         }
       });
     }
@@ -94,7 +97,6 @@ export class AppointmentItemComponent implements OnInit {
             codeField.setValue(filteredValue, { emitEvent: false });
           }
           if (value.length < 4 ) {
-
           }
         }
       });
@@ -127,13 +129,15 @@ export class AppointmentItemComponent implements OnInit {
     this.appointmentService.addDate(this.appointment._id, this.add_date_value).subscribe(
       (value:any)=>{
         this.refetch.emit();
-
       }
     );
   }
 
 
   pay(){
+    if(this.appointment.total_payed == this.appointment.total_price *0.5){
+      this.refetch.emit();
+    }
     const phone_numberField = this._form.get('phone_number');
     let phone_number = phone_numberField!.value;
     if (phone_numberField) {

@@ -10,14 +10,15 @@
 </div>
 -->
 <div class="tabs tabs-border tabs-top tabs-sm w-full ">
-  <input type="radio" name="my_tabs_2" class="tab" aria-label="Tous" checked="checked" />
-  <div class="tab-content border-base-300 bg-base-100 p-4">
-    <appointment-list [appointments]="appointments" [filteredAppointments]="appointments" />
-  </div>
-
   <input type="radio" name="my_tabs_2" class="tab" aria-label="Prendre un rendez-vous" />
   <div class="tab-content border-base-300 bg-base-100 p-4">
     <appointment-create />
+  </div>
+
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Tous" checked="checked" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list [appointments]="appointments" [filteredAppointments]="appointments"
+      (refetch)="loadAppointments()" />
   </div>
 
 
@@ -26,7 +27,7 @@
     <appointment-list [appointments]="filteredAppointmentsNeedDate"
       [filteredAppointments]="filteredAppointmentsNeedDate" (refetch)="loadAppointments()" [context]="'date'" />
   </div>
-  <input type="radio" name="my_tabs_2" class="tab" aria-label="En attente/Pas de date" />
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Moitié à payer" />
   <div class="tab-content border-base-300 bg-base-100 p-4">
     <appointment-list [appointments]="filteredAppointmentsNeedDate"
       [filteredAppointments]="filteredAppointmentsNeedHalf" (refetch)="loadAppointments()" [context]="'pay'" />

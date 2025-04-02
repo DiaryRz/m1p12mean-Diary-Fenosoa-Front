@@ -12,10 +12,11 @@
       </div>
       <div>
         @if(context != 'date'){
-            Déposé le :
+        @if(appointment.date_appointment.valueOf() > 0){
             <span class="text-info">
-              {{(appointment.date_deposition.valueOf() | datetimeString )}}
+              {{(appointment.date_appointment.valueOf() | datetimeString )}}
             </span>
+        }
         }
       </div>
     </div>
@@ -83,72 +84,72 @@
         <mat-timepicker #timepicker interval="1h" />
       </label>
     </div>
-    <button type="submit" class="btn btn-primary mt-2 mx-auto w-full" (click)="add_date()">
+    <button type="submit" class="btn btn-primary mt-2 mx-auto w-4/6" (click)="add_date()">
       <i-tabler name="check"/>  Ajouter
     </button>
   </div>
 }
-  @if(appointment.status == 'validé'){
-  <div class="mb-4 flex items-center justify-center w-full">
-    <button class="btn btn-outline btn-success w-4/6 mx-auto" (click)="openModal(payment_modal)"> <i-tabler
-        name="basket-dollar" />
-      Payer</button>
+@if(appointment.total_payed > 0 && appointment.status != "confirmé" ){
+<div class="mb-4 flex items-center justify-center w-full">
+  <button class="btn btn-outline btn-success w-4/6 mx-auto" (click)="openModal(payment_modal)"> <i-tabler
+      name="basket-dollar" />
+    Payer</button>
 
-    <dialog #payment_modal class="modal">
-      <div class="modal-box">
-        <h3 class="text-md font-bold">Payment de la première moitié  {{appointment.total_price * 0.5 | currency:'Ar' }}  (50%)</h3>
-        <form class="card-body" [formGroup]="form" (submit)="pay()">
-          <div class="w-full">
-            <label class="label m-2">Téléphone</label>
-            <div
-              class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary join inline-flex items-center"
-            >
-              <span class="label mx-2 join-item">+261</span>
-              <input class="w-full focus:outline-0 h-full px-2 join-item"
-                              formControlName="phone_number"
-              />
-            </div>
-              @if (_form.get('phone_number')?.invalid && (_form.get('phone_number')?.dirty ||
-              _form.get('phone_number')?.touched)) {
-              <span class="text-error text-xs">
-                @if (_form.get('phone_number')?.hasError('required')) {Insérer le numéro de téléphone mobile money}
-                @if (_form.get('phone_number')?.hasError('incorrect')) {Numero de téléphone incorrect}
-              </span>
-              }
+  <dialog #payment_modal class="modal">
+    <div class="modal-box">
+      <h3 class="text-md font-bold">Payment de la première moitié  {{appointment.total_price * 0.5 | currency:'Ar' }}  (50%)</h3>
+      <form class="card-body" [formGroup]="form" (submit)="pay()">
+        <div class="w-full">
+          <label class="label m-2">Téléphone</label>
+          <div
+            class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary join inline-flex items-center"
+          >
+            <span class="label mx-2 join-item">+261</span>
+            <input class="w-full focus:outline-0 h-full px-2 join-item"
+                            formControlName="phone_number"
+            />
           </div>
-          <div class="w-full">
-            <label class="label m-2">Code mobile money</label>
-            <div
-              class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary"
-            >
-              <input class="w-full focus:outline-0 h-full px-2" type="password" formControlName="code"/>
-            </div>
+            @if (_form.get('phone_number')?.invalid && (_form.get('phone_number')?.dirty ||
+            _form.get('phone_number')?.touched)) {
+            <span class="text-error text-xs">
+              @if (_form.get('phone_number')?.hasError('required')) {Insérer le numéro de téléphone mobile money}
+              @if (_form.get('phone_number')?.hasError('incorrect')) {Numero de téléphone incorrect}
+            </span>
+            }
+        </div>
+        <div class="w-full">
+          <label class="label m-2">Code mobile money</label>
+          <div
+            class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary"
+          >
+            <input class="w-full focus:outline-0 h-full px-2" type="password" formControlName="code"/>
           </div>
-          <div class="w-full">
-            <label class="label m-2">Mot de passe</label>
-            <div
-              class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary"
-            >
-              <input class="w-full focus:outline-0 h-full px-2" type="password" formControlName="password"
-              />
-            </div>
-              @if (_form.get('password')?.invalid && (_form.get('password')?.dirty ||
-              _form.get('password')?.touched)) {
-              <span class="text-error text-xs">
-                @if (_form.get('password')?.hasError('required')) {Veuillez inserer votre mot de passe}
-                @if (_form.get('password')?.hasError('incorrect')) {Le mot de passe est incorrect}
-              </span>
-              }
+        </div>
+        <div class="w-full">
+          <label class="label m-2">Mot de passe</label>
+          <div
+            class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary"
+          >
+            <input class="w-full focus:outline-0 h-full px-2" type="password" formControlName="password"
+            />
+          </div>
+            @if (_form.get('password')?.invalid && (_form.get('password')?.dirty ||
+            _form.get('password')?.touched)) {
+            <span class="text-error text-xs">
+              @if (_form.get('password')?.hasError('required')) {Veuillez inserer votre mot de passe}
+              @if (_form.get('password')?.hasError('incorrect')) {Le mot de passe est incorrect}
+            </span>
+            }
 
-          </div>
-          <button type="submit" [disabled]="form.invalid" class="btn btn-primary mt-2 mx-auto w-full">
-            <i-tabler name="check"/>  Payer
-          </button>
-        </form>
-      </div>
-      <form method="dialog" class="modal-backdrop">
-        <button>close</button>
+        </div>
+        <button type="submit" [disabled]="form.invalid" class="btn btn-primary mt-2 mx-auto w-full">
+          <i-tabler name="check"/>  Payer
+        </button>
       </form>
-    </dialog>
-  </div>
-  }
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+</div>
+}

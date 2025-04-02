@@ -66,14 +66,14 @@ export class AppointmentsComponent implements OnInit {
           });
 
           this.filteredAppointmentsNeedHalf = this.appointments.filter((apt: AppointmentInterface) => {
-            const isSameDay = this.dateAdapter.compareDate(apt.date_appointment, this.today) === 0;
             const need_pay_half = apt.status == 'validé' && apt.total_payed == 0;
-            return isSameDay && need_pay_half; // Assuming you want 'deposited' status
+            const hasDate = apt.date_appointment.valueOf() > 0;
+            return need_pay_half&& hasDate; // Assuming you want 'deposited' status
           });
 
           this.filteredAppointmentsNeedDate = this.appointments.filter((apt: AppointmentInterface) => {
-            const isSameDay = apt.date_appointment.getDate() === 1;
-            return isSameDay; // Assuming you want 'deposited' status
+            const hasDate = apt.date_appointment.valueOf() <= 0;
+            return hasDate
           });
 
           console.log(this.filteredAppointmentsNeedDate , this.filteredAppointmentsNeedHalf);

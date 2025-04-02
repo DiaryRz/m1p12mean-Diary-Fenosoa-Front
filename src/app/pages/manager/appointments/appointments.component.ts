@@ -76,6 +76,8 @@ export class AppointmentsComponent implements OnInit {
     })
       .subscribe(
         (value:any)=>{
+          console.log(value);
+
           this.appointments = value.data.map(( apt:any ) => {
             return {...apt, date_appointment: new Date(apt.date_appointment)}
           });
@@ -86,11 +88,5 @@ export class AppointmentsComponent implements OnInit {
   }
 
   test(){
-    this.notificationService.sendNotification(
-      {
-        recipient: 'user_002',
-        message: {content: 'Real-time notification', title: "Rendez-vouz validé" },
-      }
-    );
   }
 }

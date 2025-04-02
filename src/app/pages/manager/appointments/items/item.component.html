@@ -53,7 +53,7 @@
     </ul>
   </div>
 
-  <div class="mb-4 flex items-center justify-center" *ngIf="appointment.status!='validé'">
+  <div class="mb-4 flex items-center justify-center" *ngIf="appointment.status== 'validé'">
     <button class="btn btn-outline btn-success w-4/6 mx-auto" (click)="confirm(appointment._id)"> <i-tabler
         name="check" />
       Confirmer</button>

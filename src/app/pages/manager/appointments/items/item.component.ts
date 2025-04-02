@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, inject} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, inject} from '@angular/core';
 import { CommonModule , CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module'
@@ -41,6 +41,7 @@ export class AppointmentItemComponent{
   ) {}
   // @Input() appointment: AppointmentInterface;
 
+  @Output() refetch = new EventEmitter<void>();
   @Input() appointment:any;
 
   confirm(id:string){
@@ -62,6 +63,7 @@ export class AppointmentItemComponent{
             message: {content: content, title: "Rendez-vous confirmé" },
           }
         );
+        this.refetch.emit();
       }
     })
   }
