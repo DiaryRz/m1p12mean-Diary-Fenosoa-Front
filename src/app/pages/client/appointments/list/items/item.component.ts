@@ -27,6 +27,7 @@ import { PaymentService } from 'src/app/services/payment.service';
 import { format, parseISO } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
+
 @Component({
   selector: '[appointment-item]',
   imports:
@@ -134,9 +135,6 @@ export class AppointmentItemComponent implements OnInit {
   }
 
   pay(){
-    if(this.appointment.total_payed == this.appointment.total_price *0.5){
-      this.refetch.emit();
-    }
     const phone_numberField = this._form.get('phone_number');
     let phone_number = phone_numberField!.value;
     if (phone_numberField) {
@@ -153,7 +151,7 @@ export class AppointmentItemComponent implements OnInit {
       }
       , this.context === 'pay'
     ).subscribe(( value : any )=>{
-        //console.log(value.error);
+        console.log(value);
 
         if (value.error?.error) {
           if(value.error.error.password == true){
@@ -173,15 +171,13 @@ export class AppointmentItemComponent implements OnInit {
               message: {content: content, title: `Payement (${this.context == 'pay' ? '50%' : 'Reste'})`},
             }
           );
+          // updateForPickupTicket
           this.closeModal(this.payement_modal.nativeElement);
           this.form.patchValue({})
           this.refetch.emit();
+
         }
       })
-  }
-
-  log(value:any){
-    console.log(value)
   }
 
   mark_as_delivered(){

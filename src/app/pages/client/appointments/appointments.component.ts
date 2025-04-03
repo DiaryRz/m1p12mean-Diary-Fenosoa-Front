@@ -80,13 +80,9 @@ export class AppointmentsComponent implements OnInit {
           });
 
           this.filteredAppointmentsNeedRest = this.appointments.filter((apt: AppointmentInterface) => {
-            const need_pay_rest = apt.status == 'finis' && apt.total_payed == (apt.total_price * 0.5);
+            const need_pay_rest = ( apt.status == 'finie' && apt.total_payed != apt.total_price ) || apt.status == 'payé';
             return need_pay_rest; // Assuming you want 'deposited' status
           });
-
-
-          console.log(this.filteredAppointmentsNeedDate , this.filteredAppointmentsNeedHalf);
-
         }
       )
   }

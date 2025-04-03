@@ -53,6 +53,17 @@
     </ul>
   </div>
 
+  <div class="mb-4 flex items-center justify-center" *ngIf="appointment.status == 'finie'">
+    <div *ngIf="(appointment.total_paye != appointment.total_price)"
+      class="text-lg underline underline-offset-2"
+    >
+      Payement : {{ appointment.total_payed | currency }} / {{ appointment.total_price | currency }}
+    </div>
+    <button class="btn btn-outline btn-success w-4/6 mx-auto gap-4" *ngIf="(appointment.total_payed === appointment.total_price)" > <i-tabler
+        name="package-export" />
+      Récuperer
+    </button>
+  </div>
   <div class="mb-4 flex items-center justify-center" *ngIf="appointment.status == 'validé'">
     <button class="btn btn-outline btn-success w-4/6 mx-auto" (click)="confirm(appointment._id)"> <i-tabler
         name="check" />

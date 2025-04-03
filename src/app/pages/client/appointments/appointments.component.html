@@ -37,7 +37,7 @@
   <input type="radio" name="my_tabs_2" class="tab" aria-label="Terminé" />
   <div class="tab-content border-base-300 bg-base-100 p-4">
     <appointment-list [appointments]="filteredAppointmentsNeedDate"
-      [filteredAppointments]="filteredAppointmentsNeedRest" (refetch)="loadAppointments()" [context]="'rest'" />
+      [filteredAppointments]="filteredAppointmentsNeedRest" (refetch)="loadAppointments()" [context]="'done'" />
   </div>
 
 </div>

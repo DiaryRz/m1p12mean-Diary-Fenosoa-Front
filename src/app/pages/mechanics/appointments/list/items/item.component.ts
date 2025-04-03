@@ -227,7 +227,7 @@ export class AppointmentItemComponent implements OnInit {
   }
 
   private updateAppoitmentCompletion() {
-    this.appointmentService.update(this.appointment._id, { status: 'finis' }).subscribe({
+    this.appointmentService.update(this.appointment._id, { status: 'finie' }).subscribe({
       next: (value:any)=>{ console.log(value) , this.refetch.emit();}
     })
   }
