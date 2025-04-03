@@ -53,13 +53,19 @@
     </ul>
   </div>
 
-  <div class="mb-4 flex items-center justify-center" *ngIf="appointment.status == 'finie'">
-    <div *ngIf="(appointment.total_paye != appointment.total_price)"
+  <div class="mb-4 flex items-center justify-center">
+    <div *ngIf="(appointment.total_paye == appointment.total_price && appointment.ticket_recup != null && appointment.status == 'payé')"
+      class="text-lg underline underline-offset-2"
+    >
+      Code ticket de récuperation: <span class="text-lg text-primary"> {{ appointment.ticket_recup }}</span>
+    </div>
+
+    <div *ngIf="(appointment.total_paye != appointment.total_price && appointment.status == 'finie')"
       class="text-lg underline underline-offset-2"
     >
       Payement : {{ appointment.total_payed | currency }} / {{ appointment.total_price | currency }}
     </div>
-    <button class="btn btn-outline btn-success w-4/6 mx-auto gap-4" *ngIf="(appointment.total_payed === appointment.total_price)" > <i-tabler
+    <button class="btn btn-outline btn-success w-4/6 mx-auto gap-4" *ngIf="(appointment.total_payed === appointment.total_price && appointment.status == 'finie')" > <i-tabler
         name="package-export" />
       Récuperer
     </button>
