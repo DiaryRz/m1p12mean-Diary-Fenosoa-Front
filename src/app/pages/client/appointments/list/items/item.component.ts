@@ -145,8 +145,14 @@ export class AppointmentItemComponent implements OnInit {
       }
     }
 
-    this.paymentService.pay({ id_appointment: this.appointment._id ,userId : localStorage.getItem('userId'),...this.form.getRawValue(),phone_number : phone_number },true)
-      .subscribe(( value : any )=>{
+    this.paymentService.pay(
+      { id_appointment: this.appointment._id ,
+        userId : localStorage.getItem('userId'),
+        ...this.form.getRawValue(),
+        phone_number : phone_number
+      }
+      , this.context === 'pay'
+    ).subscribe(( value : any )=>{
         //console.log(value.error);
 
         if (value.error?.error) {
@@ -156,14 +162,15 @@ export class AppointmentItemComponent implements OnInit {
           if(value.error.error.phone == true){
             this.form.get('phone_number')!.setErrors({ invalid: true })
           }
-        }else{
+        } else {
           const content =
-            `${this.appointment.id_user.firstname+ " " + this.appointment.id_user.name } à payer ${ this.appointment.total_price *0.50 } Ar (50%),
+            `${this.appointment.id_user.firstname+ " " + this.appointment.id_user.name } à payer ${ this.appointment.total_price *0.50 } Ar,
+              (${this.context == 'pay' ? '50%' : 'Reste'}),
               pour le rendez-vous de ${ format(this.appointment.date_appointment, 'PPPPp', { locale: fr } )}` ;
           this.notificationService.sendNotification(
             {
               to_role: "manager",
-              message: {content: content, title: "Payement (moitié)" },
+              message: {content: content, title: `Payement (${this.context == 'pay' ? '50%' : 'Reste'})`},
             }
           );
           this.closeModal(this.payement_modal.nativeElement);

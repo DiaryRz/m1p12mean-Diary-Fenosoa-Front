@@ -41,8 +41,9 @@ export class AppointmentsComponent implements OnInit {
   tomorrow = new Date();
 
   appointments: AppointmentInterface[] = [];
-  filteredAppointmentsNeedHalf  : AppointmentInterface[] = [];
+  filteredAppointmentsNeedHalf        : AppointmentInterface[] = [];
   filteredAppointmentsNeedDate        : AppointmentInterface[] = [];
+  filteredAppointmentsNeedRest        : AppointmentInterface[] = [];
 
   constructor(private appointmentService: AppointmentService,
    private dateAdapter: DateAdapter<Date> ) {
@@ -61,6 +62,8 @@ export class AppointmentsComponent implements OnInit {
     this.appointmentService.listAppointments({ }, { id_user : localStorage.getItem('userId') || '' } )
       .subscribe(
         (value:any)=>{
+          console.log(value);
+
           this.appointments = value.data.map(( apt:any ) => {
             return {...apt, date_appointment: new Date(apt.date_appointment)}
           });
@@ -76,11 +79,18 @@ export class AppointmentsComponent implements OnInit {
             return hasDate
           });
 
+          this.filteredAppointmentsNeedRest = this.appointments.filter((apt: AppointmentInterface) => {
+            const need_pay_rest = apt.status == 'finis' && apt.total_payed == (apt.total_price * 0.5);
+            return need_pay_rest; // Assuming you want 'deposited' status
+          });
+
+
           console.log(this.filteredAppointmentsNeedDate , this.filteredAppointmentsNeedHalf);
 
         }
       )
   }
+
   test(){
     console.log(this.filteredAppointmentsNeedDate)
   }

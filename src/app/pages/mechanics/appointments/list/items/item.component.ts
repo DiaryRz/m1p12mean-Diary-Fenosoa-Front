@@ -198,6 +198,7 @@ export class AppointmentItemComponent implements OnInit {
 
         if (this.isAppointmentDone()) {
           this.sendCompletionNotification();
+          this.updateAppoitmentCompletion();
         }
       },
       error: (err) => console.error('Error fetching works:', err)
@@ -206,7 +207,6 @@ export class AppointmentItemComponent implements OnInit {
 
   private isAppointmentDone(): boolean {
     const ok = this.works.every(work => work.status === 'done');
-    console.log(ok);
     return ok;
   }
 
@@ -224,6 +224,12 @@ export class AppointmentItemComponent implements OnInit {
       }
     };
     this.notificationService.sendNotification(notification);
+  }
+
+  private updateAppoitmentCompletion() {
+    this.appointmentService.update(this.appointment._id, { status: 'finis' }).subscribe({
+      next: (value:any)=>{ console.log(value) , this.refetch.emit();}
+    })
   }
 
 }

@@ -89,7 +89,10 @@
     </button>
   </div>
 }
-@if(appointment.total_payed == 0 && appointment.status != "confirmé" ){
+@if(
+    (appointment.total_payed == 0 && appointment.status != "confirmé")     ||
+    (appointment.total_payed == (appointment.total_price * 0.5) && appointment.status == 'finis' && context == 'rest')
+){
 
 <div class="mb-4 flex items-center justify-center w-full">
   <button class="btn btn-outline btn-success w-4/6 mx-auto" (click)="openModal(payment_modal)"> <i-tabler
@@ -98,7 +101,11 @@
 
   <dialog #payment_modal class="modal">
     <div class="modal-box">
-      <h3 class="text-md font-bold">Payment de la première moitié  {{appointment.total_price * 0.5 | currency:'Ar' }}  (50%)</h3>
+      <h3 class="text-md font-bold">
+          Payment {{ context == 'rest' ? 'du reste' : 'de la première moitié'}}
+          {{appointment.total_price * 0.5 | currency:'Ar' }}
+          {{ context == 'pay' ? '(50%)' :''}}
+        </h3>
       <form class="card-body" [formGroup]="form" (submit)="pay()">
         <div class="w-full">
           <label class="label m-2">Téléphone</label>
