@@ -1,24 +1,26 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { format } from 'date-fns';
 
 @Pipe({
-  name: 'datetimeString'
+  name: 'datetimeString',
+  standalone: true // Add this if using Angular 14+ standalone components
 })
 export class DatetimeStringPipe implements PipeTransform {
+  transform(value: string | number | Date): string {
+    // Handle null/undefined
+    if (value == null) return '';
 
-  transform(value: string | number): string {
-    // Convert to number if it's a string
-    const timestamp = typeof value === 'string' ? parseInt(value, 10) : value;
-    if (isNaN(timestamp)) return ''; // Handle invalid numbers    const date = new Date(timestamp);
-    const date = new Date(timestamp);
+    // Convert to Date object if not already
+    const date = value instanceof Date ? value : new Date(value);
+
+    // Check if date is valid
+    if (isNaN(date.getTime())) return '';
 
     return date.toLocaleString('fr-FR', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      }).replace(':', 'h');
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    }).replace(':', 'h');
   }
-
 }

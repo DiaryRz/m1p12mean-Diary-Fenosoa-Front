@@ -1,0 +1,87 @@
+<div class="flex flex-col md:grid md:grid-cols-3 ">
+  <div class="w-full justify-between gap-2 h-full flex flex-row md:flex-col m-2">
+    <div class="">
+      <div>
+        <div>
+          client:
+          <span class="text-info">
+            {{ appointment.id_user.firstname }}
+            {{ appointment.id_user.name | uppercase }}
+          </span>
+        </div>
+      </div>
+      <div>
+        @if(context == 'work'){
+            Déposé le :
+            <span class="text-info">
+              {{(appointment.date_deposition.valueOf() | datetimeString )}}
+            </span>
+        }
+        @else{
+          @if(appointment.date_appointment.valueOf() > 0){
+            {{(appointment.date_appointment.valueOf() | datetimeString )}}
+          }
+        }
+      </div>
+    </div>
+    <div class="flex flex-col">
+      <div>
+        Coût: <span class="text-accent">{{ appointment.total_price | currency:'Ar':'symbol':'1.2-2' }}</span>
+      </div>
+      <div>
+        Durée: <span class="text-accent">{{ appointment.total_duration | minutesToHours}}</span>
+      </div>
+    </div>
+    <div class="flex flex-col">
+      <div>
+        <span class="text-accent">{{ appointment.id_car.mark +" "+ appointment.id_car.model}}</span>
+        ( {{ appointment.id_car.engine_fuel_Type}} )
+      </div>
+      <div>
+        <span>{{ appointment.id_car.immatriculation }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="mb-4 col-span-2 border-t border-t-base-300 md:border-t-0 md:border-l md:border-l-base-300">
+    <h3 class="text-md text-center text-primary w-full font-semibold my-2">Services Inclus:</h3>
+    <ul class="list w-full">
+      <li *ngFor="let service of appointment.services" class="list-row grid grid-cols-3 justify-between w-full items-center">
+        <div class="text-left text-accent">
+          {{ service.service_name }}
+        </div>
+        @if(context == 'work'){
+          @if(date_str((works | find:'id_service':service._id)?.datetime_service_start).valueOf() > 0){
+            <span>Commencé à {{date_str((works | find:'id_service':service._id)?.datetime_service_start).valueOf()  | timeString }}</span>
+            @if(date_str((works | find:'id_service':service._id)?.datetime_service_end).valueOf() > 0){
+            <span>Terminé à {{date_str((works | find:'id_service':service._id)?.datetime_service_end).valueOf()   |  timeString }}</span>
+            }@else{
+            <button class="btn btn-outline btn-primary" (click)="mark_work_as_done(getWorkForService(service._id)._id)">
+              Terminer
+            </button>
+            }
+          }@else{
+          <span>
+
+          </span>
+          <button class="btn btn-outline btn-primary" (click)="begin_service_work(service._id)">
+            Commencer
+          </button>
+
+          }
+        }
+        @else if(context == 'depose'){
+          <div>~{{appointment.total_duration | minutesToHours}}</div>
+        }@else{
+          <div>~{{appointment.total_duration | minutesToHours}}</div>
+          <div>{{appointment.total_price | currency:'Ar'}}</div>
+        }
+
+      </li>
+    </ul>
+  </div>
+</div>
+@if(context == 'depose' && date_str(appointment.date_deposition).valueOf() == 0 ){
+  <button class="btn btn-outline btn-primary" (click)="mark_as_delivered()">
+    Marquer comme livré
+  </button>
+}

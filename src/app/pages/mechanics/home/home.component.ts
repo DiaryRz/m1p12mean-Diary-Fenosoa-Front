@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit} from '@angular/core';
+import { Component, EventEmitter, Output, AfterViewInit,OnInit} from '@angular/core';
 import { NavItem } from '../../../layouts/full/sidebar/nav-item/nav-item'
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -11,14 +11,16 @@ import { RouterModule } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   @Output() loadComponent = new EventEmitter<NavItem[]>();
-  client_options: NavItem[] = [
+  mechanics_options: NavItem[];
+
+  constructor() {
+    this.mechanics_options = [
       {navCap: 'Home', divider: true},
-      {displayName: 'Acceuil'    , iconName: 'home'          , external: false , route: 'client'},
-      {displayName: 'Rendez-vous', iconName: 'calendar-clock', external: false , route: 'client/appointment'},
-      {displayName: 'Historique' , iconName: 'history'       , external: false , route: 'client/history'},
-      {displayName: 'Voitures'   , iconName: 'car'           , external: false , route: 'client/cars'},
+      {displayName: 'Rendez-vous', iconName: 'calendar-clock', external: false, route: 'mechanics/appointments'},
     ];
-  ngOnInit(){
-    this.loadComponent.emit(this.client_options);
+  }
+
+  ngOnInit() {
+    this.loadComponent.emit(this.mechanics_options);
   }
 }

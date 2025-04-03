@@ -5,13 +5,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class TimeStringPipe implements PipeTransform {
 
-  transform(value: string | number): string {
+  transform(value: string | number | Date): string {
+    // Handle null/undefined
+    if (value == null) return '';
 
+    // Convert to Date object if not already
+    const date = value instanceof Date ? value : new Date(value);
 
-    // Convert to number if it's a string
-    const timestamp = typeof value === 'string' ? parseInt(value, 10) : value;
-    if (isNaN(timestamp)) return ''; // Handle invalid numbers    const date = new Date(timestamp);
-    const date = new Date(timestamp);
+    // Check if date is valid
+    if (isNaN(date.getTime())) return '';
 
     return date.toLocaleTimeString('fr-FR', {
       hour: '2-digit',

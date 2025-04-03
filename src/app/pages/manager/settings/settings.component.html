@@ -1,6 +1,6 @@
 <div class="m-1">
   <h1 class="text-2xl my-4 font-bold w-full h-full text-center uppercase">Configurations</h1>
-  <hr />
+
   <div class="flex my-4 flex-col gap-y-4">
     @for (item of config | keyvalue; track item.key) {
     @if (item.key === 'after_hour_appointment' || item.key === 'max_appointment_per_day' || item.key ===

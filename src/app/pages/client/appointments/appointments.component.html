@@ -1,0 +1,43 @@
+<!--- form to create appointment --->
+
+<!-- name of each tab group should be unique -->
+<!-- <div class="tabs tabs-border tabs-top tabs-sm">
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Rendez-vous validé" checked="checked" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list />
+  </div>
+
+</div>
+-->
+<div class="tabs tabs-border tabs-top tabs-sm w-full ">
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Prendre un rendez-vous" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-create />
+  </div>
+
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Tous" checked="checked" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list [appointments]="appointments" [filteredAppointments]="appointments"
+      (refetch)="loadAppointments()" />
+  </div>
+
+
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="En attente/Pas de date" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list [appointments]="filteredAppointmentsNeedDate"
+      [filteredAppointments]="filteredAppointmentsNeedDate" (refetch)="loadAppointments()" [context]="'date'" />
+  </div>
+
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Moitié à payer" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list [appointments]="filteredAppointmentsNeedDate"
+      [filteredAppointments]="filteredAppointmentsNeedHalf" (refetch)="loadAppointments()" [context]="'pay'" />
+  </div>
+
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Terminé" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list [appointments]="filteredAppointmentsNeedDate"
+      [filteredAppointments]="filteredAppointmentsNeedRest" (refetch)="loadAppointments()" [context]="'done'" />
+  </div>
+
+</div>

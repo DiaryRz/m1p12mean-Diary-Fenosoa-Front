@@ -43,7 +43,7 @@ and
             <mat-datepicker class="border border-r-red-300 bg-white drop-shadow-md hidden" color="primary"
               #picker></mat-datepicker>
             <button class="aspect-square" type="button" (click)="picker.open()"><i-tabler
-                class="aspect-squarew-5 iconify" name="calendar" /></button>
+                class="aspect-square w-5 iconify" name="calendar" /></button>
           </div>
           @if (form.get('birth_date')?.invalid && (form.get('birth_date')?.dirty ||
           form.get('birth_date')?.touched))
@@ -78,12 +78,12 @@ and
       </div>
 
 
-
       <div class="w-full">
         <label class="label m-2">CIN</label>
-        <div class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary">
-          <input class="w-full focus:outline-0  px-2 h-full" formControlName="CIN" placeholder="101...010"
-            pattern="[0-9]*" />
+        <div
+          class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary">
+          <input class="w-full focus:outline-0:w
+            px-2 h-full" formControlName="CIN" placeholder="101...010" pattern="[0-9]*" />
         </div>
         @if (form.get('CIN')?.invalid && (form.get('CIN')?.dirty || form.get('CIN')?.touched)) {
         <span class="text-xs text-error">
@@ -112,16 +112,20 @@ and
 
       <div class="w-full">
         <label class="label m-2">Téléphone</label>
-        <div class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary">
-          <input class="w-full focus:outline-0 h-full px-2" formControlName="phone" />
+        <div
+          class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary join inline-flex items-center"
+        >
+          <span class="label mx-2 join-item">+261</span>
+          <input class="w-full focus:outline-0 h-full px-2 join-item"
+                          formControlName="phone"
+          />
         </div>
-        @if (form.get('phone')?.invalid && (form.get('phone')?.dirty || form.get('phone')?.touched)) {
-
-        <span class="text-xs text-error">
-          @if (form.get('phone')?.hasError('required')){Veuillez entrer le numero de téléphone}
-          @if (form.get('phone')?.hasError('incorrect')) {Cet numero de téléphone email est déja pris}
-        </span>
-        }
+          @if (form.get('phone')?.invalid && (form.get('phone')?.dirty || form.get('phone')?.touched)) {
+          <span class="text-xs text-error">
+            @if (form.get('phone')?.hasError('required')){Veuillez entrer le numero de téléphone}
+            @if (form.get('phone')?.hasError('incorrect')) {Cet numero de téléphone est déja pris}
+          </span>
+          }
       </div>
 
       <div>
@@ -152,7 +156,7 @@ and
         </span>
         }
       </div>
-      <hr class="bg-stone-300 w-full h-[1px]" />
+
       <!-- <button type="button" (click)="test()" class="btn btn-primary">
        Test
       </button> -->

@@ -29,8 +29,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
   private updateNotifications(){
     this.notificationSubscription = this.notificationService.notifications$
       .subscribe(notifications => {
-        console.log(notifications);
-
         this.notifications = notifications;
         this.updateUnreadCount();
       });

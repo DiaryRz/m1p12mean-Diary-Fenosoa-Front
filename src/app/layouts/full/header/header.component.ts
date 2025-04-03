@@ -42,7 +42,7 @@ export class HeaderComponent {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('userId');
-      this.router.navigateByUrl('/login',);
+      this.router.navigateByUrl(`/login`,);
     })
   }
 }

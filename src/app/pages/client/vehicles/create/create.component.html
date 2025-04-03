@@ -1,0 +1,90 @@
+<form class="card-body" [formGroup]="form" (submit)="submit()">
+  <h2 class="card-title">Ajouter nouveau véhicule</h2>
+  <div class="w-full">
+    <label class="label m-2">Immatriculation</label>
+    <div class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary">
+      <input class="w-full focus:outline-0 h-full px-2" formControlName="immatriculation" />
+    </div>
+    @if (form.get('immatriculation')?.invalid && (form.get('immatriculation')?.dirty ||
+    form.get('immatriculation')?.touched))
+    {
+    <span class="text-xs text-error">
+      @if (form.get('immatriculation')?.hasError('required')) { Veuillez entrer l'immatriculation du véhicule}
+      @if (form.get('immatriculation')?.hasError('exist')) { Ce véhicule existe déjà!}
+    </span>
+    }
+  </div>
+
+ <div class="w-full">
+    <label class="label m-2">Marque</label>
+    <div class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary">
+      <input class="w-full focus:outline-0 h-full px-2" formControlName="mark" />
+    </div>
+    @if (form.get('mark')?.invalid && (form.get('mark')?.dirty || form.get('mark')?.touched))
+    {
+    <span class="text-xs text-error">
+      @if (form.get('mark')?.hasError('required')){ Veuillez insérer la marque du vehicle }</span>
+    }
+  </div>
+
+  <div class="w-full">
+    <label class="label m-2">Modèle</label>
+    <div class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline focus-within:outline-primary">
+      <input class="w-full focus:outline-0 h-full px-2" formControlName="model" />
+    </div>
+    @if (form.get('model')?.invalid && (form.get('model')?.dirty || form.get('model')?.touched))
+    {
+    <span class="text-xs text-error">
+      @if (form.get('model')?.hasError('required')){ Veuillez entrer le modèle du véhicule}</span>
+    }
+  </div>
+
+  <div class="w-full">
+    <label class="label m-2">Nombre de places</label>
+    <div
+      class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline-0 focus-within:outline-primary bg-transparent">
+      <input class="w-full focus:outline-0 h-full px-2" type="number" min="2" step="1" formControlName="place_number" />
+    </div>
+    @if (form.get('place_number')?.invalid && (form.get('place_number')?.dirty || form.get('place_number')?.touched))
+    {
+    <span class="text-xs text-error">
+      @if (form.get('place_number')?.hasError('place_number')){ Veuillez entrer le nombre de place du véhicule}</span>
+    }
+  </div>
+
+
+  <fieldset class="fieldset">
+    <label class="select focus-within:outline-0 w-full">
+      <span class="label">Catégorie/Taille du véhicule</span>
+      <select
+        class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline-0 focus-within:outline-primary bg-transparent"
+        formControlName="category_id">
+        @for(categ of categs ; track categ){
+        <option class="bg-red-500" value="{{categ._id}}">{{categ.type_name}}
+          ( coût x{{categ.mult_price}} )
+        </option>
+        }
+      </select>
+    </label>
+    <p class="fieldset-label">Le coût du service dépend de la taille de votre véhicule</p>
+  </fieldset>
+
+  <label class="select focus-within:outline-primary bg-transparent w-full">
+    <span class="label">Type de carburant</span>
+    <select class="rounded-xl w-full border border-slate-300 h-10 focus-within:outline-0 "
+      formControlName="engine_fuel_Type">
+      @for(engine of engines_Type ; track engine){
+      <option class="bg-red-500" value="{{engine}}">{{engine}}</option>
+      }
+    </select>
+  </label>
+
+  @if(mulitstep != true){
+  <div class="card-actions w-full justify-center m-2">
+    <button type="submit" class="btn btn-primary w-full" [disabled]="form.invalid">
+      Ajouter
+    </button>
+  </div>
+  }
+</form>
+

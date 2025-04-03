@@ -1,0 +1,11 @@
+<div class="tabs tabs-border tabs-top tabs-sm w-full ">
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Ajouter véhicule" checked="checked" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <vehicle-create #vehicleCreateForm (formSubmit)="VehicleCreate()" />
+  </div>
+
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Vos véhicules" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <vehicles-list #vehiclesList [vehicles]="vehicles" (refetch)="listVehicles()" />
+  </div>
+</div>

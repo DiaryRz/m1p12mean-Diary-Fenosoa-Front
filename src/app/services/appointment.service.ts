@@ -21,7 +21,7 @@ export class AppointmentService {
   createAppointment(appointmentData: any):Observable<any> {
     return this.http.post(`${this.apiUrl}` , appointmentData).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );
@@ -30,27 +30,56 @@ export class AppointmentService {
   listTakenDates(startDate: string , endDate: string):Observable<any> {
     return this.http.get(`${this.apiUrl}/dates/occupees?startDate=${startDate}&endDate=${endDate}`).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );
   }
 
-  listAppointments(with_dates: boolean):Observable<any> {
+  listAppointments(option: { with_dates?: boolean , verified?: boolean , waiting?: boolean} , body: any ):Observable<any> {
 
-    return this.http.get(`${this.apiUrl}${with_dates ? '/pending-with-date': '' }`).pipe(
+    const userId: string = localStorage.getItem('userId') || '';
+    let endpoint;
+    if(option.waiting == true){
+      endpoint = this.apiUrl + "/waiting/" + userId;
+      return this.http.get(endpoint).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        return of({error : error.error}); // This is your fallback value
+      })
+      );
+    }
+    if(option.verified == true){
+      endpoint = this.apiUrl + "/verified/" + userId;
+      return this.http.get(endpoint).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of({error : error.error}); // This is your fallback value
+      })
+      );
+    }
+
+    if(option.with_dates == true){
+      endpoint = this.apiUrl + "/pending-with-date";
+      return this.http.get(endpoint).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of({error : error.error}); // This is your fallback value
+      })
+      );
+
+    }
+    endpoint = this.apiUrl + "/get";
+    return this.http.post(endpoint, { cond: body }).pipe(
+      catchError((error: HttpErrorResponse) => {
         return of({error : error.error}); // This is your fallback value
       })
     );
+    //console.log(endpoint);
   }
 
   listClientAppointments(client_id: string):Observable<any> {
 
     return this.http.get(`${this.apiUrl}/client/${client_id}`).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
         return of({error : error.error}); // This is your fallback value
       })
     );
@@ -59,7 +88,33 @@ export class AppointmentService {
   confirmAppointment(id_appointment: string){
     return this.http.post(`${this.apiUrl}/confirm` , { id_appointment:id_appointment }).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        //console.log(error);
+        return of({error : error.error}); // This is your fallback value
+      })
+    );
+  }
+
+  addDate(id_appointment: string , date_appointment: Date){
+    return this.http.post(`${this.apiUrl}/adddate` , { date_appointment: date_appointment ,id_appointment:id_appointment }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        //console.log(error);
+        return of({error : error.error}); // This is your fallback value
+      })
+    );
+  }
+
+  addDateDeposition(id_appointment:string){
+    return this.http.put(`${this.apiUrl}/${id_appointment}/date-deposition`,{}).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of({error : error.error}); // This is your fallback value
+      })
+    );
+  }
+
+
+  update(id_appointment:string, data:any){
+    return this.http.put(`${this.apiUrl}/${id_appointment}`,data).pipe(
+      catchError((error: HttpErrorResponse) => {
         return of({error : error.error}); // This is your fallback value
       })
     );

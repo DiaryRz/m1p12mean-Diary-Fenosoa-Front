@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap , forkJoin ,of } from 'rxjs';
 import { catchError, map, tap} from 'rxjs/operators';
 import { io, Socket } from 'socket.io-client';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class NotificationService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {
     this.initSocketConnection();
   }
@@ -41,11 +43,12 @@ export class NotificationService {
         });
 
         this.socket.on('connect', () => {
+          this.fetchNotifications();
           this.socket?.emit('get-initial-notifications');
         });
 
         this.socket.on('connect_error', (err) => {
-          console.error('Connection error:', err);
+          //console.error('Connection error:', err);
         });
 
         this.socket.on('initial-notifications', (notifications: any[]) => {
@@ -58,9 +61,54 @@ export class NotificationService {
         });
 
         this.socket.on('disconnect', (reason) => {
-          console.log('Socket disconnected:', reason);
+          //console.log('Socket disconnected:', reason);
         });
       }
+    });
+  }
+
+  private fetchNotifications(): void {
+    this.userService.getCurrentUser().pipe(
+      // Get user role first
+      switchMap((user: any) => {
+        const userRole = user.role_id.role_name;
+        // Create an array of observables based on role
+        const requests: Observable<any[]>[] = [
+          this.http.post<any[]>(`${this.serverUrl}/notifications/all/${userRole}`, {userId: user._id}).pipe(
+            catchError(error => {
+              //console.error('Error fetching role-based notifications:', error);
+              return of([]);
+            })
+          )
+        ];
+
+        // Add employee notifications if not a client
+        if (userRole !== 'client') {
+          requests.push(
+            this.http.post<any[]>(`${this.serverUrl}/notifications/all/employee`,{}).pipe(
+              catchError(error => {
+                //console.error('Error fetching employee notifications:', error);
+                return of([]);
+              })
+            )
+          );
+        }
+
+        // Combine all requests
+        return forkJoin(requests);
+      }),
+      // Process the combined results
+      map((results: any[][]) => {
+        //console.log(results);
+
+        // Flatten the array of arrays into a single array
+        return results.reduce((acc, notifications) => [...acc, ...notifications], []);
+      })
+    ).subscribe(notifications => {
+      // Update the notifications subject
+      const currentNotifications = this.notificationsSubject.value;
+      this.notificationsSubject.next([...notifications, ...currentNotifications]);
+      this.updateUnreadNotifications();
     });
   }
 
@@ -113,11 +161,6 @@ export class NotificationService {
     return this.http.patch(`${this.serverUrl}/notifications/${notificationId}/read`, {}).pipe(
       tap(() => {
         // Update local state immediately for better UX
-        const updatedNotifications = this.notificationsSubject.value.map(n =>
-          n._id === notificationId ? {...n, read: true} : n
-        );
-        this.notificationsSubject.next(updatedNotifications);
-        this.updateUnreadNotifications();
       }),
       catchError(this.handleError)
     );
@@ -158,7 +201,7 @@ export class NotificationService {
 
 
   private handleError(error: HttpErrorResponse) {
-    console.error('An error occurred:', error);
+    //console.error('An error occurred:', error);
     return of({ error: error.error?.error || 'Something went wrong' });
   }
 

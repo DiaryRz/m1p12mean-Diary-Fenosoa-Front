@@ -1,8 +1,8 @@
 <div class="" dir="ltr">
   <mat-sidenav-container class="min-h-dvh min-w-dvw flex-auto" autosize autoFocus>
-    <mat-sidenav #leftsidenav class="drawer" [mode]="isOver ? 'over' : 'side'" [opened]="!isOver"
+    <mat-sidenav #leftsidenav class="drawer" [mode]="isOver ? 'over' : 'side'"
       (openedChange)="onSidenavOpenedChange($event)" (closedStart)="onSidenavClosedStart()"
-      class="w-72 shrink-0 block drawer-content overflow-x-hidden drop-shadow-sm bg-base-100 rounded-lg shadow-md border border-base-200/50">
+      class="w-72 shrink-0 block fixed top-0 left-0 drawer-content overflow-x-hidden drop-shadow-sm bg-base-100 rounded-lg shadow-md border border-base-200/50">
       <div class="flex flex-col h-full">
         <app-sidebar (toggleMobileNav)="sidenav.toggle()" [showToggle]="isOver"></app-sidebar>
         <ng-scrollbar class="relative">
@@ -21,18 +21,36 @@
         (toggleMobileNav)="sidenav.toggle()"></app-header>
 
       <div class="h-full mt-10">
-        <main class="p-8 w-full h-full">
-          <!-- ============================================================== -->
-          <!-- Outlet -->
-          <!-- ============================================================== -->
-          @defer{
+        <main class="p-8 w-full h-full min-h-dvh">
           <router-outlet (activate)="onComponentActivated($event)"></router-outlet>
           }@placeholder{
           <div class="w-full rounded-lg h-full skeleton">
           </div>
           }
         </main>
+        <footer class="sticky bottom-0 left-0 z-20 w-full p-4 border-t border-base-200 shadow-sm md:flex md:items-center md:justify-between md:p-6">
+          <div class="w-full mx-auto p-4 md:py-8">
+            <div class="sm:flex sm:items-center sm:justify-between">
+              <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">ReviveAuto</span>
+              <ul class="flex flex-wrap items-center mb-6 text-sm font-medium  sm:mb-0">
+                <li>
+                  <a href="https://github.com/DiaryRz/m1p12mean-Diary-Fenosoa-Front" class="hover:underline me-4 md:me-6"><i-tabler name="brand-github-filled"/> Frontend</a>
+                </li>
+                <li>
+                  <a href="https://github.com/DiaryRz/m1p12mean-Diary-Fenosoa-Back" class="hover:underline me-4 md:me-6"><i-tabler name="brand-github-filled"/> Backend</a>
+                </li>
+              </ul>
+            </div>
+            <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+            <span class="block text-sm text-primary sm:text-center">
+              RAKOTOARISON Fenosoa Tiavina
+              &
+              RAZAFINJATOVO Diary Mickaëlla
+            </span>
+          </div>
+        </footer>
       </div>
+
     </mat-sidenav-content>
 
   </mat-sidenav-container>

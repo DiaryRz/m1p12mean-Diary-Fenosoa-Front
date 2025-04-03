@@ -1,0 +1,63 @@
+<div class="flex w-full my-4 px-2 join">
+  <label class="select join-item focus-within:outline-0">
+    <span class="label">Status</span>
+    <select [(ngModel)]="filterStatus" (change)="applyFilters()" class="w-fit focus:outline-0 focus:border-accent ">
+      <option value="">Tous</option>
+      <option value="confirmé">Confirmé/Payé(Moitié)</option>
+      <option value="validé">Validé</option>
+    </select>
+  </label>
+   <label class="input join-item focus-within:outline-0">
+    <span class="label">Dates</span>
+    <mat-date-range-input [rangePicker]="picker" (input)="applyFilters()">
+      <input matStartDate [(ngModel)]="filterDate.start" placeholder="Début">
+      <input matEndDate   [(ngModel)]="filterDate.end" placeholder="Fin"
+        (dateChange)="applyFilters()"
+      >
+    </mat-date-range-input>
+    <button class="aspect-square" type="button" (click)="picker.open()"><i-tabler
+        class="aspect-square w-5 iconify" name="calendar" /></button>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </label>
+
+  <label class="input focus-within:outline-0 w-full">
+    <i-tabler name="search" />
+    <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Rechercher..."
+      class="w-full focus:outline-0 focus:border-0 border-0 join-item" />
+  </label>
+  <button (click)="resetFilters()" class="btn btn-ghost btn-neutral join-item border border-neutral">
+    <i-tabler name="restore" />
+  </button>
+</div>
+
+<div class="m-1">
+  <ul class="list bg-base-100 rounded-box shadow-md gap-2">
+    @defer (when !isFetching) {
+    @for(appointment of filteredAppointments; track appointment){
+    <li class="list-row rounded-lg border border-base-300 w-full flex flex-col" appointment-item
+          [appointment]="appointment"
+          [dateFilter]="dateFilter"
+          [context]="context"
+          (refetch)="refetch.emit()"
+        >
+    </li>
+    }@empty{
+
+    <li class="list-row rounded-lg border border-base-300 w-full flex flex-col">
+      <h3 class="w-full text-lg font-semibold">
+            Pas de rendez-vous validé
+      </h3>
+    </li>
+      }
+    }
+    @loading{
+    <li class="list-row skeleton w-full ">
+    </li>
+    }
+    @placeholder{
+    <li class="list-row skeleton w-full ">
+    </li>
+    }
+  </ul>
+
+</div>
