@@ -34,7 +34,6 @@ export const routes: Routes = [
   {
     path: '',
     component: BlankComponent,
-    canActivate: [CookieGuard],
     children: [
       {
         path: '',

@@ -37,6 +37,17 @@ export class AuthService {
       })
     );
   }
+
+  refresh():Observable<any>{
+    return this.http.get(`${this.apiUrl}/refresh`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if(error.error.success === false){
+          return of({ok:false})
+        }
+          return of({ok:true})
+      })
+    )
+  }
   verify():Observable<any>{
     return this.http.get(`${this.apiUrl}/protected`).pipe(
       catchError((error: HttpErrorResponse) => {
