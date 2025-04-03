@@ -49,7 +49,8 @@ export class AppointmentsComponent implements OnInit {
       appointment.id_user.firstname.toLowerCase().includes(this.searchQuery.toLowerCase())||
       appointment.id_car.mark.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       appointment.id_car.model.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      appointment.id_car.immatriculation.toLowerCase().includes(this.searchQuery.toLowerCase())
+      appointment.id_car.immatriculation.toLowerCase().includes(this.searchQuery.toLowerCase())||
+      appointment.ticket_recup?.toLowerCase().includes(this.searchQuery.toLowerCase());
 
     const matchesStatus =
       !this.filterStatus || appointment.status === this.filterStatus;

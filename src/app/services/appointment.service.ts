@@ -111,7 +111,6 @@ export class AppointmentService {
     );
   }
 
-
   update(id_appointment:string, data:any){
     return this.http.put(`${this.apiUrl}/${id_appointment}`,data).pipe(
       catchError((error: HttpErrorResponse) => {
