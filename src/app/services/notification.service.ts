@@ -72,8 +72,6 @@ export class NotificationService {
       // Get user role first
       switchMap((user: any) => {
         const userRole = user.role_id.role_name;
-        console.log(user.role_id);
-
         // Create an array of observables based on role
         const requests: Observable<any[]>[] = [
           this.http.post<any[]>(`${this.serverUrl}/notifications/all/${userRole}`, {userId: user._id}).pipe(

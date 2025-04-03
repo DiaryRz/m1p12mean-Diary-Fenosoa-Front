@@ -11,6 +11,7 @@ import { MaterialModule } from 'src/app/material.module'
 
 import { MatTimepicker, MatTimepickerModule } from '@angular/material/timepicker';
 import { DateAdapter } from '@angular/material/core';
+import { tap } from 'rxjs/operators';
 
 
 import { DatetimeStringPipe } from 'src/app/pipe/datetime-string.pipe'
@@ -18,11 +19,14 @@ import { TimeStringPipe } from 'src/app/pipe/time-string.pipe'
 import { PrettyJsonPipe } from 'src/app/pipe/pretty-json.pipe';
 import { MinutesToHoursPipe } from 'src/app/pipe/minutes-to-hours.pipe'
 
-import { AppointmentService } from 'src/app/services/appointment.service';
 import { AppointmentInterface } from '../appointment.interface';
 
+import { AppointmentService } from 'src/app/services/appointment.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PaymentService } from 'src/app/services/payment.service';
+import { WorksService } from 'src/app/services/works.service';
+
+import { FindPipe } from 'src/app/pipe/find.pipe'
 
 import { format, parseISO } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -33,10 +37,10 @@ import { fr } from 'date-fns/locale';
   [
     CommonModule, FormsModule, ReactiveFormsModule,
     MaterialModule, MatTimepickerModule,
-    // PrettyJsonPipe,
     MinutesToHoursPipe,
     DatetimeStringPipe,
-    // TimeStringPipe
+    TimeStringPipe,
+    FindPipe,
   ],
   templateUrl: './item.component.html',
 })
@@ -46,8 +50,10 @@ export class AppointmentItemComponent implements OnInit {
     private appointmentService: AppointmentService,
     private dateAdapter: DateAdapter<Date>,
     private notificationService: NotificationService,
+    private worksService: WorksService,
     private paymentService: PaymentService,
   ) {}
+
   @Input() appointment:any;
   @Input() dateFilter:any;
   @Input() timeFilter:any;
@@ -55,6 +61,8 @@ export class AppointmentItemComponent implements OnInit {
   @Output() refetch = new EventEmitter<void>();
   @ViewChild('payment_modal') payement_modal!: ElementRef<HTMLDialogElement>;
   @ViewChild('date_modal') date_modal!: ElementRef<HTMLDialogElement>;
+
+  works : any[] = [];
 
   add_date_value = new Date();
 
@@ -101,6 +109,16 @@ export class AppointmentItemComponent implements OnInit {
     }
 
     this.appointment.date_deposition = new Date(this.appointment.date_deposition)
+    this.fetchWorks().subscribe();
+
+  }
+
+  fetchWorks(){
+    return this.worksService.getByAppointmentId(this.appointment._id).pipe(
+      tap((value: any) => {
+        this.works = value.data;
+      })
+    );
   }
 
   // Open a modal
@@ -119,6 +137,10 @@ export class AppointmentItemComponent implements OnInit {
     return this._form;
   }
 
+  date_str(date:string){
+    return new Date(date);
+  }
+
   format_date(date:number ,f:string){
     return format(new Date(date), f)
   }
@@ -132,10 +154,6 @@ export class AppointmentItemComponent implements OnInit {
     );
   }
 
-  log(value:any){
-    console.log(value)
-  }
-
   mark_as_delivered(){
     this.appointmentService.addDateDeposition(this.appointment._id).subscribe((value:any)=>{
       console.log(value);
@@ -143,4 +161,69 @@ export class AppointmentItemComponent implements OnInit {
       this.refetch.emit()
     })
   }
+
+  getWorkForService(serviceId: string) {
+    return this.works.find(w => w.id_service === serviceId);
+  }
+
+  begin_service_work(id_service:string){
+    const id_user:string = localStorage.getItem('userId') || '';
+    this.worksService.createWork(id_user,this.appointment._id ,id_service ).subscribe((value:any)=>{
+      this.fetchWorks();
+    })
+  }
+
+  mark_work_as_done(id_work: string) {
+    const updateData = {
+      status: 'done',
+      datetime_service_end: Date.now()
+    };
+
+    this.worksService.updateWork(id_work, updateData).subscribe({
+      next: (val: any) => {
+        console.log('Work updated:', val);
+        this.refreshWorksAndCheckCompletion();
+      },
+      error: (err) => {
+        console.error('Error updating work:', err);
+        // Handle error (show toast, etc.)
+      }
+    });
+  }
+
+  private refreshWorksAndCheckCompletion() {
+    this.fetchWorks().subscribe({
+      next: (val) => {
+        console.log(val);
+
+        if (this.isAppointmentDone()) {
+          this.sendCompletionNotification();
+        }
+      },
+      error: (err) => console.error('Error fetching works:', err)
+    });
+  }
+
+  private isAppointmentDone(): boolean {
+    const ok = this.works.every(work => work.status === 'done');
+    console.log(ok);
+    return ok;
+  }
+
+  private sendCompletionNotification() {
+    const carInfo = `${this.appointment.id_car.mark}-${this.appointment.id_car.model} (${this.appointment.id_car.immatriculation})`;
+    const remainingPayment = this.appointment.total_price * 0.5;
+
+    const notification = {
+      recipient: this.appointment.id_user._id,
+      message: {
+        title: 'Réparation terminée',
+        content: `Votre rendez-vous et les services ont été effectués.
+                  Voiture: ${carInfo}
+                  Veuillez payer le reste (${remainingPayment} Ar) pour pouvoir récupérer votre voiture.`
+      }
+    };
+    this.notificationService.sendNotification(notification);
+  }
+
 }
