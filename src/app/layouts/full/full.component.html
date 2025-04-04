@@ -21,10 +21,6 @@
         (toggleMobileNav)="sidenav.toggle()"></app-header>
         <main class="p-4 w-full mt-14 h-[calc(100% - calc(var(--spacing) * 16))] min-h-dvh overflow-auto">
           <router-outlet (activate)="onComponentActivated($event)"></router-outlet>
-          }@placeholder{
-          <div class="w-full rounded-lg h-full skeleton">
-          </div>
-          }
         </main>
         <footer class="sticky bottom-0 left-0 z-20 w-full p-4 border-t border-base-200 shadow-sm md:flex md:items-center md:justify-between md:p-6">
           <div class="w-full mx-auto md:py-4">
