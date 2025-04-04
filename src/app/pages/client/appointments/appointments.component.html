@@ -41,36 +41,42 @@
   </div>
 
 </div>
-<div class="inline-flex justify-evenly w-full gap-4 items-center m-4">
-  <div class="items-per-page">
-    <label class="select select-ghost label">
-      Nbr/page:
-      <select (change)="onItemsPerPageChange(+$event)">
-        <option [selected]="itemsPerPage === 5" value="5">5</option>
-        <option [selected]="itemsPerPage === 10" value="10">10</option>
-        <option [selected]="itemsPerPage === 20" value="20">20</option>
-        <option [selected]="itemsPerPage === 50" value="50">50</option>
-      </select>
+<div class="flex flex-row justify-between w-full items-center">
+  <label class="select  w-fit">
+    <select (change)="onItemsPerPageChange(+$event)">
+      <option [selected]="itemsPerPage === 5" value="5">5/p</option>
+      <option [selected]="itemsPerPage === 10" value="10">10/p</option>
+      <option [selected]="itemsPerPage === 20" value="20">20/p</option>
+      <option [selected]="itemsPerPage === 50" value="50">50/p</option>
+    </select>
+  </label>
 
-    </label>
-  </div>
-
-  <div class="join">
+  <div class="join ">
     <button [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)" class="btn join-item">
-      Précendent
+      <span class="lg:hidden">
+        <i-tabler name="arrow-left" />
+      </span>
+      <span class="hidden lg:block">
+        Précendent
+      </span>
     </button>
 
-    <span class="btn join-item">
-      Page {{ currentPage }} / {{ totalPages }}
+    <span class="items-center btn btn-outline btn-neutral join-item ">
+      {{ currentPage }} / {{ totalPages }}
     </span>
 
-    <button [disabled]="totalPages == 0 || currentPage === totalPages" (click)="onPageChange(currentPage + 1)"
+    <button [disabled]="totalPages > 0 || currentPage === totalPages" (click)="onPageChange(currentPage + 1)"
       class="btn join-item">
-      Suivant
+      <span class="lg:hidden">
+        <i-tabler name="arrow-right" />
+      </span>
+      <span class="hidden lg:block">
+        Suivant
+      </span>
     </button>
   </div>
 
-  <div class="total-items">
+  <div class="w-fit">
     Total {{ totalItems }}
   </div>
 </div>

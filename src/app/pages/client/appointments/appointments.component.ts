@@ -1,18 +1,3 @@
-/* import { Component ,inject } from '@angular/core';
-import { MaterialModule } from 'src/app/material.module';
-import { FormBuilder, ReactiveFormsModule, Validators ,ValidatorFn ,AbstractControl,ValidationErrors } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { AppointmentListComponent } from './list/appointment-list.component.ts'
-
-@Component({
-  selector: 'app-appointment',
-  imports: [ AppointmentCreateComponent , AppointmentListComponent ],
-  templateUrl: './appointment.component.html',
-})
-export class AppointementComponent {
-
-} */
-
 import {
   Component, OnInit,
   Input,
@@ -21,19 +6,16 @@ import {
   inject
 } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
-
+import { MaterialModule } from 'src/app/material.module';
 import { AppointmentCreateComponent } from './create/create.component'
-
 import { AppointmentListComponent } from './list/appointment-list.component';
-
 import { AppointmentInterface } from './list/appointment.interface';
-
 import { AppointmentService } from 'src/app/services/appointment.service';
 
 
 @Component({
   selector: 'mechanics-appointments',
-  imports: [AppointmentListComponent, AppointmentCreateComponent],
+  imports: [AppointmentListComponent, AppointmentCreateComponent , MaterialModule],
   templateUrl: './appointments.component.html',
 })
 export class AppointmentsComponent implements OnInit {

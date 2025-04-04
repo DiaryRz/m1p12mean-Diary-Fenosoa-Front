@@ -7,12 +7,12 @@ export const AuthGuard: CanActivateChildFn = (childRoute, state) => {
   const router = inject(Router);
 
   const clearAuthDataAndRedirect = () => {
-      /* const role = localStorage.getItem('role');
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('role');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('userId'); */
-      router.navigate([ `/login`,]);
+    const role = localStorage.getItem('role');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('role');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userId');
+    router.navigate([ `/login`]);
   };
 
     // Attempt refresh if needed

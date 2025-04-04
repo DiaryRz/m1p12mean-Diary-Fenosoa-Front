@@ -99,13 +99,6 @@ export class AppointmentsComponent implements OnInit {
       )
   }
 
-        /* (value:any)=>{
-          this.appointments = value.data.map(( apt:any ) => {
-            return {...apt, date_appointment: new Date(apt.date_appointment)}
-          });
-          this.filteredAppointments = this.appointments;
-          this.isFetching = false;
-        } */
   onPageChange(page: number): void {
     this.currentPage = page;
     this.loadAppointments();

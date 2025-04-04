@@ -7,25 +7,21 @@ import {
 } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { MaterialModule } from 'src/app/material.module'
-
 import { AppointmentListComponent } from './list/appointment-list.component';
-
 import { AppointmentInterface } from './list/appointment.interface';
-
 import { AppointmentService } from 'src/app/services/appointment.service';
 
 
 @Component({
   selector: 'mechanics-appointments',
   imports: [AppointmentListComponent, MaterialModule],
-  templateUrl: './appointments.component.html',
+  templateUrl: './works.component.html',
 })
-export class AppointmentsComponent implements OnInit {
+export class AppointmentsWorksComponent implements OnInit {
   today = new Date();
   tomorrow = new Date();
 
   appointments: AppointmentInterface[] = [];
-  filteredAppointmentsToDepositedToday  : AppointmentInterface[] = [];
   filteredAppointmentsToWorkedOn        : AppointmentInterface[] = [];
   currentPage = 1;
   itemsPerPage = 10;
@@ -57,11 +53,6 @@ export class AppointmentsComponent implements OnInit {
           this.totalItems = value.data.pagination.totalDocuments;
           this.isFetching = false;
 
-          this.filteredAppointmentsToDepositedToday = this.appointments.filter((apt: AppointmentInterface) => {
-            const isSameDay = this.dateAdapter.compareDate(apt.date_appointment, this.today) === 0;
-            const notDepositedYet = apt.date_deposition == null;
-            return isSameDay && notDepositedYet; // Assuming you want 'deposited' status
-          });
           this.filteredAppointmentsToWorkedOn = this.appointments.filter((apt: AppointmentInterface) => {
             const isSameDay = apt.date_deposition != null ?  this.dateAdapter.compareDate(new Date(apt.date_deposition), this.today) == 0 : false;
             return isSameDay; // Assuming you want 'deposited' status

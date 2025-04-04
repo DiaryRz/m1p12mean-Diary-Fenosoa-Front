@@ -230,6 +230,7 @@ export class AppointmentCreateComponent {
       }
 
       this.formData.appointment_data.date_reservation_request = new Date();
+      this.formData.appointment_data.status = this.formData.appointment_data.date_appointment ? 'validé' : 'en attente';
 
       this.appointmentService.createAppointment(this.formData.appointment_data)
         .subscribe((value:any)=>{

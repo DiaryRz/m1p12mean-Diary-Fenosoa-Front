@@ -44,7 +44,7 @@ export class HeaderComponent {
       localStorage.removeItem('role');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('userId');
-      this.router.navigate([ `${role == 'client' ? '' : '/employee'} /login`]);
+      role == 'client' ? this.router.navigate(['/login']) : this.router.navigate(['/employee/login'])
     })
   }
 }
