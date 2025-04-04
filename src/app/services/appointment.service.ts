@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient , HttpErrorResponse } from '@angular/common/http';
+import { HttpClient , HttpParams , HttpErrorResponse } from '@angular/common/http';
 
 import { Observable,of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
+
+import { PaginatedResponse } from 'src/app/pages/pagination.interface'
 
 
 @Injectable({
@@ -36,7 +38,7 @@ export class AppointmentService {
     );
   }
 
-  listAppointments(option: { with_dates?: boolean , verified?: boolean , waiting?: boolean} , body: any ):Observable<any> {
+  listAppointments(option: { with_dates?: boolean , verified?: boolean , waiting?: boolean} , body: any ,pagination?: { page: number , limit: number }):Observable<any> {
 
     const userId: string = localStorage.getItem('userId') || '';
     let endpoint;
@@ -67,7 +69,14 @@ export class AppointmentService {
 
     }
     endpoint = this.apiUrl + "/get";
-    return this.http.post(endpoint, { cond: body }).pipe(
+
+    let params = new HttpParams()
+    if (pagination) {
+      params.set('page', pagination.page.toString())
+      .set('limit', pagination.limit.toString());
+
+    }
+    return this.http.post<PaginatedResponse<any>>(endpoint, { cond: body }, { params: params }).pipe(
       catchError((error: HttpErrorResponse) => {
         return of({error : error.error}); // This is your fallback value
       })
@@ -118,4 +127,13 @@ export class AppointmentService {
       })
     );
   }
+
+  delete(id_appointment:string){
+    return this.http.delete(`${this.apiUrl}/${id_appointment}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of({error : error.error}); // This is your fallback value
+      })
+    );
+  }
+
 }

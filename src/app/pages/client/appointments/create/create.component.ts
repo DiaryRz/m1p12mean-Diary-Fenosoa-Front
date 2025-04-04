@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy, inject } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, Output, EventEmitter, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule } from '@angular/forms';
@@ -40,6 +40,7 @@ import { format } from 'date-fns'
 })
 export class AppointmentCreateComponent {
 
+  @Output() refetch = new EventEmitter<void>();
   @ViewChild('vehicleForm') vehicleForm!: VehicleCreateComponent;
   @ViewChild('vehicleListForm') vehicleListForm!: FormVehicleListComponent;
   @ViewChild('serviceListForm') serviceListForm!: FormServiceListComponent;
@@ -246,6 +247,7 @@ export class AppointmentCreateComponent {
             this.formData.services_data = {}
             this.currentStep = 1;
           }
+          this.refetch.emit();
         })
     }
   }

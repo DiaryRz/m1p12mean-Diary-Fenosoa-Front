@@ -60,8 +60,21 @@
       </li>
     </ul>
   </div>
+  @if(appointment.date_appointment.valueOf() == 0){
+    <span>
+      <div class="tooltip tooltip-left">
+        <div class="tooltip-content bg-neutral/50">
+          <div class="animate-pulse text-error text-md">Supprimer ce rendez-vous</div>
+        </div>
+        <button class="btn btn-outline btn-square btn-error" (click)="delete()">
+          <i-tabler name="trash"/>
+        </button>
+      </div>
+    </span>
+  }
 </div>
 @if(appointment.date_appointment.valueOf() == 0){
+
   <div class="flex flex-col gap-4">
     <div class="flex flex-col md:flex-row gap-4">
       <label class="floating-label focus-within:outline-0 focus-within:border-primary text-center h-10 w-full mx-auto">
@@ -92,16 +105,20 @@
 
 <div class="mb-4 flex items-center justify-center w-full">
 
+  @if(appointment.status == 'validé'){
+    <span class="text-lg text-neutral">En attente de confirmation</span>
+  }
   @if(appointment.status == 'payé'){
     Code ticket de récuperation: <span class="text-lg text-primary"> {{ appointment.ticket_recup }}</span>
   }
   @if(
-      (appointment.total_payed == 0 && appointment.status != "confirmé")     ||
+      (appointment.total_payed == 0 && appointment.status === "moitié")     ||
+
       (appointment.total_payed == (appointment.total_price * 0.5) && appointment.status == 'finie' && (appointment.total_payed !== appointment.total_price)  && context == 'done')
   ){
   <button class="btn btn-outline btn-success w-4/6 mx-auto" (click)="openModal(payment_modal)"> <i-tabler
       name="basket-dollar" />
-    Payer</button>
+    Payer   {{appointment.status == 'moitié' ? 'moitié' : 'reste'}}   </button>
 
   <dialog #payment_modal class="modal">
     <div class="modal-box">

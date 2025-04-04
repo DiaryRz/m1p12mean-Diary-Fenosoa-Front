@@ -13,6 +13,7 @@ import { AppointmentInterface } from './appointment.interface';
 
 import { NotificationService } from 'src/app/services/notification.service';
 
+import { PaginatedResponse } from 'src/app/pages/pagination.interface'
 
 
 import { AppointmentItemComponent } from './items/item.component';
@@ -35,7 +36,10 @@ export class AppointmentsComponent implements OnInit {
 
   appointments: AppointmentInterface[] = [] as AppointmentInterface[];
   filteredAppointments: AppointmentInterface[] = [];
-
+  currentPage = 1;
+  itemsPerPage = 10;
+  totalPages = 0;
+  totalItems = 0;
   isFetching: boolean = false;
 
   searchQuery: string = '';
@@ -76,16 +80,40 @@ export class AppointmentsComponent implements OnInit {
         date_appointment: { $ne: null },
     })
       .subscribe(
-        (value:any)=>{
+        {
+        next: (response: { success: boolean , data: PaginatedResponse<any> }) => {
+          console.log(response);
+          this.appointments = response.data.data.map(( apt:any ) => {
+            return {...apt, date_appointment: new Date(apt.date_appointment)}
+          });
+          this.totalPages = response.data.pagination.totalPages;
+          this.totalItems = response.data.pagination.totalDocuments;
+          this.isFetching = false;
+          this.filteredAppointments = this.appointments;
+        },
+        error: (error) => {
+          console.error('Error fetching users:', error);
+          this.isFetching = false;
+        }
+      }
+      )
+  }
+
+        /* (value:any)=>{
           this.appointments = value.data.map(( apt:any ) => {
             return {...apt, date_appointment: new Date(apt.date_appointment)}
           });
           this.filteredAppointments = this.appointments;
           this.isFetching = false;
-        }
-      )
+        } */
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadAppointments();
   }
 
-  test(){
+  onItemsPerPageChange(items: number): void {
+    this.itemsPerPage = items;
+    this.currentPage = 1; // Reset to first page when changing items per page
+    this.loadAppointments();
   }
 }

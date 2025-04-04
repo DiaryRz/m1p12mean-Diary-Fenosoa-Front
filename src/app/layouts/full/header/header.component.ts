@@ -39,10 +39,12 @@ export class HeaderComponent {
   private router = inject(Router)
   logout(){
     this.authService.logout().subscribe( response =>{
+      const role = localStorage.getItem('role');
       localStorage.removeItem('accessToken');
+      localStorage.removeItem('role');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('userId');
-      this.router.navigateByUrl(`/login`,);
+      this.router.navigate([ `/login`, role || '']);
     })
   }
 }

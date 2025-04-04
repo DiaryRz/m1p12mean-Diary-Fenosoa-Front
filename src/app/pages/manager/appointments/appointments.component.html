@@ -1,49 +1,92 @@
-<div class="flex w-full my-4 px-2 join">
-  <label class="select join-item focus-within:outline-0">
-    <span class="label">Status</span>
-    <select [(ngModel)]="filterStatus" (change)="applyFilters()" class="w-fit focus:outline-0 focus:border-accent ">
-      <option value="">Tous</option>
-      <option value="en attente">En attente</option>
-      <option value="confirmé">Confirmé/Payé(Moitié)</option>
-      <option value="validé">Validé</option>
-      <option value="finie">Finie</option>
-    </select>
-  </label>
-  <label class="input focus-within:outline-0 w-full">
-    <i-tabler name="search" />
-    <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Rechercher..."
-      class="w-full focus:outline-0 focus:border-0 border-0 join-item" />
-  </label>
-  <button (click)="resetFilters()" class="btn btn-ghost btn-neutral join-item">
-    <i-tabler name="restore" />
-  </button>
-</div>
-
-
-<div class="rounded-lg border border-base-300 m-3">
-  <ul class="list bg-base-100 rounded-box shadow-md gap-2">
-    @defer (when !isFetching) {
-    @for(appointment of filteredAppointments; track appointment){
-    <li class="list-row rounded-lg border border-base-300">
-      <div class="text-4xl font-thin opacity-30 tabular-nums"> {{ $index + 1}} </div>
-      <div appointment-item [appointment]="appointment" (refetch)="loadAppointments()"></div>
-    </li>
-    }
-      @empty{
-      <li class="list-row rounded-lg border border-base-300 w-full flex flex-col">
-        <h3 class="w-full text-lg font-semibold">
-        Pas de rendez-vous validé
-        </h3>
-      </li>
+<div class='rounded-lg border border-base-300  p-3'>
+  <div class="flex w-full my-4 px-2 join">
+    <label class="select join-item focus-within:outline-0">
+      <span class="label">Status</span>
+      <select [(ngModel)]="filterStatus" (change)="applyFilters()" class="w-fit focus:outline-0 focus:border-accent ">
+        <option value="">Tous</option>
+        <option value="en attente">En attente</option>
+        <option value="confirmé">Confirmé/Payé(Moitié)</option>
+        <option value="validé">Validé</option>
+        <option value="finie">Finie</option>
+        <option value="terminé">Récupéré</option>
+      </select>
+    </label>
+    <label class="input focus-within:outline-0 w-full">
+      <i-tabler name="search" />
+      <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Rechercher..."
+        class="w-full focus:outline-0 focus:border-0 border-0 join-item" />
+    </label>
+    <button (click)="resetFilters()" class="btn btn-ghost btn-neutral join-item">
+      <i-tabler name="restore" />
+    </button>
+  </div>
+  <div class="rounded-lg m-3">
+    <ul class="list bg-base-100 rounded-box shadow-md gap-2">
+      @defer (when !isFetching) {
+        @for(appointment of filteredAppointments; track appointment){
+          <li class="list-row rounded-lg border border-base-300">
+            <div class="text-4xl font-thin opacity-30 tabular-nums"> {{ $index + 1}} </div>
+            <div appointment-item [appointment]="appointment" (refetch)="loadAppointments()"></div>
+          </li>
+        }
+        @empty{
+          <li class="list-row rounded-lg border border-base-300 w-full flex flex-col">
+            <h3 class="w-full text-lg font-semibold">
+              Pas de rendez-vous
+            </h3>
+          </li>
+        }
       }
-    }
-    @loading{
-    <li class="list-row skeleton w-full ">
-    </li>
-    }
-    @placeholder{
-    <li class="list-row skeleton w-full ">
-    </li>
-    }
-  </ul>
+      @loading{
+        <li class="list-row skeleton w-full ">
+        </li>
+      }
+      @placeholder{
+        <li class="list-row skeleton w-full ">
+        </li>
+      }
+      <div class="flex flex-row justify-between w-full items-center">
+        <label class="select  w-fit">
+          <select (change)="onItemsPerPageChange(+$event)" >
+            <option [selected]="itemsPerPage === 5" value="5">5/p</option>
+            <option [selected]="itemsPerPage === 10" value="10">10/p</option>
+            <option [selected]="itemsPerPage === 20" value="20">20/p</option>
+            <option [selected]="itemsPerPage === 50" value="50">50/p</option>
+          </select>
+        </label>
+
+        <div class="join ">
+          <button
+            [disabled]="currentPage === 1"
+            (click)="onPageChange(currentPage - 1)"
+            class="btn join-item">
+            <span class="lg:hidden">
+              <i-tabler name="arrow-left"/>
+            </span>
+            <span class="hidden lg:block">
+              Précendent
+            </span>
+          </button>
+
+          <span class="items-center btn btn-outline btn-neutral join-item ">
+           {{ currentPage }} / {{ totalPages }}
+          </span>
+
+          <button [disabled]="totalPages > 0 || currentPage === totalPages" (click)="onPageChange(currentPage + 1)"
+            class="btn join-item">
+            <span class="lg:hidden">
+              <i-tabler name="arrow-right"/>
+            </span>
+            <span class="hidden lg:block">
+              Suivant
+            </span>
+          </button>
+        </div>
+
+        <div class="w-fit">
+          Total {{ totalItems }}
+        </div>
+      </div>
+    </ul>
+  </div>
 </div>

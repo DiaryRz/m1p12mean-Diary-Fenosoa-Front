@@ -118,6 +118,12 @@ export class AppointmentItemComponent implements OnInit {
     modal.close();
   }
 
+  delete(){
+    this.appointmentService.delete(this.appointment._id).subscribe(()=>{
+      this.refetch.emit();
+    })
+  }
+
   get form(): FormGroup{
     return this._form;
   }
@@ -149,7 +155,7 @@ export class AppointmentItemComponent implements OnInit {
         ...this.form.getRawValue(),
         phone_number : phone_number
       }
-      , this.context === 'pay'
+      , this.appointment.status === 'moitié'
     ).subscribe(( value : any )=>{
         console.log(value);
 
@@ -168,7 +174,7 @@ export class AppointmentItemComponent implements OnInit {
           this.notificationService.sendNotification(
             {
               to_role: "manager",
-              message: {content: content, title: `Payement (${this.context == 'pay' ? '50%' : 'Reste'})`},
+              message: {content: content, title: `Payement (${this.appointment.status == 'moitié' ? '50%' : 'Reste'})`},
             }
           );
           // updateForPickupTicket

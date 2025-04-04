@@ -7,29 +7,23 @@ export const AuthGuard: CanActivateChildFn = (childRoute, state) => {
   const router = inject(Router);
 
   const clearAuthDataAndRedirect = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('userId');
-    router.navigate(['/login']);
+      const role = localStorage.getItem('role');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('role');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('userId');
+      router.navigate([ `/login`, role || '']);
   };
 
-  // Verify current token first
-  authService.verify().subscribe({
-    next: (val) => {
-      if (!val.success) {
-        clearAuthDataAndRedirect();
-      }
-    },
-    error: () => clearAuthDataAndRedirect()
-  });
-
-  // Attempt refresh if needed
+    // Attempt refresh if needed
   authService.refresh().subscribe({
     next: (val) => {
+      console.log(val);
       if (val.success) {
         if (val.regenerate) {
           localStorage.setItem('accessToken', val.accessToken);
           localStorage.setItem('refreshToken', val.refreshToken);
+          localStorage.setItem('role', val.role);
           localStorage.setItem('userId', val.userId);
         }
       } else if (val.error?.expire_refresh) {
@@ -38,6 +32,7 @@ export const AuthGuard: CanActivateChildFn = (childRoute, state) => {
     },
     error: () => clearAuthDataAndRedirect()
   });
+
 
   return true;
 };

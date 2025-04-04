@@ -12,7 +12,7 @@
 <div class="tabs tabs-border tabs-top tabs-sm w-full ">
   <input type="radio" name="my_tabs_2" class="tab" aria-label="Prendre un rendez-vous" />
   <div class="tab-content border-base-300 bg-base-100 p-4">
-    <appointment-create />
+    <appointment-create (refetch)="loadAppointments()" />
   </div>
 
   <input type="radio" name="my_tabs_2" class="tab" aria-label="Tous" checked="checked" />
@@ -40,4 +40,37 @@
       [filteredAppointments]="filteredAppointmentsNeedRest" (refetch)="loadAppointments()" [context]="'done'" />
   </div>
 
+</div>
+<div class="inline-flex justify-evenly w-full gap-4 items-center m-4">
+  <div class="items-per-page">
+    <label class="select select-ghost label">
+      Nbr/page:
+      <select (change)="onItemsPerPageChange(+$event)">
+        <option [selected]="itemsPerPage === 5" value="5">5</option>
+        <option [selected]="itemsPerPage === 10" value="10">10</option>
+        <option [selected]="itemsPerPage === 20" value="20">20</option>
+        <option [selected]="itemsPerPage === 50" value="50">50</option>
+      </select>
+
+    </label>
+  </div>
+
+  <div class="join">
+    <button [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)" class="btn join-item">
+      Précendent
+    </button>
+
+    <span class="btn join-item">
+      Page {{ currentPage }} / {{ totalPages }}
+    </span>
+
+    <button [disabled]="totalPages == 0 || currentPage === totalPages" (click)="onPageChange(currentPage + 1)"
+      class="btn join-item">
+      Suivant
+    </button>
+  </div>
+
+  <div class="total-items">
+    Total {{ totalItems }}
+  </div>
 </div>
