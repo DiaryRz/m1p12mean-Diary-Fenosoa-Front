@@ -20,7 +20,7 @@ export class AppSideLoginComponent implements OnInit{
   router = inject(Router);
   cookieService = inject(CookieService);
   constructor(private activatedroute:ActivatedRoute) {}
-  data: any;
+  data:any;
 
   isSubmitting :boolean = false;
 

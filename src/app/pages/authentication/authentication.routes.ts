@@ -9,20 +9,31 @@ export const AuthenticationRoutes: Routes = [
     path: '',
     children: [
       {
-        path: 'login',
-        component: AppSideLoginComponent,
-        data :{ roles:[ "role_002" ]}
-      },
-      {
         path: 'register',
         component: AppSideRegisterComponent,
         data :{ roles:[ "role_002" ]}
       },
       {
-        path: 'employee/login',
+        path: 'login',
         component: AppSideLoginComponent,
-        data :{ roles:["role_001", "role_003"]}
+        data :{ roles:[ "role_002" ]}
       },
+      {
+        path: 'login/client',
+        component: AppSideLoginComponent,
+        data :{ roles:[ "role_002" ]}
+      },
+      {
+        path: 'login/manager',
+        component: AppSideLoginComponent,
+        data :{ roles:["role_001"]}
+      },
+      {
+        path: 'login/mechanics',
+        component: AppSideLoginComponent,
+        data :{ roles:["role_003"]}
+      },
+
     ],
   },
 ];

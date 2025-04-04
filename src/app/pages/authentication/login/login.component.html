@@ -10,7 +10,11 @@
 
             <img src="./assets/images/logos/ReviveAuto-1.svg" class="align-middle m-2 aspect-square w-16" alt="logo" />
 
-            <h1 class="mx-4 text-3xl font-bold text-primary">Se connecter!</h1>
+            <h1 class="mx-4 text-xl font-bold text-primary w-full text-center" >
+              {{ data.roles[0] == 'role_001' ? 'Manager': ( data.roles[0] == 'role_002' ? 'Client': (data.roles[0] == 'role_003' ? 'Mécanicien':'' ) ) }}
+            </h1>
+
+            <h1 class="mx-4 text-xl font-bold text-primary">Se connecter!</h1>
           </div>
           <form class="flex flex-col justify-evenly h-full " (ngSubmit)="submit()" [formGroup]="form">
             <div>
@@ -65,6 +69,7 @@
       </mat-card>
 
       <div class="p-10 hidden lg:block w-full bg-primary rounded-l-2xl">
+         <img src="./assets/images/auth_image.png" class="align-middle m-2 w-full aspect-auto" alt="logo" />
       </div>
     </div>
   </div>

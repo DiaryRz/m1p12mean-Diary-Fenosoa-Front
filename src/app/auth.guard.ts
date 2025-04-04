@@ -12,7 +12,7 @@ export const AuthGuard: CanActivateChildFn = (childRoute, state) => {
     localStorage.removeItem('role');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('userId');
-    router.navigate([ `/login`]);
+    router.navigate([`/login/${role}`]);
   };
 
     // Attempt refresh if needed
