@@ -15,8 +15,17 @@ export class HomeComponent implements OnInit {
 
   constructor() {
     this.mechanics_options = [
-      {navCap: 'Home', divider: true},
-      {displayName: 'Rendez-vous', iconName: 'calendar-clock', external: false, route: 'mechanics/appointments'},
+      {
+        displayName: 'Rendez-vous', iconName: 'calendar-clock',
+        children: [
+          {
+            displayName: 'Liste', iconName: 'menu-2', external: false, route: 'mechanics/appointments',
+          },
+          {
+            displayName: 'Travail', iconName: 'tools', external: false, route: 'mechanics/works',
+          }
+        ]
+      },
     ];
   }
 

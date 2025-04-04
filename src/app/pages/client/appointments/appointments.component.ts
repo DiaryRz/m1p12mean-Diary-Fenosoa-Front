@@ -1,18 +1,3 @@
-/* import { Component ,inject } from '@angular/core';
-import { MaterialModule } from 'src/app/material.module';
-import { FormBuilder, ReactiveFormsModule, Validators ,ValidatorFn ,AbstractControl,ValidationErrors } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { AppointmentListComponent } from './list/appointment-list.component.ts'
-
-@Component({
-  selector: 'app-appointment',
-  imports: [ AppointmentCreateComponent , AppointmentListComponent ],
-  templateUrl: './appointment.component.html',
-})
-export class AppointementComponent {
-
-} */
-
 import {
   Component, OnInit,
   Input,
@@ -21,24 +6,27 @@ import {
   inject
 } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
-
+import { MaterialModule } from 'src/app/material.module';
 import { AppointmentCreateComponent } from './create/create.component'
-
 import { AppointmentListComponent } from './list/appointment-list.component';
-
 import { AppointmentInterface } from './list/appointment.interface';
-
 import { AppointmentService } from 'src/app/services/appointment.service';
 
 
 @Component({
   selector: 'mechanics-appointments',
-  imports: [AppointmentListComponent, AppointmentCreateComponent],
+  imports: [AppointmentListComponent, AppointmentCreateComponent , MaterialModule],
   templateUrl: './appointments.component.html',
 })
 export class AppointmentsComponent implements OnInit {
   today = new Date();
   tomorrow = new Date();
+
+  currentPage = 1;
+  itemsPerPage = 10;
+  totalPages = 0;
+  totalItems = 0;
+  isFetching: boolean = false;
 
   appointments: AppointmentInterface[] = [];
   filteredAppointmentsNeedHalf        : AppointmentInterface[] = [];
@@ -64,7 +52,11 @@ export class AppointmentsComponent implements OnInit {
         (value:any)=>{
           console.log(value);
 
-          this.appointments = value.data.map(( apt:any ) => {
+          this.totalPages = value.data.pagination.totalPages;
+          this.totalItems = value.data.pagination.totalDocuments;
+          this.isFetching = false;
+
+          this.appointments = value.data.data.map(( apt:any ) => {
             return {...apt, date_appointment: new Date(apt.date_appointment)}
           });
 
@@ -86,6 +78,17 @@ export class AppointmentsComponent implements OnInit {
         }
       )
   }
+    onPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadAppointments();
+  }
+
+  onItemsPerPageChange(items: number): void {
+    this.itemsPerPage = items;
+    this.currentPage = 1; // Reset to first page when changing items per page
+    this.loadAppointments();
+  }
+
 
   test(){
     console.log(this.filteredAppointmentsNeedDate)

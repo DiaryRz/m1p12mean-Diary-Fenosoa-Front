@@ -9,10 +9,17 @@ export const RoleGuard: CanActivateChildFn = (route, state) => {
 
   return userService.getCurrentUser().pipe(
     map(val => {
+      const role = localStorage.getItem('role');
+
+      if (!val) {
+        router.navigate([ `/login`, role || '']);
+        return false;
+      }
+
       const urlSegments = state.url.split('/').filter(segment => segment !== '');
       const baseRoute = urlSegments.length > 0 ? urlSegments[0] : '';
       if (!val.role_id) {
-        router.navigate(['/login']);
+        router.navigate([ `/login`, role  || '']);
         return false;
       }
       const userRole = val.role_id.role_name;

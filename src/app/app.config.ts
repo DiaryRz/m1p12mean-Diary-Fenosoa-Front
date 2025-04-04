@@ -37,9 +37,13 @@ import {CookieService} from 'ngx-cookie-service';
 import { HTTP_INTERCEPTORS , withInterceptors } from '@angular/common/http';
 import { HttpSettingInterceptor } from './httpsetting.interceptor';
 
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+
+
 export const appConfig: ApplicationConfig = {
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
+    provideCharts(withDefaultRegisterables()),
     provideHttpClient( withInterceptors([HttpSettingInterceptor]) ),
     CookieService,
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -61,6 +65,6 @@ export const appConfig: ApplicationConfig = {
       MaterialModule,
       TablerIconsModule.pick(TablerIcons),
       NgScrollbarModule,
-    ),
+    ), provideCharts(withDefaultRegisterables()),
   ],
 };

@@ -19,8 +19,8 @@ export class WorksService {
       withCredentials : true,
   };
 
-  createWork(id_user: string, id_appointment:string , id_service:string):Observable<any> {
-    return this.http.post(`${this.apiUrl}` , {id_user: id_user, id_appointment: id_appointment , id_service: id_service}).pipe(
+  createWork(id_user: string, id_appointment:string , id_service:string, begin: boolean  = false ):Observable<any> {
+    return this.http.post(`${this.apiUrl}` , {id_user: id_user, id_appointment: id_appointment , id_service: id_service , begin: begin}).pipe(
       catchError((error: HttpErrorResponse) => {
         //console.log(error);
         return of({error : error.error}); // This is your fallback value

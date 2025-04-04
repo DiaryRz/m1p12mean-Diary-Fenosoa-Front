@@ -67,4 +67,11 @@ export class AppointmentItemComponent{
       }
     })
   }
+
+
+  pickup(){
+    this.appointmentService.update(this.appointment._id, { status: 'terminé' , date_pick_up: Date.now() }).subscribe({
+      next: (value:any)=>{ console.log(value) , this.refetch.emit();}
+    })
+  }
 }

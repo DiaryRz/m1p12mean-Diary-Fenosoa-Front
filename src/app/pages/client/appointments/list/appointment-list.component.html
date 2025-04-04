@@ -1,33 +1,37 @@
-<div class="flex w-full my-4 px-2 join">
-  <label class="select join-item focus-within:outline-0">
-    <span class="label">Status</span>
-    <select [(ngModel)]="filterStatus" (change)="applyFilters()" class="w-fit focus:outline-0 focus:border-accent ">
-      <option value="">Tous</option>
-      <option value="confirmé">Confirmé/Payé(Moitié)</option>
-      <option value="validé">Validé</option>
-    </select>
-  </label>
-   <label class="input join-item focus-within:outline-0">
-    <span class="label">Dates</span>
-    <mat-date-range-input [rangePicker]="picker" (input)="applyFilters()">
-      <input matStartDate [(ngModel)]="filterDate.start" placeholder="Début">
-      <input matEndDate   [(ngModel)]="filterDate.end" placeholder="Fin"
-        (dateChange)="applyFilters()"
-      >
-    </mat-date-range-input>
-    <button class="aspect-square" type="button" (click)="picker.open()"><i-tabler
+<div class="flex flex-col md:flex-row w-full px-2 gap-2">
+  <div class=" md:inline-flex join w-full">
+    <label class="select w-full join-item focus-within:outline-0">
+      <span class="label">Status</span>
+      <select [(ngModel)]="filterStatus" (change)="applyFilters()" class="w-fit focus:outline-0 focus:border-accent ">
+        <option value="">Tous</option>
+        <option value="confirmé">Confirmé/Payé(Moitié)</option>
+        <option value="validé">Validé</option>
+      </select>
+    </label>
+    <label class="input w-full join-item focus-within:outline-0">
+      <span class="label">Dates</span>
+      <mat-date-range-input [rangePicker]="picker" (input)="applyFilters()">
+        <input matStartDate [(ngModel)]="filterDate.start" placeholder="Début">
+        <input matEndDate   [(ngModel)]="filterDate.end" placeholder="Fin"
+          (dateChange)="applyFilters()"
+        >
+      </mat-date-range-input>
+      <button class="aspect-square" type="button" (click)="picker.open()"><i-tabler
         class="aspect-square w-5 iconify" name="calendar" /></button>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </label>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </label>
+  </div>
 
-  <label class="input focus-within:outline-0 w-full">
-    <i-tabler name="search" />
-    <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Rechercher..."
-      class="w-full focus:outline-0 focus:border-0 border-0 join-item" />
-  </label>
-  <button (click)="resetFilters()" class="btn btn-ghost btn-neutral join-item border border-neutral">
-    <i-tabler name="restore" />
-  </button>
+  <div class="join inline-flex w-full">
+    <label class="input join-item focus-within:outline-0 w-full">
+      <i-tabler name="search" />
+      <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Rechercher..."
+        class="w-full focus:outline-0 focus:border-0 border-0 " />
+    </label>
+    <button (click)="resetFilters()" class="btn btn-ghost btn-neutral join-item  border border-neutral">
+      <i-tabler name="restore" />
+    </button>
+  </div>
 </div>
 
 <div class="m-1">

@@ -22,7 +22,50 @@
     <appointment-list [appointments]="filteredAppointmentsToWorkedOn"
       [filteredAppointments]="filteredAppointmentsToWorkedOn" (refetch)="loadAppointments()" [context]="'work'" />
   </div>
+
+
 </div>
+
+<div class="flex flex-row justify-between w-full items-center mt-2">
+  <label class="select  w-fit">
+    <select (change)="onItemsPerPageChange(+$event)">
+      <option [selected]="itemsPerPage === 5" value="5">5/p</option>
+      <option [selected]="itemsPerPage === 10" value="10">10/p</option>
+      <option [selected]="itemsPerPage === 20" value="20">20/p</option>
+      <option [selected]="itemsPerPage === 50" value="50">50/p</option>
+    </select>
+  </label>
+
+  <div class="join ">
+    <button [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)" class="btn join-item">
+      <span class="lg:hidden">
+        <i-tabler name="arrow-left" />
+      </span>
+      <span class="hidden lg:block">
+        Précendent
+      </span>
+    </button>
+
+    <span class="items-center btn btn-outline btn-neutral join-item ">
+      {{ currentPage }} / {{ totalPages }}
+    </span>
+
+    <button [disabled]="totalPages > 0 || currentPage === totalPages" (click)="onPageChange(currentPage + 1)"
+      class="btn join-item">
+      <span class="lg:hidden">
+        <i-tabler name="arrow-right" />
+      </span>
+      <span class="hidden lg:block">
+        Suivant
+      </span>
+    </button>
+  </div>
+
+  <div class="w-fit">
+    Total {{ totalItems }}
+  </div>
+</div>
+
 
 
 <!-- <button type="" (click)="test()">test</button> -->

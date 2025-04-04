@@ -5,19 +5,14 @@ import { RouterModule } from '@angular/router';
 
 
 @Component({
-  selector: 'app-home',
-  imports: [CommonModule, RouterModule ],
-  template: `<title> Home | ReviveAuto </title>
-@defer{
-<router-outlet></router-outlet>
-}@placeholder{
-<div class="w-full rounded-lg h-full skeleton">
-</div>
-}@loading{
-<div class="w-full rounded-lg h-full skeleton">
-</div>
-}
-`,
+  selector: 'manager-home',
+  imports: [CommonModule, RouterModule],
+  template:`
+    <title>Home | ReviveAuto</title>
+    <div class="flex-1">
+      <router-outlet></router-outlet> <!-- This renders your manager-home component -->
+    </div>
+  `,
 })
 export class HomeComponent implements OnInit {
   @Output() loadComponent = new EventEmitter<NavItem[]>();
@@ -29,7 +24,7 @@ export class HomeComponent implements OnInit {
       {displayName: 'Configuration' , iconName: 'settings'      , external: false , route: 'manager/settings'       },
       {displayName: 'Services'      , iconName: 'tools'         , external: false , route: 'manager/services'       },
       {displayName: 'Rendez-vous'   , iconName: 'calendar'      , external: false , route: 'manager/appointments'   },
-      // {displayName: 'Statistique', iconName: 'chart-area'    , external: false , route: 'manager/'},
+      {displayName: 'Statistique', iconName: 'chart-area'    , external: false , route: 'manager/'},
     ];
   }
   ngOnInit(){

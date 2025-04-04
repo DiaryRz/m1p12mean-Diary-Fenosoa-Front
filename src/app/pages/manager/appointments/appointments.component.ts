@@ -13,6 +13,7 @@ import { AppointmentInterface } from './appointment.interface';
 
 import { NotificationService } from 'src/app/services/notification.service';
 
+import { PaginatedResponse } from 'src/app/pages/pagination.interface'
 
 
 import { AppointmentItemComponent } from './items/item.component';
@@ -35,7 +36,10 @@ export class AppointmentsComponent implements OnInit {
 
   appointments: AppointmentInterface[] = [] as AppointmentInterface[];
   filteredAppointments: AppointmentInterface[] = [];
-
+  currentPage = 1;
+  itemsPerPage = 10;
+  totalPages = 0;
+  totalItems = 0;
   isFetching: boolean = false;
 
   searchQuery: string = '';
@@ -49,7 +53,8 @@ export class AppointmentsComponent implements OnInit {
       appointment.id_user.firstname.toLowerCase().includes(this.searchQuery.toLowerCase())||
       appointment.id_car.mark.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       appointment.id_car.model.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      appointment.id_car.immatriculation.toLowerCase().includes(this.searchQuery.toLowerCase())
+      appointment.id_car.immatriculation.toLowerCase().includes(this.searchQuery.toLowerCase())||
+      appointment.ticket_recup?.toLowerCase().includes(this.searchQuery.toLowerCase());
 
     const matchesStatus =
       !this.filterStatus || appointment.status === this.filterStatus;
@@ -75,16 +80,33 @@ export class AppointmentsComponent implements OnInit {
         date_appointment: { $ne: null },
     })
       .subscribe(
-        (value:any)=>{
-          this.appointments = value.data.map(( apt:any ) => {
+        {
+        next: (response: { success: boolean , data: PaginatedResponse<any> }) => {
+          console.log(response);
+          this.appointments = response.data.data.map(( apt:any ) => {
             return {...apt, date_appointment: new Date(apt.date_appointment)}
           });
+          this.totalPages = response.data.pagination.totalPages;
+          this.totalItems = response.data.pagination.totalDocuments;
+          this.isFetching = false;
           this.filteredAppointments = this.appointments;
+        },
+        error: (error) => {
+          console.error('Error fetching users:', error);
           this.isFetching = false;
         }
+      }
       )
   }
 
-  test(){
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadAppointments();
+  }
+
+  onItemsPerPageChange(items: number): void {
+    this.itemsPerPage = items;
+    this.currentPage = 1; // Reset to first page when changing items per page
+    this.loadAppointments();
   }
 }

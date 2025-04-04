@@ -53,20 +53,41 @@
     </ul>
   </div>
 
-  <div class="mb-4 flex items-center justify-center" *ngIf="appointment.status == 'finie'">
-    <div *ngIf="(appointment.total_paye != appointment.total_price)"
+  <div class="mb-4 flex items-center justify-center">
+    <div *ngIf="appointment.status == 'terminé'"
+      class="text-lg items-center flex flex-col gap-4"
+    >
+      <div class="mx-auto text-success text-lg">
+        Récuperer par le propriétaire le {{ appointment.date_pick_up | datetimeString }}
+      </div>
+    </div>
+    <div *ngIf="appointment.status == 'moitié'"
+      class="text-lg items-center flex flex-col gap-4"
+    >
+      <div class="mx-auto text-success text-lg">
+        OK!
+      </div>
+    </div>
+    <div *ngIf="appointment.ticket_recup != null && appointment.status == 'payé'"
+      class="text-lg items-center flex flex-col gap-4"
+    >
+      <div class="mx-auto">
+        Code ticket de récuperation: <span class="text-lg text-primary"> {{ appointment.ticket_recup }}</span>
+      </div>
+      <button class="btn btn-outline btn-success w-full mx-auto gap-4" (click)="pickup()"> <i-tabler
+          name="package-export" />
+        Récuperer
+      </button>
+    </div>
+    <div *ngIf="(appointment.total_paye != appointment.total_price && appointment.status == 'finie')"
       class="text-lg underline underline-offset-2"
     >
       Payement : {{ appointment.total_payed | currency }} / {{ appointment.total_price | currency }}
     </div>
-    <button class="btn btn-outline btn-success w-4/6 mx-auto gap-4" *ngIf="(appointment.total_payed === appointment.total_price)" > <i-tabler
-        name="package-export" />
-      Récuperer
-    </button>
-  </div>
-  <div class="mb-4 flex items-center justify-center" *ngIf="appointment.status == 'validé'">
-    <button class="btn btn-outline btn-success w-4/6 mx-auto" (click)="confirm(appointment._id)"> <i-tabler
-        name="check" />
-      Confirmer</button>
+    <div class="mb-4 flex items-center justify-center" *ngIf="appointment.status == 'validé' && appointment.date_appointment.valueOf()!=0">
+      <button class="btn btn-outline btn-success w-full mx-auto gap-4" (click)="confirm(appointment._id)">
+        <i-tabler name="check" />Confirmer
+      </button>
+    </div>
   </div>
 </div>
