@@ -1,6 +1,6 @@
-<div class="dropdown dropdown-bottom dropdown-end">
-  <div tabindex="0" role="button" class=" indicator">
-    <span *ngIf="unreadCount > 0" class="indicator-item badge badge-xs badge-secondary">
+<div class="dropdown dropdown-bottom dropdown-center md:dropdown-end">
+  <div tabindex="0" role="button" class="indicator">
+    <span *ngIf="unreadCount > 0" class="indicator-item badge badge-xs badge-info">
       {{ unreadCount }}
     </span>
     <div class="btn btn-ghost btn-circle">
@@ -8,9 +8,9 @@
     </div>
   </div>
   <div tabindex="0"
-    class="tabs tabs-border tabs-top tabs-sm dropdown-content bg-base-200 border border-base-300 rounded-xl z-1 mt-3 shadow min-w-[30dvw]">
+    class="tabs tabs-border tabs-top tabs-sm dropdown-content bg-base-200 border border-base-300 rounded-lg z-1 mt-3 shadow min-w-[90dvw] md:min-w-[50dvw] p-1">
     <input type="radio" name="notif_tabs" class="tab" aria-label="Non lus" checked />
-    <div class="tab-content bg-base-100 border-base-300 p-2">
+    <div class="tab-content bg-base-100 border-base-300 p-2 rounded-lg">
       <ul class="list gap-2">
         @if( unreadCount > 0 ) {
         @for(notification of notifications ; track notification){
@@ -43,7 +43,7 @@
     </div>
 
     <input type="radio" name="notif_tabs" class="tab" aria-label="Tous" />
-    <div class="tab-content bg-base-100 border-base-300 p-2">
+    <div class="tab-content bg-base-100 border-base-300 p-2 rounded-lg">
       <ul class="list gap-2">
         @for(notification of notifications ; track notification){
         <li class="px-2 inline-flex w-full">

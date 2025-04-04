@@ -1,10 +1,14 @@
 <div class="flex flex-row md:flex-col">
   <div class="flex justify-start md:w-full items-center md:mx-auto">
     <ul class="steps steps-vertical md:steps-horizontal w-full">
-      <li class="step text-sm" [class.step-primary]="currentStep >= 2">Véhicule</li>
-      <li class="step text-sm" [class.step-primary]="currentStep >= 3">Services</li>
-      <li class="step text-sm" [class.step-primary]="currentStep >= 4">Devis</li>
-      <li class="step text-sm" [class.step-primary]="currentStep >= 5">Date & Heure</li>
+      <li class="step text-sm" [ngClass]="{'step-info':currentStep >= 2}">
+        <i-tabler name="car"            class="text-sm p-1 step-icon md:hidden" [ngClass]="{'!text-base-100':currentStep >= 2}" /><span class="md:block hidden">Véhicule</span></li>
+      <li class="step text-sm" [ngClass]="{'step-info':currentStep >= 3}">
+        <i-tabler name="tools"          class="text-sm p-1 step-icon md:hidden" [ngClass]="{'!text-base-100':currentStep >= 3}"/><span class="md:block hidden">Services</span></li>
+      <li class="step text-sm" [ngClass]="{'step-info':currentStep >= 4}">
+        <i-tabler name="receipt-2"      class="text-sm p-1 step-icon md:hidden" [ngClass]="{'!text-base-100':currentStep >= 4}"/><span class="md:block hidden">Devis</span></li>
+      <li class="step text-sm" [ngClass]="{'stroke-info':currentStep >= 5}">
+        <i-tabler name="calendar-clock" class="text-sm p-1 step-icon md:hidden" [ngClass]="{'!text-base-100':currentStep >= 5}"/><span class="md:block hidden">Date & Heure</span></li>
     </ul>
   </div>
 
@@ -12,23 +16,23 @@
 
     <div class="h-full grow">
       <div *ngIf="currentStep === 1" class="w-full flex justify-center items-center ">
-        <div class="card  max-w-4/5">
+        <div class="card w-full">
 
           <h1 class="my-4 text-xl font-semibold w-full text-center card-title">Ajouter nouveau véhicule ou
             selectionner à partir
             de vos
             ancien véhicule ?</h1>
           <div class="my-4 w-full flex gap-4 justify-evenly card-body">
-            <label class="border rounded-xl w-full p-2 has-checked:border-success text-center join flex justify-between">
+            <label class="border rounded-lg w-full p-2 has-checked:border-success text-center join flex justify-between">
               <input type="radio" class="hidden radio radio-primary" name="selectionType"
                 [(ngModel)]="formData.selectionType" value="existing" [checked]="formData.selectionType === 'existing'"
                 (change)="onSelectionTypeChange('existing')" >
-              <span class="label join-item"><i-tabler name="menu-2"/> Selectionner véhicule</span>
+              <span class="label join-item"><i-tabler name="menu-2"/><p class="break-words w-full"> Selectionner véhicule</p></span>
             </label>
-            <label class="border rounded-xl w-full p-2 has-checked:border-success text-center join flex justify-between">
+            <label class="border rounded-lg w-full p-2 has-checked:border-success text-center join flex justify-between">
               <input type="radio" class="hidden radio radio-primary" name="selectionType" [(ngModel)]="formData.selectionType"
                 value="new" [checked]="formData.selectionType === 'new'" (change)="onSelectionTypeChange('new')" >
-              <span class="label join-item"> <i-tabler name="plus"/> Ajouter nouveau véhicule</span>
+              <span class="label join-item"> <i-tabler name="plus"/> <p class="break-words w-full">Ajouter nouveau véhicule</p></span>
             </label>
 
           </div>
