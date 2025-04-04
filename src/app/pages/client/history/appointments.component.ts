@@ -7,17 +7,17 @@ import {
 } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { MaterialModule } from 'src/app/material.module';
-import { AppointmentCreateComponent } from './create/create.component'
-import { AppointmentInterface } from './appointment.interface';
+import { AppointmentListComponent } from './list/appointment-list.component';
+import { AppointmentInterface } from './list/appointment.interface';
 import { AppointmentService } from 'src/app/services/appointment.service';
 
 
 @Component({
   selector: 'mechanics-appointments',
-  imports: [AppointmentCreateComponent , MaterialModule],
+  imports: [AppointmentListComponent, MaterialModule],
   templateUrl: './appointments.component.html',
 })
-export class AppointmentsComponent implements OnInit {
+export class AppointmentsHistoryComponent implements OnInit {
   today = new Date();
   tomorrow = new Date();
 

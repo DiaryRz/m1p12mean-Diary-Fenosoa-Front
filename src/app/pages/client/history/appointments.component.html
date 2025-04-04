@@ -1,0 +1,77 @@
+<!--- form to create appointment --->
+
+<!-- name of each tab group should be unique -->
+<!-- <div class="tabs tabs-border tabs-top tabs-sm">
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Rendez-vous validé" checked="checked" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list />
+  </div>
+
+</div>
+-->
+<div class="tabs tabs-border tabs-top tabs-sm w-full ">
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Tous" checked="checked" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list [appointments]="appointments" [filteredAppointments]="appointments"
+      (refetch)="loadAppointments()" />
+  </div>
+
+
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="En attente/Pas de date" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list [appointments]="filteredAppointmentsNeedDate"
+      [filteredAppointments]="filteredAppointmentsNeedDate" (refetch)="loadAppointments()" [context]="'date'" />
+  </div>
+
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Moitié à payer" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list [appointments]="filteredAppointmentsNeedDate"
+      [filteredAppointments]="filteredAppointmentsNeedHalf" (refetch)="loadAppointments()" [context]="'pay'" />
+  </div>
+
+  <input type="radio" name="my_tabs_2" class="tab" aria-label="Terminé" />
+  <div class="tab-content border-base-300 bg-base-100 p-4">
+    <appointment-list [appointments]="filteredAppointmentsNeedDate"
+      [filteredAppointments]="filteredAppointmentsNeedRest" (refetch)="loadAppointments()" [context]="'done'" />
+  </div>
+
+</div>
+<div class="flex flex-row justify-between w-full items-center">
+  <label class="select  w-fit">
+    <select (change)="onItemsPerPageChange(+$event)">
+      <option [selected]="itemsPerPage === 5" value="5">5/p</option>
+      <option [selected]="itemsPerPage === 10" value="10">10/p</option>
+      <option [selected]="itemsPerPage === 20" value="20">20/p</option>
+      <option [selected]="itemsPerPage === 50" value="50">50/p</option>
+    </select>
+  </label>
+
+  <div class="join ">
+    <button [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)" class="btn join-item">
+      <span class="lg:hidden">
+        <i-tabler name="arrow-left" />
+      </span>
+      <span class="hidden lg:block">
+        Précendent
+      </span>
+    </button>
+
+    <span class="items-center btn btn-outline btn-neutral join-item ">
+      {{ currentPage }} / {{ totalPages }}
+    </span>
+
+    <button [disabled]="totalPages > 0 || currentPage === totalPages" (click)="onPageChange(currentPage + 1)"
+      class="btn join-item">
+      <span class="lg:hidden">
+        <i-tabler name="arrow-right" />
+      </span>
+      <span class="hidden lg:block">
+        Suivant
+      </span>
+    </button>
+  </div>
+
+  <div class="w-fit">
+    Total {{ totalItems }}
+  </div>
+</div>
