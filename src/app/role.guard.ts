@@ -10,10 +10,6 @@ export const RoleGuard: CanActivateChildFn = (route, state) => {
   return userService.getCurrentUser().pipe(
     map(val => {
       const role = localStorage.getItem('role');
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('role');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('userId');
 
       if (!val) {
         router.navigate([ `/login`, role || '']);

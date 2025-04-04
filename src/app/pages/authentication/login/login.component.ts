@@ -62,7 +62,8 @@ export class AppSideLoginComponent implements OnInit{
         localStorage.setItem('role', response.role)
         localStorage.setItem('refreshToken', response.refreshToken)
         localStorage.setItem('accessToken', response.accessToken)
-        this.router.navigateByUrl('/client');
+
+        this.router.navigateByUrl(response.role);
 
         this.isSubmitting = false;
     });
