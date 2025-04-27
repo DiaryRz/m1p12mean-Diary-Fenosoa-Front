@@ -89,7 +89,4 @@ export class AppointmentsHistoryComponent implements OnInit {
   }
 
 
-  test(){
-    console.log(this.filteredAppointmentsNeedDate)
-  }
 }
