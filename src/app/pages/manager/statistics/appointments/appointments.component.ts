@@ -71,7 +71,7 @@ export class AppointmentsChartComponent implements OnInit {
     plugins: {
       title: {
         display: true,
-        text: `Rendez-vous mensuel (${this.year})`,
+        text: `Rendez-vous mensuel`,
         font: {
           size: 16
         }
@@ -172,7 +172,7 @@ export class AppointmentsChartComponent implements OnInit {
   private updateChart() {
     // Filter data to only include months up to current month
     const filteredData = this.chartData
-      .filter(item => item._id.month <= this.currentMonth)
+      .filter(item => this.year < new Date().getFullYear() || item._id.month <= this.currentMonth)
       .sort((a, b) => a._id.month - b._id.month);
 
     // Update chart labels and data

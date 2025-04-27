@@ -74,7 +74,7 @@ export class AmountsChartComponent implements OnInit {
     plugins: {
       title: {
         display: true,
-        text: `Revenue mensuel (${this.year})`,
+        text: `Revenue mensuel`,
         font: {
           size: 16
         }
@@ -107,35 +107,31 @@ export class AmountsChartComponent implements OnInit {
     if (this.year == new Date().getFullYear()) {
       return;
     }
-    if (this.month == -1) {
-      return;
+
+    if (this.year < new Date().getFullYear()) {
+      this.month = 12
     }
+
+
     this.fetchData();
   }
 
   resetFilters() {
     if (this.year == new Date().getFullYear()) {
-      return;
-    }
-    if (this.month == -1) {
+      this.month = -1;
       return;
     }
     this.year = new Date().getFullYear();
     this.month = -1;
+
     this.fetchData();
   }
 
   onYearSelected(normalizedYear: moment.Moment, datepicker: MatDatepicker<Date>) {
+
     const ctrlValue = moment(normalizedYear);
     this.yearControl.setValue(new Date(ctrlValue.valueOf()));
     this.year = ctrlValue.year();
-    datepicker.close();
-  }
-
-  onMonthSelected(normalizedYear: moment.Moment, datepicker: MatDatepicker<Date>) {
-    const ctrlValue = moment(normalizedYear);
-    this.monthControl.setValue(new Date(ctrlValue.valueOf()));
-    this.month = ctrlValue.month();
     datepicker.close();
   }
 
@@ -173,10 +169,12 @@ export class AmountsChartComponent implements OnInit {
   }
 
   private updateChart() {
-    // Filter data to only include months up to current month
+
     const filteredData = this.chartData
-      .filter(item => item._id.month <= this.currentMonth)
+      .filter(item => this.year < new Date().getFullYear() || item._id.month <= this.currentMonth)
       .sort((a, b) => a._id.month - b._id.month);
+
+    console.log(filteredData);
 
     // Update chart labels and data
     this.lineChartData.labels = filteredData.map(item => this.monthNames[item._id.month - 1]);
