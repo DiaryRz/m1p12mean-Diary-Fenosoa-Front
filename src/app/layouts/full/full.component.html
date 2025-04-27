@@ -19,29 +19,28 @@
     <mat-sidenav-content class="h-full relative z-[1] overflow-auto block" #content>
       <app-header [showToggle]="!isOver" (toggleCollapsed)="toggleCollapsed()"
         (toggleMobileNav)="sidenav.toggle()"></app-header>
-        <main class="p-4 w-full mt-14 h-[calc(100% - calc(var(--spacing) * 16))] min-h-dvh overflow-auto">
+        <main class="p-4 w-full mt-14 h-[calc(100% - calc(var(--spacing) * 20))] min-h-dvh overflow-auto">
           <router-outlet (activate)="onComponentActivated($event)"></router-outlet>
         </main>
-        <div class="relative  min-h-[76px]">
+        <div class="min-h-[76px] max-h-24">
           <footer class="fixed min-h-[50px] bottom-0 bg-base-200 left-0 z-20 w-full p-4 border-t border-base-200 shadow-sm md:flex md:items-center md:justify-between md:p-6">
-            <div class="w-full mx-auto ">
-              <div class="sm:flex sm:items-center sm:justify-between">
+            <div class="flex flex-row items-center justify-evenly w-full mx-auto ">
+              <div class="hidden sm:block sm:items-center sm:justify-between ">
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">ReviveAuto</span>
-                <ul class="flex flex-wrap items-center text-sm font-medium ">
-                  <li>
-                    <a href="https://github.com/DiaryRz/m1p12mean-Diary-Fenosoa-Front" class="hover:underline me-4 md:me-6"><i-tabler name="brand-github-filled"/>Frontend</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/DiaryRz/m1p12mean-Diary-Fenosoa-Back" class="hover:underline me-4 md:me-6"><i-tabler name="brand-github-filled"/> Backend</a>
-                  </li>
-                </ul>
               </div>
-              <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-              <span class="block text-sm text-primary sm:text-center">
-                RAKOTOARISON Fenosoa Tiavina
-                &
-                RAZAFINJATOVO Diary Mickaëlla
-              </span>
+              <ul class="flex flex-col items-center text-sm font-medium  text-primary">
+                <li class="text-left">RAKOTOARISON Fenosoa Tiavina</li>
+                <li class="text-left">RAZAFINJATOVO Diary Mickaëlla</li>
+              </ul>
+
+              <ul class="flex flex-wrap items-end text-sm font-medium ">
+                <li >
+                  <a href="https://github.com/DiaryRz/m1p12mean-Diary-Fenosoa-Front" class="flex items-center text-sm font-medium hover:underline"><i-tabler name="brand-github-filled"/>Frontend</a>
+                </li>
+                <li>
+                  <a href="https://github.com/DiaryRz/m1p12mean-Diary-Fenosoa-Back" class="flex items-center text-sm font-medium hover:underline"><i-tabler name="brand-github-filled"/> Backend</a>
+                </li>
+              </ul>
             </div>
           </footer>
         </div>
