@@ -50,7 +50,6 @@ export class ServicesChartComponent implements OnInit {
   year: number = new Date().getFullYear();
   month: number = -1;
   yearControl = new FormControl(new Date());
-  monthControl = new FormControl(new Date());
 
   dateFilter = (date: moment.Moment | null): boolean => {
     if (!date) return false;
@@ -103,25 +102,28 @@ export class ServicesChartComponent implements OnInit {
     }
   };
 
+
   applyFilters() {
     if (this.year == new Date().getFullYear()) {
       return;
     }
-    if (this.month == -1) {
-      return;
+
+    if (this.year < new Date().getFullYear()) {
+      this.month = 12
     }
+
+
     this.fetchData();
   }
 
   resetFilters() {
     if (this.year == new Date().getFullYear()) {
-      return;
-    }
-    if (this.month == -1) {
+      this.month = -1;
       return;
     }
     this.year = new Date().getFullYear();
     this.month = -1;
+
     this.fetchData();
   }
 
@@ -129,13 +131,6 @@ export class ServicesChartComponent implements OnInit {
     const ctrlValue = moment(normalizedYear);
     this.yearControl.setValue(new Date(ctrlValue.valueOf()));
     this.year = ctrlValue.year();
-    datepicker.close();
-  }
-
-  onMonthSelected(normalizedYear: moment.Moment, datepicker: MatDatepicker<Date>) {
-    const ctrlValue = moment(normalizedYear);
-    this.monthControl.setValue(new Date(ctrlValue.valueOf()));
-    this.month = ctrlValue.month();
     datepicker.close();
   }
 
