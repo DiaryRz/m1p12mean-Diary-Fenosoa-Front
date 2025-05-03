@@ -3,8 +3,6 @@ import { NavItem } from '../../../layouts/full/sidebar/nav-item/nav-item'
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { NotificationService } from 'src/app/services/notification.service';
-
 @Component({
   selector: 'app-home',
   imports: [CommonModule, RouterModule ],
@@ -12,7 +10,6 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class HomeComponent implements OnInit {
 
-  private notificationService = inject(NotificationService);
   @Output() loadComponent = new EventEmitter<NavItem[]>();
   client_options: NavItem[] = [];
   constructor(){
@@ -25,15 +22,10 @@ export class HomeComponent implements OnInit {
   }
   ngOnInit(){
     this.loadComponent.emit(this.client_options);
+    const router = inject(Router)
+
+    router.navigate([`/client/history`]);
   }
 
-  test(){
-    this.notificationService.sendNotification(
-      {
-        to_role: 'manager',
-        message: {content: 'Real-time notification', title: "Test notif manager" },
-      }
-    );
-  }
 
 }

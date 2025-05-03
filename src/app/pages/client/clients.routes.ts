@@ -8,6 +8,7 @@ export const PagesRoutes: Routes = [
   {
     path: '',
     component: HomeComponent,
+
     children: [
       {
         path: 'vehicles',
