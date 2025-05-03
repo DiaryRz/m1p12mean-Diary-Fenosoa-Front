@@ -54,8 +54,8 @@ export class AppointmentsWorksComponent implements OnInit {
           this.isFetching = false;
 
           this.filteredAppointmentsToWorkedOn = this.appointments.filter((apt: AppointmentInterface) => {
-            const isSameDay = apt.date_deposition != null ?  this.dateAdapter.compareDate(new Date(apt.date_deposition), this.today) == 0 : false;
-            return isSameDay; // Assuming you want 'deposited' status
+            const isSameDay = apt.date_deposition != null ?  this.dateAdapter.compareDate(new Date(apt.date_deposition), this.today) <= 0 : false;
+            return isSameDay;
           });
 
 
