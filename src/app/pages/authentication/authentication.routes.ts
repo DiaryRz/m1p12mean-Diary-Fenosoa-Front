@@ -29,7 +29,7 @@ export const AuthenticationRoutes: Routes = [
         data :{ roles:["role_001"]}
       },
       {
-        path: 'login/mechanics',
+        path: 'login/mecanicien',
         component: AppSideLoginComponent,
         data :{ roles:["role_003"]}
       },
