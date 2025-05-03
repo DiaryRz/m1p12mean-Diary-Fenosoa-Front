@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, OnInit, inject} from '@angular/core';
 import { NavItem } from '../../../layouts/full/sidebar/nav-item/nav-item'
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
