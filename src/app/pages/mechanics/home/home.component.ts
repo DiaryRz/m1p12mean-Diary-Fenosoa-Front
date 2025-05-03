@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output, AfterViewInit,OnInit} from '@angular/core';
+import { Component, EventEmitter, Output, AfterViewInit,OnInit, inject} from '@angular/core';
 import { NavItem } from '../../../layouts/full/sidebar/nav-item/nav-item'
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule , Router} from '@angular/router';
 
 
 @Component({
@@ -12,6 +12,8 @@ import { RouterModule } from '@angular/router';
 export class HomeComponent implements OnInit {
   @Output() loadComponent = new EventEmitter<NavItem[]>();
   mechanics_options: NavItem[];
+  router = inject(Router)
+
 
   constructor() {
     this.mechanics_options = [
@@ -19,10 +21,10 @@ export class HomeComponent implements OnInit {
         displayName: 'Rendez-vous', iconName: 'calendar-clock',
         children: [
           {
-            displayName: 'Liste', iconName: 'menu-2', external: false, route: 'mechanics/appointments',
+            displayName: 'Liste', iconName: 'menu-2', external: false, route: 'mecanicien/appointments',
           },
           {
-            displayName: 'Travail', iconName: 'tools', external: false, route: 'mechanics/works',
+            displayName: 'Travail', iconName: 'tools', external: false, route: 'mecanicien/works',
           }
         ]
       },
@@ -31,5 +33,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.loadComponent.emit(this.mechanics_options);
+    this.router.navigate([`/mecanicien/appointments`]);
   }
 }

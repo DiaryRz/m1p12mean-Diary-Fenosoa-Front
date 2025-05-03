@@ -12,6 +12,9 @@ export class HomeComponent implements OnInit {
 
   @Output() loadComponent = new EventEmitter<NavItem[]>();
   client_options: NavItem[] = [];
+
+  router = inject(Router)
+
   constructor(){
     this.client_options = [
         {navCap: 'Acceuil', divider: true},
@@ -22,9 +25,7 @@ export class HomeComponent implements OnInit {
   }
   ngOnInit(){
     this.loadComponent.emit(this.client_options);
-    const router = inject(Router)
-
-    router.navigate([`/client/history`]);
+    this.router.navigate([`/client/history`]);
   }
 
 
