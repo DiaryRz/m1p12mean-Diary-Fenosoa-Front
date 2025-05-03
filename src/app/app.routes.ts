@@ -25,7 +25,7 @@ export const routes: Routes = [
           import('./pages/manager/manager.routes').then((m) => m.PagesRoutes),
       },
       {
-        path: 'mechanicien',
+        path: 'mecanicien',
         loadChildren: () =>
           import('./pages/mechanics/mechanics.routes').then((m) => m.PagesRoutes),
       },
